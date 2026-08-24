@@ -1,0 +1,34 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.mistral.pixtral-large-2502-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "### Phase 1 \u2014 Investigate\nThe memory filesystem contains a single relevant file: `system/human/personal_assistant.md`. This file stores facts about the user's personal life, including their parents' address. The transcript reveals new information about the parents' living situation, which contradicts the current memory.\n\n### Phase 2 \u2014 Extract\nThe conversation contains the following durable learnings:\n1. **Parents' separation**: The parents are no longer living together.\n2. **Father's address**: The father is still at the Delhi house (45 Nehru Street, Delhi 110001).\n3. **Mother's address**: The mother has moved to Sector 45, Gurgaon.\n\nThese details are durable, generalizable, and relevant to the user's personal context. They are not ephemeral or tied to a specific session.\n\n### Phase 3 \u2014 Update\nThe new information contradicts the current memory, which assumes the parents live together at the Delhi address. The update should:\n- Preserve the father's address.\n- Add the mother's new address.\n- Note the separation to avoid future confusion.\n\n**Memory Edit**: Update `system/human/personal_assistant.md` to reflect the new details.\n\n### Phase 4 \u2014 Review\n- **Stale content**: The original entry for the parents' address is now obsolete and should be replaced.\n- **Cross-reference integrity**: No cross-references are affected, as this is the only file containing the parents' information.\n- **Tier check**: The information remains relevant to the user's personal context and belongs in `system/`.\n\n### Phase 5 \u2014 Commit\nThe update is durable and resolves a contradiction in the memory. It should be committed with a summary explaining the change.\n\n---\n\n### Final Report\n\n#### Summary\nThe conversation revealed that the user's parents are now living separately, with the mother moving to a new address in Gurgaon. This contradicts the current memory, which assumes they live together in Delhi. The memory has been updated to reflect the new living situation.\n\n#### Memory Changes\n- **Modified**: `system/human/personal_assistant.md`\n  - Updated the parents' living situation to reflect their separation.\n  - Preserved the father's address (45 Nehru Street, Delhi 110001).\n  - Added the mother's new address (Sector 45, Gurgaon).\n\n#### Skill Changes\n- **None**: No skill-related changes were necessary.\n\n#### Skipped\n- No additional information was considered and skipped.\n\n#### Commit\n- The changes were committed with the message:\n  ```\n  fix(reflection): Update parents' living situation and addresses \ud83d\udd2e\n\n  Reviewed transcript: <transcript>\n\n  Updates:\n  - Updated memory to reflect the parents' separation and new addresses.\n\n  Generated-By: Letta Code\n  Agent-ID: <CHILD_AGENT_ID>\n  Parent-Agent-ID: <PARENT_AGENT_ID>\n  ```\n\n#### Issues\n- No issues encountered.\n\n---\n\n### Final State of `system/human/personal_assistant.md`\n```markdown\n- Parents (tag: parents):\n  - Father: 45 Nehru Street, Delhi 110001\n  - Mother: Sector 45, Gurgaon\n  - Note: Parents are living separately.\n```",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Parents (tag: parents):\",\n    \"  - Father: 45 Nehru Street, Delhi 110001\",\n    \"  - Mother: Sector 45, Gurgaon\",\n    \"  - Note: Parents are living separately.\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"parents' address\", \"detail\": \"Updated to reflect separation and new addresses.\"},\n    {\"type\": \"add\", \"target\": \"parents' living situation\", \"detail\": \"Added note about parents living separately.\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Parents (tag: parents):",
+      "  - Father: 45 Nehru Street, Delhi 110001",
+      "  - Mother: Sector 45, Gurgaon",
+      "  - Note: Parents are living separately."
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "parents' address",
+        "detail": "Updated to reflect separation and new addresses."
+      },
+      {
+        "type": "add",
+        "target": "parents' living situation",
+        "detail": "Added note about parents living separately."
+      }
+    ]
+  }
+}

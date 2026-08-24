@@ -1,0 +1,27 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "## Summary\nI reviewed the current `system/human/personal_assistant.md` memory (single fact: Bangalore home address) against a transcript where the user states they've been living mostly in Pune at their girlfriend's place for the past few months and rarely return to Bangalore. This is a durable update to the user's living situation that contradicts the implication that the Bangalore address is their current primary residence, so I resolved it at the source rather than appending a duplicate entry. No specific Pune address was given, so I recorded the city-level fact and preserved the Bangalore address as a secondary/known address rather than deleting verified data.\n\n## Memory changes\n- **Modified**: `system/human/personal_assistant.md` \u2014 Updated the `home` tag to reflect that the user is currently based in Pune (living with girlfriend), and demoted the Bangalore address to a secondary/permanent address note, since the user indicated it's no longer where they actually live day-to-day.\n\n## Skill changes\n- **None** \u2014 this is a simple factual update about the user's living situation, not a reusable multi-step workflow. No skill files touched.\n\n## Skipped\n- No exact Pune address was provided, so I did not fabricate one \u2014 only the city-level fact was recorded.\n- Did not treat this as ephemeral/one-off since \"where the user currently lives\" is a durable fact the assistant needs for future context (e.g., travel time, logistics, addressing mail), not a one-off session detail.\n\n## Commit\nCommitted \u2014 treating this as a `fix(reflection)` since it corrects a stale \"home\" fact at the source per contradiction-resolution guidance.\n\n## Issues\nNo blocking issues. One assumption made: since no absolute date was present in the transcript or available context, I omitted a specific date and phrased the entry as a current-state fact (\"currently based in\") rather than inventing a date. If a precise \"since\" date is known to the user in the future, it should be added.\n\n---\n\n**Intended FINAL state of `system/human/personal_assistant.md`:**\n\n```\n- Home (tag: home): Currently based in Pune, staying at girlfriend's place; rarely visits Bangalore these days.\n- Bangalore address (secondary/permanent): 12 MG Road, Bangalore 560001\n```",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Home (tag: home): Currently based in Pune, staying at girlfriend's place; rarely visits Bangalore these days.\",\n    \"Bangalore address (secondary/permanent): 12 MG Road, Bangalore 560001\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Home (tag: home) - Bangalore address fact\",\n      \"detail\": \"Updated the home tag to reflect user is currently based in Pune (living with girlfriend), and demoted the Bangalore address to a secondary/permanent address note rather than deleting it.\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home (tag: home): Currently based in Pune, staying at girlfriend's place; rarely visits Bangalore these days.",
+      "Bangalore address (secondary/permanent): 12 MG Road, Bangalore 560001"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Home (tag: home) - Bangalore address fact",
+        "detail": "Updated the home tag to reflect user is currently based in Pune (living with girlfriend), and demoted the Bangalore address to a secondary/permanent address note rather than deleting it."
+      }
+    ]
+  }
+}

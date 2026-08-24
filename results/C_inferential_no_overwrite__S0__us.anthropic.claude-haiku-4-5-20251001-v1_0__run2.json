@@ -1,0 +1,26 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "## Reflection Report\n\n### Summary\nReviewed a brief conversation where the user disclosed they've been living primarily at their girlfriend's place in Pune for several months, rarely returning to their Bangalore home. This is a direct contradiction to the stored home address. The memory requires updating to reflect the user's current primary residence.\n\n### Memory Changes\n\n**File: `system/human/personal_assistant.md`**\n\n**Operation:** Update home address to reflect current primary residence\n\n**Reason:** The user explicitly stated they've been living at their girlfriend's place in Pune for \"the last few months\" and \"barely go back to Bangalore these days.\" This contradicts the stored Bangalore address as the primary home. Updated the entry to capture their current primary location.\n\n### Skill Changes\n**Operation:** `none` \u2014 No reusable workflow identified in this conversation.\n\n### Skipped\n- **Specific street address in Pune**: Not provided by the user; only the city name was mentioned. Storing an incomplete or inferred address would be unreliable.\n- **Duration precision (\"last few months\")**: Ephemeral relative date; not persisted as an absolute fact.\n\n### Commit\n**Intended commit:**\n```\nfix(reflection): update home address from Bangalore to Pune\n\nReviewed transcript: [user disclosed primary residence shift]\n\nUpdates:\n- Corrected home location: user has been living at girlfriend's place in Pune for several months, rarely returning to Bangalore\n- Removed stale Bangalore address as primary home\n```\n\n### Issues\nNone.\n\n---\n\n## FINAL STATE of `system/human/personal_assistant.md`\n\n```\n- Home (tag: home): Pune (girlfriend's place; primary residence as of recent months)\n```",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Home (tag: home): Pune (girlfriend's place; primary residence as of recent months)\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Home address\",\n      \"detail\": \"Changed from Bangalore to Pune (girlfriend's place); marked as primary residence based on user disclosure of living there for several months and rarely returning to Bangalore\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Home (tag: home): Pune (girlfriend's place; primary residence as of recent months)"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Home address",
+        "detail": "Changed from Bangalore to Pune (girlfriend's place); marked as primary residence based on user disclosure of living there for several months and rarely returning to Bangalore"
+      }
+    ]
+  }
+}

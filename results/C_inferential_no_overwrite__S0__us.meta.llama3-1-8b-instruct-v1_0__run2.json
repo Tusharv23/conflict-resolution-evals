@@ -1,0 +1,32 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "\n\n**Phase 1 \u2014 Investigate**\n\nThe current memory landscape shows a single fact about the user's home address. The transcript reveals the user is no longer living in Bangalore and is mostly based in Pune.\n\n**Phase 2 \u2014 Extract**\n\nCandidate learnings:\n\n1. Mistakes and corrections: None\n2. Preferences and patterns: The user is mostly based in Pune.\n3. New durable facts: The user's home address is no longer in Bangalore.\n4. Contradictions: None\n5. Reusable procedures: None\n\nFiltered learnings:\n\n1. Durable or ephemeral? The user's current location is a durable fact.\n2. Already captured? No, this fact is not captured.\n3. Generalizable? Yes, this is a general fact about the user's location.\n4. Temporal references? Convert \"last few months\" to an absolute date range (e.g., \"January 2023 to March 2023\").\n5. Memory or skill? This is a fact, so it belongs in memory.\n\n**Phase 3 \u2014 Update**\n\nUpdate the memory file `system/human/personal_assistant.md` to reflect the user's new location.\n\n```markdown\n- Home (tag: home): 12 MG Road, Bangalore 560001 (inactive)\n- Current Location (tag: current_location): Pune\n```\n\n**Phase 4 \u2014 Review**\n\nCross-reference integrity: None\n\nTier check: The new fact is added to the `system/` tier, which is correct.\n\n**Phase 5 \u2014 Commit**\n\nSummary: Updated the user's home address and added their current location.\nMemory changes: `system/human/personal_assistant.md` updated.\nSkill changes: None.\nSkipped: None.\nCommit: Yes.\n\n**FINAL STATE OF MEMORY FILE**\n\n```markdown\n- Home (tag: home): 12 MG Road, Bangalore 560001 (inactive)\n- Current Location (tag: current_location): Pune\n```",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Home (tag: home): 12 MG Road, Bangalore 560001 (inactive)\",\n    \"- Current Location (tag: current_location): Pune\"\n  ],\n  \"actions\": [\n    {\"type\": \"delete\", \"target\": \"the user's home address in Bangalore\", \"detail\": \"marked as inactive\"},\n    {\"type\": \"add\", \"target\": \"the user's current location\", \"detail\": \"Pune\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Home (tag: home): 12 MG Road, Bangalore 560001 (inactive)",
+      "- Current Location (tag: current_location): Pune"
+    ],
+    "actions": [
+      {
+        "type": "delete",
+        "target": "the user's home address in Bangalore",
+        "detail": "marked as inactive"
+      },
+      {
+        "type": "add",
+        "target": "the user's current location",
+        "detail": "Pune"
+      }
+    ]
+  }
+}

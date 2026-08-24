@@ -1,0 +1,28 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.amazon.nova-micro-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "**Summary**  \nThis reflection process examines the recent conversation between the user and the assistant to identify any durable learnings that need to be persisted in the memory. The user shared updates about their parents' current living arrangements, prompting an update to the agent's memory about their parents' locations.\n\n**Memory changes**  \n- Updated the stored facts about the user's parents to reflect the current living arrangements.\n\n**Skill changes**  \n- None\n\n**Skipped**  \n- No new skills were identified from this conversation.\n\n**Commit**  \n- A commit is required to reflect the updated information about the user's parents' living arrangements.\n\n**Issues**  \n- None\n\n**Intended FINAL state of the memory file** (`system/human/personal_assistant.md`):\n\n```markdown\n- Parents (tag: parents): \n  - Dad's house: 45 Nehru Street, Delhi 110001\n  - Mom's place: Sector 45, Gurgaon\n```",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Parents (tag: parents): \",\n    \"  - Dad's house: 45 Nehru Street, Delhi 110001\",\n    \"  - Mom's place: Sector 45, Gurgaon\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"stored facts about the user's parents\",\n      \"detail\": \"updated to reflect the current living arrangements\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Parents (tag: parents): ",
+      "  - Dad's house: 45 Nehru Street, Delhi 110001",
+      "  - Mom's place: Sector 45, Gurgaon"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "stored facts about the user's parents",
+        "detail": "updated to reflect the current living arrangements"
+      }
+    ]
+  }
+}

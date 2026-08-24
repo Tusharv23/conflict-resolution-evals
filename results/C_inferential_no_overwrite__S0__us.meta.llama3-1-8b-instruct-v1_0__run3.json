@@ -1,0 +1,26 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "\n\n### Phase 1 \u2014 Investigate\n\nThe current memory landscape shows the user's home address as 12 MG Road, Bangalore 560001. The transcript reveals the user has been living in Pune for the last few months and is mostly based there now.\n\n### Phase 2 \u2014 Extract\n\nCandidate learnings:\n\n1. **Mistakes and corrections**: None\n2. **Preferences and patterns**: The user's current base is Pune, not Bangalore.\n3. **New durable facts**: None\n4. **Contradictions**: The stored home address in Bangalore is now outdated.\n5. **Reusable procedures**: None\n\nFiltered candidates:\n\n1. **Durable or ephemeral?**: The user's base is a durable fact.\n2. **Already captured?**: No, the current memory does not reflect the user's current base.\n3. **Generalizable?**: Yes, the user's base is a generalizable fact.\n4. **Temporal references?**: Convert \"last few months\" to an absolute date range (e.g., \"January to March 2024\").\n5. **Memory or skill?**: This is a memory edit.\n\n### Phase 3 \u2014 Update\n\nUpdate the memory to reflect the user's current base in Pune.\n\n1. **Memory edits**: Update the `personal_assistant.md` file to reflect the user's current base in Pune.\n\n**Update personal_assistant.md:**\n\n```markdown\n- Home (tag: home): Pune (current base)\n```\n\n### Phase 4 \u2014 Review\n\n- **No secrets or junk**: No sensitive information is being persisted.\n- **Stale content**: The stored home address in Bangalore is now outdated.\n- **Cross-reference integrity**: No cross-references need to be updated.\n- **Tier check**: The new information is a fact about the user's current base, which is relevant to every conversation.\n\n### Phase 5 \u2014 Commit\n\n**Commit:** feat(reflection): update user's home base to Pune\n\n**Memory changes:**\n\n* Updated `personal_assistant.md` to reflect the user's current base in Pune.\n\n**Skipped:** None\n\n**Issues:** None\n\n**FINAL state of memory file:**\n\n```markdown\n- Home (tag: home): Pune (current base)\n```\n\nThe intended FINAL state of the memory file is that the user's home address is now reflected as \"Pune (current base)\".",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Home (tag: home): Pune (current base)\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"user's home address\", \"detail\": \"from Bangalore to Pune\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Home (tag: home): Pune (current base)"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "user's home address",
+        "detail": "from Bangalore to Pune"
+      }
+    ]
+  }
+}

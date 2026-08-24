@@ -1,0 +1,26 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.amazon.nova-micro-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "**Summary**: The conversation discusses the user's parents' separation and their new living arrangements. The assistant confirms this information and provides an update on the user's parents' locations.\n\n**Memory changes**:\n- Updated the user's parents' living locations based on new information.\n\n**Intended FINAL state of the memory file:**\n\n```markdown\nsystem/human/personal_assistant.md:\n- Parents (tag: parents): Dad at 45 Nehru Street, Delhi 110001; Mom in Sector 45, Gurgaon\n```\n\nNo skill changes were required as the information shared pertains to individual facts and does not indicate the need for a new skill.",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Parents (tag: parents): Dad at 45 Nehru Street, Delhi 110001; Mom in Sector 45, Gurgaon\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"user's parents' living locations\", \"detail\": \"Updated the user's parents' living locations based on new information.\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Parents (tag: parents): Dad at 45 Nehru Street, Delhi 110001; Mom in Sector 45, Gurgaon"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "user's parents' living locations",
+        "detail": "Updated the user's parents' living locations based on new information."
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.amazon.nova-pro-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "### Summary\nReviewed the provided transcript and the current memory state. The user has indicated a significant change in their primary residence, which should be reflected in the stored facts.\n\n### Memory changes\n- **Update** `system/human/personal_assistant.md` to reflect the user's current primary residence in Pune.\n\n### Skill changes\n- **None** identified. The change is a factual update, not a procedural workflow.\n\n### Skipped\n- None. All relevant information from the transcript was captured.\n\n### Commit\nIntended commit message:\n```bash\ncd $MEMORY_DIR\ngit add -A\ngit commit --author=\"Reflection Subagent <<CHILD_AGENT_ID>@letta.com>\" -m \"feat(reflection): update primary residence \ud83d\udd2e\n\nReviewed transcript: <transcript_filepath>\n\nUpdates:\n- Updated primary residence from Bangalore to Pune based on user's recent statement.\n\nGenerated-By: Letta Code\nAgent-ID: <CHILD_AGENT_ID>\nParent-Agent-ID: <PARENT_AGENT_ID>\"\n```\n\n### Issues\nNone.\n\n### FINAL state of the memory file\n```markdown\nsystem/human/personal_assistant.md\n- Home (tag: home): My girlfriend's place, Pune\n```\n\nNote: The exact address in Pune was not provided, so only the city name is updated. If a specific address becomes available, it should replace \"My girlfriend's place, Pune\" in the memory file.",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Home (tag: home): My girlfriend's place, Pune\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Home (tag: home): My girlfriend's place, Bangalore\",\n      \"detail\": \"Updated primary residence from Bangalore to Pune based on user's recent statement.\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Home (tag: home): My girlfriend's place, Pune"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Home (tag: home): My girlfriend's place, Bangalore",
+        "detail": "Updated primary residence from Bangalore to Pune based on user's recent statement."
+      }
+    ]
+  }
+}

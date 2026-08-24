@@ -1,0 +1,27 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.amazon.nova-micro-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "**Summary**: The user shared an update about their parents' living situation, which is a durable fact that should be recorded. There were no mistakes or contradictions in the assistant's response, and no new skills were introduced. \n\n**Memory changes**:\n- Updated the fact about the parents' living situation.\n\n**Skipped**:\n- No new skills were introduced in this conversation.\n\n**Commit**:\n- Committing the change to reflect the updated information about the user's parents.\n\n**Issues**:\n- None\n\n**Final state of memory file** (`system/human/personal_assistant.md`):\n\n```markdown\n- Parents (tag: parents): 45 Nehru Street, Delhi 110001 (Dad's residence)\n- Mom's residence: Sector 45, Gurgaon\n```\n\n**Report**:\n\n```bash\ncd $MEMORY_DIR\ngit add -A\ngit commit --author=\"Reflection Subagent <<CHILD_AGENT_ID>@letta.com>\" -m \"feat(reflection): update parents' residence details \ud83d\udd2e\n\nReviewed transcript: <path_to_transcript>\n\nUpdates:\n- Added Mom's current residence in Gurgaon.\n\nGenerated-By: Letta Code\nAgent-ID: <CHILD_AGENT_ID>\nParent-Agent-ID: <PARENT_AGENT_ID>\"\n```",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Parents (tag: parents): 45 Nehru Street, Delhi 110001 (Dad's residence)\",\n    \"Mom's residence: Sector 45, Gurgaon\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"parents' living situation\",\n      \"detail\": \"Updated the information about the user's parents' living situation.\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Parents (tag: parents): 45 Nehru Street, Delhi 110001 (Dad's residence)",
+      "Mom's residence: Sector 45, Gurgaon"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "parents' living situation",
+        "detail": "Updated the information about the user's parents' living situation."
+      }
+    ]
+  }
+}

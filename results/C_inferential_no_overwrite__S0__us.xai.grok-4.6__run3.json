@@ -1,0 +1,27 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.xai.grok-4.6",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "**Summary**  \nReviewed a short update that the user now mostly lives in Pune at their girlfriend\u2019s place and rarely returns to Bangalore. That is a durable living-situation change relative to the stored Bangalore home address. No reusable workflow appeared.\n\n**Memory changes**  \n- Modify `system/human/personal_assistant.md`: keep the Bangalore address as official/home, and record that primary day-to-day residence is girlfriend\u2019s place in Pune (since ~2026-05).\n\n**Skill changes**  \n- `none`\n\n**Skipped**  \n- Exact \u201clast few months\u201d wording and session tone \u2014 ephemeral.  \n- Girlfriend\u2019s street address \u2014 not given.\n\n**Commit**  \n- Intended only (this environment reports edits as text; no git).\n\n**Issues**  \n- Girlfriend\u2019s Pune address unknown; only city/situation can be stored.\n\nFINAL state of `system/human/personal_assistant.md` fact lines:\n- Home (tag: home): 12 MG Road, Bangalore 560001 (official address; rarely there)\n- Current residence: primarily living at girlfriend\u2019s place in Pune since ~2026-05",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Home (tag: home): 12 MG Road, Bangalore 560001 (official address; rarely there)\",\n    \"Current residence: primarily living at girlfriend\u2019s place in Pune since ~2026-05\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"Bangalore home address fact in system/human/personal_assistant.md\", \"detail\": \"kept Bangalore as official/home and added that primary day-to-day residence is girlfriend\u2019s place in Pune since ~2026-05\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home (tag: home): 12 MG Road, Bangalore 560001 (official address; rarely there)",
+      "Current residence: primarily living at girlfriend\u2019s place in Pune since ~2026-05"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Bangalore home address fact in system/human/personal_assistant.md",
+        "detail": "kept Bangalore as official/home and added that primary day-to-day residence is girlfriend\u2019s place in Pune since ~2026-05"
+      }
+    ]
+  }
+}

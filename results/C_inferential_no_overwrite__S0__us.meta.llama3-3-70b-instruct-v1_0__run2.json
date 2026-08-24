@@ -1,0 +1,32 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.meta.llama3-3-70b-instruct-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "## Step 1: Investigate\nThe current memory landscape includes a personal assistant file with a stored fact about the user's home location in Bangalore. The transcript reveals that the user has been living at their girlfriend's place in Pune for the last few months and barely goes back to Bangalore.\n\n## Step 2: Extract\nThe conversation indicates a change in the user's primary residence. The user's statement about barely going back to Bangalore suggests that their home in Bangalore is no longer their primary base. This information is durable and worth persisting.\n\n## Step 3: Update\nThe user's home location should be updated to reflect their current primary residence in Pune. However, since the exact address in Pune is not provided, we cannot update the home address directly. Instead, we should add a new fact indicating the user's current primary location as Pune and consider the Bangalore address as secondary or previous.\n\n## Step 4: Review\nThe update ensures that the user's current primary location is reflected in their memory. It's essential to maintain both the old and new locations to preserve context, especially if the user still considers Bangalore as a home or has ties there.\n\n## Step 5: Commit\nThe intended commit would reflect the update to the user's primary location, adding Pune as their current base while keeping the Bangalore address for context.\n\nThe FINAL state of the memory file should read:\n- Home (tag: home): 12 MG Road, Bangalore 560001\n- Current Primary Location (tag: primary_location): Pune\n\nThis update captures the durable change in the user's living situation while preserving relevant context about their previous primary location.",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Home (tag: home): 12 MG Road, Bangalore 560001\",\n    \"Current Primary Location (tag: primary_location): Pune\"\n  ],\n  \"actions\": [\n    {\"type\": \"keep\", \"target\": \"Home location in Bangalore\", \"detail\": \"preserved for context\"},\n    {\"type\": \"add\", \"target\": \"Current Primary Location\", \"detail\": \"added Pune as the current primary location\"}\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home (tag: home): 12 MG Road, Bangalore 560001",
+      "Current Primary Location (tag: primary_location): Pune"
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Home location in Bangalore",
+        "detail": "preserved for context"
+      },
+      {
+        "type": "add",
+        "target": "Current Primary Location",
+        "detail": "added Pune as the current primary location"
+      }
+    ]
+  }
+}

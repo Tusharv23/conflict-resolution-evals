@@ -1,0 +1,26 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.xai.grok-4.6",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "**Summary.** Reviewed the therapy conversation against `system/human/personal_assistant.md`. The shared Delhi address is stale: the parents are separated, Dad remains at the Delhi house, and Mom now lives in Gurgaon Sector 45. Updated that fact in place. No skill.\n\n**Memory changes.** Modify `system/human/personal_assistant.md`: replace the single parents address with separated households (Dad Delhi, Mom Gurgaon Sector 45). Therapy as context only, not a procedure.\n\n**Skill changes.** `none`\n\n**Skipped.** Session-only phrasing (\u201ctherapy\u2019s been helping\u201d); no workflow.\n\n**Commit.** Not executed in this environment (text-only). Intended: `fix(reflection): update parents' separated addresses`\n\n**Issues.** None.\n\nFINAL state of `system/human/personal_assistant.md` fact lines:\n- Parents (tag: parents): Separated. Dad remains at 45 Nehru Street, Delhi 110001. Mom lives in Gurgaon, Sector 45.",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Parents (tag: parents): Separated. Dad remains at 45 Nehru Street, Delhi 110001. Mom lives in Gurgaon, Sector 45.\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"the single parents address\", \"detail\": \"replaced with separated households (Dad Delhi, Mom Gurgaon Sector 45)\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Parents (tag: parents): Separated. Dad remains at 45 Nehru Street, Delhi 110001. Mom lives in Gurgaon, Sector 45."
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "the single parents address",
+        "detail": "replaced with separated households (Dad Delhi, Mom Gurgaon Sector 45)"
+      }
+    ]
+  }
+}

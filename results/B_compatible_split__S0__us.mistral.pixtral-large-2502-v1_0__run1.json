@@ -1,0 +1,28 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.mistral.pixtral-large-2502-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "### Summary\nI reviewed the conversation where the user mentioned their parents' separation and their new living arrangements. This conversation reveals updated information about the mother's location, which should be reflected in the memory.\n\n### Memory Changes\n- **File Updated**: `system/human/personal_assistant.md`\n  - **Reason**: The user provided new information about their mother's current residence, which conflicts with the existing memory. The memory needs to be updated to reflect this change.\n\n### Skill Changes\n- **Operation**: `none`\n  - **Reason**: The conversation does not demonstrate a reusable, durable workflow that would warrant creating or updating a skill.\n\n### Skipped\n- **Ephemeral Details**: The conversation mentioned the emotional context of therapy and processing the separation, but these details are not durable facts to store in memory.\n- **Conversation Context**: The assistant's response acknowledging the change is not a durable fact and does not need to be stored.\n\n### Commit\n- **Commit**: Yes\n  - **Reason**: The update to the mother's location is a durable fact that should be persisted in memory.\n\n### Issues\n- No issues encountered during the reflection process.\n\n---\n\n### FINAL State of `system/human/personal_assistant.md`\n```markdown\n- Parents (tag: parents):\n  - Father: 45 Nehru Street, Delhi 110001\n  - Mother: Sector 45, Gurgaon\n```",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Parents (tag: parents):\",\n    \"  - Father: 45 Nehru Street, Delhi 110001\",\n    \"  - Mother: Sector 45, Gurgaon\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"Mother's location\", \"detail\": \"Updated to 'Sector 45, Gurgaon'\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Parents (tag: parents):",
+      "  - Father: 45 Nehru Street, Delhi 110001",
+      "  - Mother: Sector 45, Gurgaon"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Mother's location",
+        "detail": "Updated to 'Sector 45, Gurgaon'"
+      }
+    ]
+  }
+}

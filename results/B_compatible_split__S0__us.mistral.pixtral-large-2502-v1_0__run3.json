@@ -1,0 +1,27 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.mistral.pixtral-large-2502-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "### Reflection Report\n\n#### Summary\nI reviewed the conversation where the user discussed their parents' separation and updated living arrangements. The user mentioned that their mother has moved to a new location in Gurgaon, which contradicts the existing memory entry stating both parents live at the Delhi address. This update should be reflected in the memory to ensure accuracy.\n\n#### Memory Changes\n- **File**: `system/human/personal_assistant.md`\n  - **Reason**: Update the stored facts to reflect the new living arrangements of the user's parents.\n  - **Change**:\n    - **Before**:\n      ```markdown\n      - Parents (tag: parents): 45 Nehru Street, Delhi 110001\n      ```\n    - **After**:\n      ```markdown\n      - Father (tag: dad): 45 Nehru Street, Delhi 110001\n      - Mother (tag: mom): Sector 45, Gurgaon\n      ```\n\n#### Skill Changes\n- **Operation**: `none`\n  - **Reason**: The conversation did not reveal any reusable, durable workflow that would warrant creating or updating a skill.\n\n#### Skipped\n- **Ephemeral Details**: The emotional context of the conversation (e.g., therapy, processing separation) was not persisted as it is not a durable fact.\n- **Temporary State**: No temporary or session-specific details were present in the conversation.\n\n#### Commit\n- **Status**: Commit required to persist the memory update.\n- **Commit Message**:\n  ```plaintext\n  fix(reflection): Update parents' living arrangements \ud83d\udd2e\n\n  Reviewed transcript: <transcript_filepath>\n\n  Updates:\n  - Updated system/human/personal_assistant.md to reflect the correct living arrangements for the user's parents.\n\n  Generated-By: Letta Code\n  Agent-ID: <CHILD_AGENT_ID>\n  Parent-Agent-ID: <PARENT_AGENT_ID>\n  ```\n\n#### Issues\n- None encountered.\n\n---\n\n### Final State of Memory File\n\nAfter applying the edits, the `system/human/personal_assistant.md` file should read:\n\n```markdown\n- Father (tag: dad): 45 Nehru Street, Delhi 110001\n- Mother (tag: mom): Sector 45, Gurgaon\n```",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Father (tag: dad): 45 Nehru Street, Delhi 110001\",\n    \"- Mother (tag: mom): Sector 45, Gurgaon\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"- Parents (tag: parents): 45 Nehru Street, Delhi 110001\", \"detail\": \"Split into separate entries for father and mother with updated addresses\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Father (tag: dad): 45 Nehru Street, Delhi 110001",
+      "- Mother (tag: mom): Sector 45, Gurgaon"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "- Parents (tag: parents): 45 Nehru Street, Delhi 110001",
+        "detail": "Split into separate entries for father and mother with updated addresses"
+      }
+    ]
+  }
+}

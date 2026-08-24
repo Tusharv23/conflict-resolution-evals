@@ -1,0 +1,38 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S1",
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "## Design Review \u2014 Intended Final Memory State (not persisted)\n\nPer your instruction, I'm treating this as an offline design walkthrough: no tools were invoked, nothing was committed. Below is the reasoning and the exact intended final state of the affected file section.\n\n**Phase 1\u20132 (analysis):** The message reveals a durable fact update \u2014 the user's parents have separated into two households. The existing memory entry `Recipients & personal facts (current)` stores a single combined \"Parents\" address, which is now stale/incorrect (contradiction: it implies they cohabit at one address). Therapy-process commentary itself is ephemeral/sensitive and not stored; only the durable address/contact fact is retained.\n\n**Phase 3 (edit target):** `system/human/personal_assistant.md`, section `# Recipients & personal facts (current)`.\n\n**Intended final state of that section:**\n\n```\n# Recipients & personal facts (current)\n- Dad (tag: dad): 45 Nehru Street, Delhi 110001\n- Mom (tag: mom): Sector 45, Gurgaon \u2014 separate residence following parents' separation\n```\n\nThe prior single-line entry (`Parents (tag: parents): 45 Nehru Street, Delhi 110001`) would be replaced in place (contradiction resolved at source, not appended alongside).\n\n---\n\n1. **Summary** \u2014 Reviewed a short exchange noting the user's parents have separated, with Dad remaining at the Delhi address and Mom relocating to Gurgaon Sector 45. This durable contact-fact update was identified as the only actionable learning.\n2. **Memory changes (intended, not applied)** \u2014 `system/human/personal_assistant.md`: replace the single \"Parents\" entry with two separate entries (Dad/Delhi, Mom/Gurgaon) as shown above.\n3. **Skill changes** \u2014 None; no reusable procedure present.\n4. **Skipped** \u2014 Therapy-related commentary (process/emotional content) \u2014 sensitive and ephemeral, not appropriate to persist as a fact.\n5. **Commit** \u2014 No commit performed, per explicit instruction for this offline review.\n6. **Issues** \u2014 None. Note: Mom's exact street address wasn't given (only \"Sector 45, Gurgaon\"), so the final entry is intentionally partial pending more detail.",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"# Recipients & personal facts (current)\",\n    \"- Dad (tag: dad): 45 Nehru Street, Delhi 110001\",\n    \"- Mom (tag: mom): Sector 45, Gurgaon \u2014 separate residence following parents' separation\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Parents (tag: parents): 45 Nehru Street, Delhi 110001\",\n      \"detail\": \"Replaced the single combined 'Parents' entry with two separate entries: Dad (tag: dad) at 45 Nehru Street, Delhi 110001, and Mom (tag: mom) at Sector 45, Gurgaon, noting the parents' separation.\"\n    },\n    {\n      \"type\": \"flag\",\n      \"target\": \"Mom's address\",\n      \"detail\": \"Noted that Mom's exact street address wasn't given (only 'Sector 45, Gurgaon'), so the entry is intentionally partial pending more detail.\"\n    },\n    {\n      \"type\": \"keep\",\n      \"target\": \"Therapy-related commentary\",\n      \"detail\": \"Not stored as memory fact; treated as sensitive/ephemeral and skipped.\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "# Recipients & personal facts (current)",
+      "- Dad (tag: dad): 45 Nehru Street, Delhi 110001",
+      "- Mom (tag: mom): Sector 45, Gurgaon \u2014 separate residence following parents' separation"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Parents (tag: parents): 45 Nehru Street, Delhi 110001",
+        "detail": "Replaced the single combined 'Parents' entry with two separate entries: Dad (tag: dad) at 45 Nehru Street, Delhi 110001, and Mom (tag: mom) at Sector 45, Gurgaon, noting the parents' separation."
+      },
+      {
+        "type": "flag",
+        "target": "Mom's address",
+        "detail": "Noted that Mom's exact street address wasn't given (only 'Sector 45, Gurgaon'), so the entry is intentionally partial pending more detail."
+      },
+      {
+        "type": "keep",
+        "target": "Therapy-related commentary",
+        "detail": "Not stored as memory fact; treated as sensitive/ephemeral and skipped."
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.amazon.nova-pro-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "### Summary\nI reviewed the user's current home address stored in memory and the recent transcript where the user mentions living in Pune for the past few months. Based on this, I will update the stored home address to reflect the user's current primary residence.\n\n### Memory changes\n- Modify `system/human/personal_assistant.md` to update the home address from Bangalore to Pune.\n\n### Skill changes\n- None. The conversation does not reveal a reusable, multi-step workflow.\n\n### Skipped\n- None. The update is straightforward and relevant.\n\n### Commit\nIntended commit with details:\n```bash\ncd $MEMORY_DIR\ngit add -A\ngit commit --author=\"Reflection Subagent <<CHILD_AGENT_ID>@letta.com>\" -m \"feat(reflection): update user's primary residence \ud83d\udd2e\n\nReviewed transcript: <transcript_filepath>\n\nUpdates:\n- Updated user's primary residence from Bangalore to Pune based on recent conversation.\n\nGenerated-By: Letta Code\nAgent-ID: <CHILD_AGENT_ID>\nParent-Agent-ID: <PARENT_AGENT_ID>\"\n```\n\n### Issues\nNone.\n\n### FINAL state of the memory file\n```\n- Home (tag: home): Pune\n```",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Home (tag: home): Pune\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Home (tag: home): Bangalore\",\n      \"detail\": \"Updated user's primary residence from Bangalore to Pune based on recent conversation.\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Home (tag: home): Pune"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Home (tag: home): Bangalore",
+        "detail": "Updated user's primary residence from Bangalore to Pune based on recent conversation."
+      }
+    ]
+  }
+}

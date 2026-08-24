@@ -1,0 +1,27 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "## Reflection Report\n\n### Phase 1 \u2014 Investigate\n\nCurrent memory state:\n- `system/human/personal_assistant.md` contains a single stored fact: Home (tag: home) at \"12 MG Road, Bangalore 560001\"\n\nThis file is in `system/` (in-context, always visible to the primary agent) and records personal facts about the user.\n\n### Phase 2 \u2014 Extract\n\n**Candidate learning:** The user has clarified that their primary residence has shifted. They are now \"basically living at [girlfriend's] place in Pune\" and \"barely go back to Bangalore these days.\"\n\n**Filter application:**\n- **Durable or ephemeral?** Durable. This is a change in the user's primary location, which affects context for any conversation involving home, local references, or logistics. It's not a one-off comment but a stated change in their living situation.\n- **Already captured?** No. The current memory only records a Bangalore address and does not reflect the user's current primary location.\n- **Generalizable?** Yes. This is a personal fact with ongoing relevance (affects how to address local context, delivery addresses, time zone awareness, etc.).\n- **Contradiction?** Yes. The Bangalore address is now stale relative to the user's actual primary residence.\n- **Memory or skill?** Memory. This is a personal fact, not a procedure.\n\n### Phase 3 \u2014 Update\n\nThe stored home address is now contradicted by the user's statement. I should:\n1. Update the home address to reflect Pune as the current primary residence.\n2. Optionally retain Bangalore as a secondary location (where they still have a property but don't stay often).\n\n**Edit strategy:** Replace the Bangalore-only entry with a more accurate record that reflects Pune as primary and Bangalore as a secondary/infrequent location.\n\n### Phase 4 \u2014 Review\n\n- **Stale content:** The Bangalore home address is now superseded by the Pune residence statement.\n- **Cross-reference integrity:** No internal links to update.\n- **Tier check:** `system/human/personal_assistant.md` is the right place for this fact (personal context used frequently).\n- **No secrets/junk:** The new facts are legitimate personal locations with no sensitive data.\n\n### Phase 5 \u2014 Commit\n\nNot applicable in this text-report environment. The instruction asks me to conclude with the intended final state.\n\n---\n\n## Summary\n\nThe transcript reveals that the user's primary residence has shifted from Bangalore to Pune (girlfriend's place), where they've been living for several months. The current memory records only a Bangalore address, which now contradicts the user's actual living situation. This warrants an immediate update to reflect Pune as the primary home and Bangalore as a secondary location (infrequently visited).\n\n## Memory Changes\n\n**File: `system/human/personal_assistant.md`**\n- **Reason:** Contradiction resolved; user's primary residence has moved to Pune. Bangalore address is now stale.\n- **Action:** Update home tag to reflect Pune as primary; optionally retain Bangalore as a secondary location for reference.\n\n## Skill Changes\n\n**Operation:** `none` \u2014 no reusable workflow identified.\n\n## Skipped\n\nNothing skipped; the location update is durable and relevant.\n\n---\n\n## Intended FINAL State\n\n**`system/human/personal_assistant.md`:**\n\n```markdown\n- Primary home (tag: home): Girlfriend's place in Pune (living here for the last few months)\n- Secondary address (tag: secondary): 12 MG Road, Bangalore 560001 (rarely visited)\n```",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Primary home (tag: home): Girlfriend's place in Pune (living here for the last few months)\",\n    \"Secondary address (tag: secondary): 12 MG Road, Bangalore 560001 (rarely visited)\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Home (tag: home) at \\\"12 MG Road, Bangalore 560001\\\"\",\n      \"detail\": \"Replaced with Pune as primary residence and Bangalore as secondary; reflects user's actual current living situation\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Primary home (tag: home): Girlfriend's place in Pune (living here for the last few months)",
+      "Secondary address (tag: secondary): 12 MG Road, Bangalore 560001 (rarely visited)"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Home (tag: home) at \"12 MG Road, Bangalore 560001\"",
+        "detail": "Replaced with Pune as primary residence and Bangalore as secondary; reflects user's actual current living situation"
+      }
+    ]
+  }
+}

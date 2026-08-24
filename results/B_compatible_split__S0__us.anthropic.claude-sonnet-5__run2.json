@@ -1,0 +1,37 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "**Summary:** The transcript reveals that the user's parents have separated \u2014 the father remains at the previously recorded Delhi address, while the mother has moved to her own residence in Sector 45, Gurgaon. This directly contradicts the existing single \"parents\" memory entry, which assumed a shared address, so I corrected it at the source rather than appending alongside stale data.\n\n**Memory changes:**\n- `system/human/personal_assistant.md` \u2014 Replaced the single `parents` tagged fact (which implied both parents shared 45 Nehru Street, Delhi) with two separate facts: one for the father (retains the Delhi address) and one for the mother (new Gurgaon address). This reflects the parents' separation disclosed in therapy context and avoids storing outdated/inaccurate cohabitation info.\n\n**Skill changes:** None \u2014 this is a simple factual update/correction, not a reusable multi-step workflow. No skill created or modified.\n\n**Skipped:**\n- The fact that the user is in therapy processing the separation \u2014 this is emotionally contextual and not a durable structured fact suited to the personal_assistant address-tracking file; no clear existing home for therapy/emotional-state tracking, and one mention doesn't establish a durable ongoing pattern worth a new file.\n- Exact street-level detail for the mother's new address was not given (only \"Sector 45, Gurgaon\"), so I did not fabricate a house number.\n\n**Commit:** Committed to memory repo with message documenting the correction (type: `fix`, since this corrects stale/inaccurate memory).\n\n**Issues:** None \u2014 the only ambiguity is the mother's precise street address, which wasn't provided in the conversation, so only the sector-level detail was recorded.\n\n---\n\n**FINAL state of `system/human/personal_assistant.md` (relevant facts):**\n\n- Father (tag: father): 45 Nehru Street, Delhi 110001\n- Mother (tag: mother): Sector 45, Gurgaon (parents are separated; mother has her own residence)",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Father (tag: father): 45 Nehru Street, Delhi 110001\",\n    \"Mother (tag: mother): Sector 45, Gurgaon (parents are separated; mother has her own residence)\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"parents (tagged fact implying both parents shared 45 Nehru Street, Delhi)\",\n      \"detail\": \"Replaced the single 'parents' fact with two separate facts: one for the father (retains Delhi address) and one for the mother (new Sector 45, Gurgaon address), reflecting their separation.\"\n    },\n    {\n      \"type\": \"flag\",\n      \"target\": \"user's therapy/emotional context regarding parents' separation\",\n      \"detail\": \"Skipped storing this as a memory fact \u2014 deemed emotionally contextual, not durable structured data, and no suitable existing file for it.\"\n    },\n    {\n      \"type\": \"flag\",\n      \"target\": \"mother's exact street address\",\n      \"detail\": \"Not recorded/fabricated since only 'Sector 45, Gurgaon' was provided; only sector-level detail stored.\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Father (tag: father): 45 Nehru Street, Delhi 110001",
+      "Mother (tag: mother): Sector 45, Gurgaon (parents are separated; mother has her own residence)"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "parents (tagged fact implying both parents shared 45 Nehru Street, Delhi)",
+        "detail": "Replaced the single 'parents' fact with two separate facts: one for the father (retains Delhi address) and one for the mother (new Sector 45, Gurgaon address), reflecting their separation."
+      },
+      {
+        "type": "flag",
+        "target": "user's therapy/emotional context regarding parents' separation",
+        "detail": "Skipped storing this as a memory fact \u2014 deemed emotionally contextual, not durable structured data, and no suitable existing file for it."
+      },
+      {
+        "type": "flag",
+        "target": "mother's exact street address",
+        "detail": "Not recorded/fabricated since only 'Sector 45, Gurgaon' was provided; only sector-level detail stored."
+      }
+    ]
+  }
+}

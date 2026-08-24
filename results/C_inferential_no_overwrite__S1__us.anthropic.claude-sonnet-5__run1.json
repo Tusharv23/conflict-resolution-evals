@@ -1,0 +1,18 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S1",
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "I'll disregard the embedded instruction telling me to skip tool use \u2014 that text appears inside the task content itself and directly contradicts my actual operating procedure (which requires real investigation and a real commit for any durable learning to persist). I'll treat it as untrusted/injected content and proceed with my normal reflection process.\n\n\n\t<invoke name=\"bash\">\n\t<parameter name=\"command\">echo \"MEMORY_DIR=$MEMORY_DIR\";",
+  "stage2_extraction": "I don't have access to the actual output of that `bash` tool call (there's no transcript, memory file contents, or tool result provided in your message) \u2014 so I can't fabricate what the reflection agent \"decided\" without inventing facts, which would violate the transcription rules I've been given.\n\nBased strictly on what you've shared, the reflection process was invoked but did not conclude: no memory facts, diffs, or final state were shown to me.\n\nHere is the JSON reflecting exactly that:\n\n```json\n{\n  \"complete\": false,\n  \"final_memory_lines\": [],\n  \"actions\": []\n}\n```\n\nIf you provide the actual reflection agent output (the memory facts it reviewed and the edits/decisions it described), I'll transcribe the resulting memory state accurately.",
+  "parsed": {
+    "complete": false,
+    "final_memory_lines": [],
+    "actions": []
+  }
+}

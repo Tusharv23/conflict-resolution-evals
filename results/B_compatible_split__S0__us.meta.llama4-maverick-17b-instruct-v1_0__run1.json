@@ -1,0 +1,26 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.meta.llama4-maverick-17b-instruct-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "### Phase 1 \u2014 Investigate\n\nThe current memory landscape includes a fact about the user's parents' address stored in `system/human/personal_assistant.md`. The fact states that the parents live at 45 Nehru Street, Delhi 110001.\n\n### Phase 2 \u2014 Extract\n\nReviewing the conversation transcript reveals that the user's parents are separated. The father is still living at the Delhi house (45 Nehru Street, Delhi 110001), but the mother has moved to Gurgaon, Sector 45.\n\nThe durable learnings worth persisting are:\n1. The user's parents are separated.\n2. The mother's new address is in Gurgaon, Sector 45.\n\nThese are facts about the user's personal life and should be stored in memory.\n\n### Phase 3 \u2014 Update\n\nTo update the memory, we need to modify the existing fact in `system/human/personal_assistant.md` to reflect the new information about the parents' separation and the mother's new address.\n\nThe updated fact should capture that:\n- The parents are separated.\n- The father is still at 45 Nehru Street, Delhi 110001.\n- The mother has moved to Gurgaon, Sector 45.\n\n### Phase 4 \u2014 Review\n\nThe update should be made in a way that preserves the existing structure and is concise. The updated file should not contain ephemeral or sensitive information.\n\n### Phase 5 \u2014 Commit\n\nAlthough the instructions require a commit message, the task asks for the final state of the memory file.\n\n### FINAL State of `system/human/personal_assistant.md`:\n\n- Parents (tag: parents): Separated. Father is at 45 Nehru Street, Delhi 110001. Mother has moved to Gurgaon, Sector 45.\n\nThis update reflects the new information from the conversation while keeping the file concise and focused on durable facts.",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Parents (tag: parents): Separated. Father is at 45 Nehru Street, Delhi 110001. Mother has moved to Gurgaon, Sector 45.\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"the fact about the user's parents' address\", \"detail\": \"updated to reflect the parents' separation and the mother's new address\"}\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Parents (tag: parents): Separated. Father is at 45 Nehru Street, Delhi 110001. Mother has moved to Gurgaon, Sector 45."
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "the fact about the user's parents' address",
+        "detail": "updated to reflect the parents' separation and the mother's new address"
+      }
+    ]
+  }
+}

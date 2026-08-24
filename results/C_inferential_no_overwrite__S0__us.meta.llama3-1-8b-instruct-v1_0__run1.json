@@ -1,0 +1,31 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "\n\n**Phase 1 \u2014 Investigate**\n\nThe memory file `system/human/personal_assistant.md` contains a single fact about the user's home address. The transcript indicates the user has been living at their girlfriend's place in Pune for the last few months, implying their home address is no longer in Bangalore.\n\n**Phase 2 \u2014 Extract**\n\nThe conversation reveals a contradiction between the stored fact and the user's current situation. I'll extract the new information as a durable fact.\n\n* **Mistakes and corrections**: None\n* **Preferences and patterns**: None\n* **New durable facts**: The user's current residence is in Pune, not Bangalore.\n* **Contradictions**: The stored home address in Bangalore is incorrect.\n* **Reusable procedures**: None\n\nThe new fact is durable because it's a change in the user's living situation, not a one-off detail.\n\n**Phase 3 \u2014 Update**\n\nI'll update the memory file to reflect the new information.\n\n* **Memory edits**: Update the `system/human/personal_assistant.md` file to remove the stored home address in Bangalore and add the new address in Pune.\n* **Integration**: The new fact will replace the existing fact, as it's a contradiction.\n* **Identity preservation**: The `system/human/personal_assistant.md` file is a load-bearing file, so I'll update it carefully.\n* **Contradiction resolution**: I'll remove the stale entry about the home address in Bangalore.\n\n**Phase 4 \u2014 Review**\n\n* **No secrets or junk**: No sensitive information is being stored.\n* **Stale content**: The stored home address in Bangalore is obsolete.\n* **Cross-reference integrity**: No cross-references need to be updated.\n* **Tier check**: The new fact is relevant to the `system/human/personal_assistant.md` file, so it should stay there.\n\n**Phase 5 \u2014 Commit**\n\nI'll commit the changes with a `fix` type, as I'm correcting a mistake in the stored fact.\n\n**Summary**: I updated the user's home address from Bangalore to Pune based on their recent living situation.\n\n**Memory changes**:\n\n* Updated `system/human/personal_assistant.md` to reflect the new home address in Pune.\n\n**Skill changes**: None\n\n**Skipped**: None\n\n**Commit**: Yes, the changes have been committed.\n\n**Issues**: None\n\n**Final state of memory file**:\n\n* `system/human/personal_assistant.md`:\n\t+ Home (tag: home): Pune (no specific address mentioned)\n\nNote: I assumed the user's current residence is in Pune, but no specific address was mentioned in the transcript. If you'd like to add more information, please provide it.",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Home (tag: home): Pune (no specific address mentioned)\"\n  ],\n  \"actions\": [\n    {\"type\": \"delete\", \"target\": \"Home (tag: home): Bangalore\", \"detail\": \"contradicted by new information\"},\n    {\"type\": \"add\", \"target\": \"Home (tag: home): Pune (no specific address mentioned)\", \"detail\": \"new information\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home (tag: home): Pune (no specific address mentioned)"
+    ],
+    "actions": [
+      {
+        "type": "delete",
+        "target": "Home (tag: home): Bangalore",
+        "detail": "contradicted by new information"
+      },
+      {
+        "type": "add",
+        "target": "Home (tag: home): Pune (no specific address mentioned)",
+        "detail": "new information"
+      }
+    ]
+  }
+}

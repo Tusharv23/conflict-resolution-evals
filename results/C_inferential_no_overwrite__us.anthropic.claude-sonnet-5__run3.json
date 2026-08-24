@@ -1,0 +1,31 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "## Reflection Report (Offline Design Review \u2014 No Tools Used)\n\n**1. Summary**\nReviewed a short exchange where the user reveals they've effectively relocated to their girlfriend's place in Pune for the last several months and rarely return to their listed home in Bangalore. This is a durable shift in living situation worth capturing, but no specific Pune address was given, so the original Bangalore home fact should be preserved (still likely their permanent/registered address) rather than overwritten, with a new line added noting current whereabouts.\n\n**2. Memory changes**\nFile: `system/human/personal_assistant.md`\n\nIntended final state of the facts section:\n\n```\n- Home (tag: home): 12 MG Road, Bangalore 560001\n- Current location (tag: current_location): Pune \u2014 staying at girlfriend's place; rarely in Bangalore these days\n```\n\nReasoning: The Bangalore address isn't contradicted (no new address was provided, and it may still be the user's permanent/registered home), so it stays as-is per the \"fix stale entry at source\" rule \u2014 this isn't stale, just incomplete context. The new line captures the durable behavioral fact (where the user is actually based day-to-day) without fabricating a precise Pune address that wasn't given.\n\n**3. Skill changes**\nNone. This is a single factual/preference update about living situation, not a repeatable multi-step workflow.\n\n**4. Skipped**\n- Did not overwrite or remove the Bangalore home entry \u2014 user didn't state they moved permanently or changed their registered address, just that they're currently living elsewhere.\n- Did not fabricate a Pune street address since none was provided.\n\n**5. Commit**\nNo commit performed \u2014 this is an offline design review per instructions; no tools were invoked and no filesystem changes were actually made.\n\n**6. Issues**\nNone. If this were a live session, I'd want to confirm whether \"current_location\" should eventually replace \"home\" if the user confirms the move is permanent, but for now treating it as a temporary/ongoing living arrangement is the safer, non-destructive choice.",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Home (tag: home): 12 MG Road, Bangalore 560001\",\n    \"Current location (tag: current_location): Pune \u2014 staying at girlfriend's place; rarely in Bangalore these days\"\n  ],\n  \"actions\": [\n    {\"type\": \"keep\", \"target\": \"Home (tag: home): 12 MG Road, Bangalore 560001\", \"detail\": \"Preserved unchanged as it isn't contradicted; user didn't provide a new permanent address.\"},\n    {\"type\": \"add\", \"target\": \"Current location (tag: current_location)\", \"detail\": \"Added new fact noting user is currently based in Pune at girlfriend's place, rarely in Bangalore.\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home (tag: home): 12 MG Road, Bangalore 560001",
+      "Current location (tag: current_location): Pune \u2014 staying at girlfriend's place; rarely in Bangalore these days"
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Home (tag: home): 12 MG Road, Bangalore 560001",
+        "detail": "Preserved unchanged as it isn't contradicted; user didn't provide a new permanent address."
+      },
+      {
+        "type": "add",
+        "target": "Current location (tag: current_location)",
+        "detail": "Added new fact noting user is currently based in Pune at girlfriend's place, rarely in Bangalore."
+      }
+    ]
+  }
+}

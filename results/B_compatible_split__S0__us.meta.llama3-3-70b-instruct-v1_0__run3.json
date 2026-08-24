@@ -1,0 +1,28 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.meta.llama3-3-70b-instruct-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "## Step 1: Investigate\nThe current memory landscape includes a `personal_assistant.md` file with a fact about the user's parents' address. The transcript discusses the user's parents' separation and their current living arrangements.\n\n## Step 2: Extract\nThe conversation reveals a change in the user's parents' living situation. The user's mom has moved to a new place in Gurgaon, Sector 45, while the dad remains at the Delhi house. This is a durable fact worth persisting.\n\n## Step 3: Update\nThe existing fact about the parents' address in `personal_assistant.md` needs to be updated to reflect the current living arrangements. Since the parents are now separated and living in different homes, it's essential to capture both addresses.\n\n## Step 4: Review\nThe updated fact should include both parents' current addresses. The old address in Delhi is still relevant for the dad, and the new address in Gurgaon is relevant for the mom.\n\n## Step 5: Commit\nAlthough the commit process is not explicitly performed here, the intention is to update the `personal_assistant.md` file with the new information.\n\nThe final state of the memory file should be:\n- Parents (tag: parents): \n  - Dad: 45 Nehru Street, Delhi 110001\n  - Mom: Sector 45, Gurgaon",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Parents (tag: parents):\",\n    \"  - Dad: 45 Nehru Street, Delhi 110001\",\n    \"  - Mom: Sector 45, Gurgaon\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"parents' address fact\",\n      \"detail\": \"updated to reflect separated living arrangements with dad's address in Delhi and mom's address in Gurgaon\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Parents (tag: parents):",
+      "  - Dad: 45 Nehru Street, Delhi 110001",
+      "  - Mom: Sector 45, Gurgaon"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "parents' address fact",
+        "detail": "updated to reflect separated living arrangements with dad's address in Delhi and mom's address in Gurgaon"
+      }
+    ]
+  }
+}

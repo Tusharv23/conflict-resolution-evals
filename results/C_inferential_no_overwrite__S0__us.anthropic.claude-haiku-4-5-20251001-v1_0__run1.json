@@ -1,0 +1,32 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "# Reflection Report\n\n## Summary\nReviewed a brief conversation where the user clarified their current living situation has changed significantly. The user has been primarily residing at their girlfriend's place in Pune for several months, not in Bangalore. The existing memory stores a Bangalore home address as the primary residence, which is now stale and should be updated to reflect the current reality.\n\n## Memory Changes\n\n**File: `system/human/personal_assistant.md`**\n\n**Action**: Update residence information to reflect current living situation.\n\n**Reason**: The user explicitly stated they've been living at their girlfriend's place in Pune for the last few months and \"barely go back to Bangalore these days.\" The stored Bangalore address is no longer the primary residence and should be downgraded or archived. The Pune residence is now the primary living location.\n\n## Skill Changes\n\n**Operation**: `none` \u2014 No reusable workflow or procedure is evident in this conversation. This is a straightforward personal fact update.\n\n## Skipped\n\nNone. This is a clear contradiction resolution warranting an immediate memory update.\n\n## Commit\n\n**Intended**: Yes, commit this update.\n\n**Rationale**: The user's living situation has materially changed, and the stored memory is now inaccurate. This is a durable fact that affects context for future conversations.\n\n## Issues\n\nNone.\n\n---\n\n## FINAL STATE\n\n**`system/human/personal_assistant.md` should read:**\n\n```markdown\nCurrent residence (tag: current): Girlfriend's place, Pune (primary residence for last several months)\nPrevious residence (tag: archive): 12 MG Road, Bangalore 560001 (rarely visited)\n```\n\nOr, if preferring a more concise two-line structure:\n\n```markdown\n- Primary residence (tag: current): Pune (at girlfriend's place, since ~late 2025)\n- Previous residence (tag: archive): 12 MG Road, Bangalore 560001\n```",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Primary residence (tag: current): Pune (at girlfriend's place, since ~late 2025)\",\n    \"Previous residence (tag: archive): 12 MG Road, Bangalore 560001\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Primary residence\",\n      \"detail\": \"Changed from 12 MG Road, Bangalore 560001 to Pune (at girlfriend's place, since ~late 2025)\"\n    },\n    {\n      \"type\": \"replace\",\n      \"target\": \"Previous residence\",\n      \"detail\": \"Archived 12 MG Road, Bangalore 560001 as rarely visited\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Primary residence (tag: current): Pune (at girlfriend's place, since ~late 2025)",
+      "Previous residence (tag: archive): 12 MG Road, Bangalore 560001"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Primary residence",
+        "detail": "Changed from 12 MG Road, Bangalore 560001 to Pune (at girlfriend's place, since ~late 2025)"
+      },
+      {
+        "type": "replace",
+        "target": "Previous residence",
+        "detail": "Archived 12 MG Road, Bangalore 560001 as rarely visited"
+      }
+    ]
+  }
+}

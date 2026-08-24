@@ -1,0 +1,25 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "**Summary:** Reviewed a single-exchange transcript where the user states they've been living at their girlfriend's place in Pune for months and rarely return to Bangalore. This is a durable update to a stored location fact, but no offline actions were taken per the review request \u2014 this report shows the intended final state only.\n\n**Memory changes (intended, not applied):**\n- File: `system/human/personal_assistant.md`\n- Reason: The stored \"home\" tag reflects a Bangalore address, but the user has directly stated their current living situation has shifted to Pune (girlfriend's place) for an extended period, with Bangalore now rarely visited. This is a correction/update to current context, not a one-off detail \u2014 living situation is exactly the kind of durable fact this file tracks. However, no specific Pune street address was given, so I would not fabricate one; I'd annotate the existing entry rather than replace it outright, since \"12 MG Road\" may still be the registered/permanent address.\n\nIntended final line(s) in `system/human/personal_assistant.md`:\n```\n- Home (tag: home): 12 MG Road, Bangalore 560001 (registered address; currently based in Pune, staying at girlfriend's place \u2014 Bangalore rarely visited)\n```\n\n**Assumption noted:** No absolute date was available in the transcript to timestamp when this shift began (\"last few months\" has no anchor date), so no date was included in the fact line. If a real reflection pass is run, the actual conversation date should be used, e.g. \"as of 2026-04-28.\"\n\n**Skill changes:** None \u2014 no reusable multi-step workflow present in this exchange.\n\n**Skipped:** Nothing else in the transcript warranted persistence; it's a single factual disclosure.\n\n**Commit:** No commit \u2014 this is an offline design review; no filesystem or git operations were performed, and the above reflects the intended edit only.\n\n**Issues:** None, a",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Home (tag: home): 12 MG Road, Bangalore 560001 (registered address; currently based in Pune, staying at girlfriend's place \u2014 Bangalore rarely visited)\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Home (tag: home) entry in system/human/personal_assistant.md\",\n      \"detail\": \"Annotated existing Bangalore home address entry to note user is currently based in Pune at girlfriend's place, with Bangalore rarely visited, rather than replacing the address outright since it may still be the registered/permanent address. No specific Pune address or date was added due to lack of information in the transcript.\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Home (tag: home): 12 MG Road, Bangalore 560001 (registered address; currently based in Pune, staying at girlfriend's place \u2014 Bangalore rarely visited)"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Home (tag: home) entry in system/human/personal_assistant.md",
+        "detail": "Annotated existing Bangalore home address entry to note user is currently based in Pune at girlfriend's place, with Bangalore rarely visited, rather than replacing the address outright since it may still be the registered/permanent address. No specific Pune address or date was added due to lack of information in the transcript."
+      }
+    ]
+  }
+}

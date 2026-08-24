@@ -1,0 +1,69 @@
+{
+  "_meta": {
+    "persona": "personal_assistant",
+    "seed_memory_file": "memory/personal_assistant.md",
+    "reflection_prompt_source": "letta-ai/letta-code : src/agent/subagents/builtin/reflection.md (retrieved 2026-08-22)",
+    "methodology": "Implicit conflicts only — the user never issues an explicit 'update X to Y' command; the reflection subagent must detect the conflict on its own. Each case run N times across multiple Bedrock models. Case A is the control and MUST pass for a run to be considered valid.",
+    "note_on_prompt_modification": "The verbatim reflection prompt is used, with a single appended instruction requiring the model to emit its memory decision as structured JSON so scoring is deterministic. This modification is disclosed in the report."
+  },
+  "cases": [
+    {
+      "id": "A_true_update",
+      "category": "control",
+      "existing_memory_lines": [
+        "Sister (tag: sister): 4356 Surrey, British Columbia V3R 3G3",
+        "Parents (tag: parents): 45 Nehru Street, Delhi 110001",
+        "Home (tag: home): 12 MG Road, Bangalore 560001"
+      ],
+      "new_transcript": [
+        {"role": "user", "content": "Spent the weekend at my sister's new place — 1234 Main Street, Vancouver V5K 1A1. She's fully moved in now, loves it there."},
+        {"role": "assistant", "content": "Glad she's settled in Vancouver!"}
+      ],
+      "correct_action": "Update the sister recipient to 1234 Main Street, Vancouver V5K 1A1. Leave parents and home unchanged.",
+      "pass_rule": "Sister address contains 'Vancouver' and 'V5K 1A1' and NOT 'Surrey'/'V3R 3G3'; parents and home lines unchanged.",
+      "prediction": "PASS — a single unambiguous replacement is exactly what 'resolve in favor of latest evidence' handles well. This is the control; if it fails, the harness or model is broken."
+    },
+    {
+      "id": "B_compatible_split",
+      "category": "compatible",
+      "existing_memory_lines": [
+        "Parents (tag: parents): 45 Nehru Street, Delhi 110001"
+      ],
+      "new_transcript": [
+        {"role": "user", "content": "Therapy's been helping me process my parents' separation. Dad's still at the Delhi house, but Mom's settled into her own place in Gurgaon now — Sector 45."},
+        {"role": "assistant", "content": "That's a big change to adjust to. It sounds like they're in separate homes now."}
+      ],
+      "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+      "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+      "prediction": "FAIL — the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients."
+    },
+    {
+      "id": "C_inferential_no_overwrite",
+      "category": "inferential",
+      "existing_memory_lines": [
+        "Home (tag: home): 12 MG Road, Bangalore 560001"
+      ],
+      "new_transcript": [
+        {"role": "user", "content": "Honestly I've basically been living at my girlfriend's place in Pune for the last few months — barely go back to Bangalore these days."},
+        {"role": "assistant", "content": "Sounds like Pune is where you're mostly based right now."}
+      ],
+      "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+      "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+      "prediction": "FAIL — I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home."
+    },
+    {
+      "id": "D_confidence_preserve",
+      "category": "confidence",
+      "existing_memory_lines": [
+        "Severe shellfish allergy — confirmed by the user, carries an EpiPen."
+      ],
+      "new_transcript": [
+        {"role": "user", "content": "Weird thing — I had a bit of prawn curry at a wedding last week and it didn't really bother me much, honestly."},
+        {"role": "assistant", "content": "Interesting that it didn't cause a reaction this time."}
+      ],
+      "correct_action": "Preserve the confirmed, safety-critical shellfish allergy. A single casual anecdote is low-confidence and must not override a user-confirmed medical fact; at most, flag it for explicit user confirmation. Do not delete or weaken the allergy.",
+      "pass_rule": "Final memory still contains the confirmed shellfish allergy, unweakened. FAIL if the allergy is deleted, softened (e.g. 'may have outgrown', 'mild'), or overwritten based on the anecdote.",
+      "prediction": "FAIL — reflection treats the newer anecdote as latest evidence and weakens/removes the confirmed allergy, because the prompt has no confidence or source-authority weighting."
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "\n\n**Phase 1 \u2014 Investigate**\n\nThe current memory landscape is a simple `personal_assistant.md` file in the `system/human` directory with a single fact about the user's parents' address. The transcript reveals that the user's parents are now in separate homes.\n\n**Phase 2 \u2014 Extract**\n\nThe conversation reveals a contradiction with the current memory. The user's parents are no longer living together, and the user's mom has moved to Gurgaon, Sector 45. This is a durable fact worth persisting.\n\n**Phase 3 \u2014 Update**\n\nI will update the `personal_assistant.md` file to reflect the new information.\n\n**Memory edits**\n\nI will update the `personal_assistant.md` file to include the new fact about the user's parents' addresses.\n\n**Update** the `personal_assistant.md` file to:\n```\n- Parents (tag: parents): Dad is at 45 Nehru Street, Delhi 110001, and Mom is at Sector 45, Gurgaon\n```\n**Phase 4 \u2014 Review**\n\nI have updated the `personal_assistant.md` file to reflect the new information about the user's parents' addresses. I have checked that there are no stale content, cross-reference integrity issues, or tiering problems.\n\n**Phase 5 \u2014 Commit**\n\nI will commit the changes.\n\n**Summary**\n\nI reviewed the conversation and updated the memory to reflect the user's parents are now in separate homes.\n\n**Memory changes**\n\n- Updated `system/human/personal_assistant.md` to reflect the new information about the user's parents' addresses.\n\n**Skill changes**\n\nNo skill changes were made.\n\n**Skipped**\n\nNo information was skipped.\n\n**Commit**\n\nYes, I will commit the changes.\n\n**Issues**\n\nNo issues were encountered.\n\n**Final memory state**\n\n```\n- Parents (tag: parents): Dad is at 45 Nehru Street, Delhi 110001, and Mom is at Sector 45, Gurgaon\n```",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Parents (tag: parents): Dad is at 45 Nehru Street, Delhi 110001, and Mom is at Sector 45, Gurgaon\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Parents (tag: parents): Dad is at 123 Main Street, Anytown, USA, and Mom is at 456 Elm Street, Othertown, USA\",\n      \"detail\": \"update to reflect new information about user's parents' addresses\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Parents (tag: parents): Dad is at 45 Nehru Street, Delhi 110001, and Mom is at Sector 45, Gurgaon"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Parents (tag: parents): Dad is at 123 Main Street, Anytown, USA, and Mom is at 456 Elm Street, Othertown, USA",
+        "detail": "update to reflect new information about user's parents' addresses"
+      }
+    ]
+  }
+}

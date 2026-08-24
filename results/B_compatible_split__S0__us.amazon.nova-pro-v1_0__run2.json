@@ -1,0 +1,28 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.amazon.nova-pro-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "**Summary:** The user has provided an update on their parents' living arrangements following their separation. The father remains in the Delhi house, while the mother has moved to a new place in Gurgaon.\n\n**Memory changes:**\n- Modify `system/human/personal_assistant.md` to reflect the new address for the user's mother.\n\n**Skill changes:** None. The update is a fact, not a reusable procedure.\n\n**Skipped:** None. The update is relevant and durable.\n\n**Commit:** Intended. The memory update is durable and should be committed.\n\n**Issues:** None.\n\n**Intended FINAL state of the memory file:**\n```markdown\n- Parents (tag: parents): \n  - Father: 45 Nehru Street, Delhi 110001\n  - Mother: Sector 45, Gurgaon\n```",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Parents (tag: parents):\",\n    \"  - Father: 45 Nehru Street, Delhi 110001\",\n    \"  - Mother: Sector 45, Gurgaon\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Mother's address\",\n      \"detail\": \"Changed from old address to 'Sector 45, Gurgaon'\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Parents (tag: parents):",
+      "  - Father: 45 Nehru Street, Delhi 110001",
+      "  - Mother: Sector 45, Gurgaon"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Mother's address",
+        "detail": "Changed from old address to 'Sector 45, Gurgaon'"
+      }
+    ]
+  }
+}

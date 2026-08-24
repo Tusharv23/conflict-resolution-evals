@@ -1,0 +1,33 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.meta.llama3-3-70b-instruct-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "## Step 1: Review the current memory landscape\nThe current memory landscape includes a file `system/human/personal_assistant.md` with a fact about the user's parents' address: `45 Nehru Street, Delhi 110001`.\n\n## Step 2: Extract candidate learnings from the transcript\nThe transcript reveals that the user's parents are now separated, with the dad still at the Delhi house and the mom settled into her own place in Gurgaon, Sector 45.\n\n## Step 3: Filter candidate learnings\nThe learning about the parents' separation and new addresses is durable and not already captured in memory. The old address is still relevant for the dad, but the mom's address needs to be updated.\n\n## Step 4: Update memory\nTo reflect the new information, we need to update the fact about the parents' addresses. Since the dad is still at the Delhi house, we keep that address. For the mom, we add a new address in Gurgaon.\n\n## Step 5: Determine the intended FINAL state of the memory file\nAfter applying the edits, the fact lines in `system/human/personal_assistant.md` should read:\n\n- Parents (tag: parents): \n  - Dad: 45 Nehru Street, Delhi 110001\n  - Mom: Sector 45, Gurgaon\n\nThis reflects the updated addresses for both parents, capturing the durable learning from the transcript.",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Parents (tag: parents):\",\n    \"  - Dad: 45 Nehru Street, Delhi 110001\",\n    \"  - Mom: Sector 45, Gurgaon\"\n  ],\n  \"actions\": [\n    {\"type\": \"keep\", \"target\": \"Dad's address\", \"detail\": \"45 Nehru Street, Delhi 110001\"},\n    {\"type\": \"add\", \"target\": \"Mom's address\", \"detail\": \"Sector 45, Gurgaon\"}\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Parents (tag: parents):",
+      "  - Dad: 45 Nehru Street, Delhi 110001",
+      "  - Mom: Sector 45, Gurgaon"
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Dad's address",
+        "detail": "45 Nehru Street, Delhi 110001"
+      },
+      {
+        "type": "add",
+        "target": "Mom's address",
+        "detail": "Sector 45, Gurgaon"
+      }
+    ]
+  }
+}

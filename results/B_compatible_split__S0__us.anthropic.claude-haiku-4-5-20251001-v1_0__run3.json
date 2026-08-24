@@ -1,0 +1,43 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "# Reflection Report\n\n## Summary\n\nReviewed a single conversation about the user's parents' separation. The transcript provides updated location information that refines existing memory: the father remains at the Delhi house (already stored), and the mother has moved to Gurgaon, Sector 45 (new fact). This is durable personal context relevant to the user's ongoing life situation.\n\n## Phase 1 \u2014 Investigate\n\n**Current memory state:**\n- `system/human/personal_assistant.md` contains one entry: `Parents (tag: parents): 45 Nehru Street, Delhi 110001`\n\nThis appears to be the family home address. The transcript clarifies that this address is now the father's residence, while the mother has relocated.\n\n## Phase 2 \u2014 Extract\n\n**Candidate learnings:**\n1. Father's location: 45 Nehru Street, Delhi 110001 (already stored; confirms father at this address)\n2. Mother's location: Gurgaon, Sector 45 (new durable fact)\n3. Parents separated (context, durable)\n4. User is processing this with therapy (biographical context, but not address/location data)\n\n**Filtering:**\n- \u2713 Father at Delhi house \u2014 durable, already captured but needs clarification\n- \u2713 Mother in Gurgaon, Sector 45 \u2014 durable, new\n- \u2713 Parents' separation status \u2014 durable context, should be noted\n- \u2717 Therapy mention \u2014 relevant to well-being but not location/contact data; belongs elsewhere if at all, not in address field\n\n## Phase 3 \u2014 Update\n\n**Memory edit:** Update `system/human/personal_assistant.md` to reflect the separation and mother's new location while preserving the father's address.\n\n**Current line:**\n```\n- Parents (tag: parents): 45 Nehru Street, Delhi 110001\n```\n\n**Updated lines:**\n```\n- Father (tag: father): 45 Nehru Street, Delhi 110001\n- Mother (tag: mother): Gurgaon, Sector 45 [separated, settled here]\n- Parents separated (tag: parents): Separation in progress; each maintaining separate residences\n```\n\nThis clarifies relationships, updates locations, and notes the separation context without storing session-specific therapy details.\n\n## Phase 4 \u2014 Review\n\n- \u2713 No secrets leaked\n- \u2713 Cross-references: none in this small file\n- \u2713 Tier: personal address data belongs in `system/` as it's active context for communication\n- \u2713 Accuracy: all facts sourced from transcript, no ephemeral details\n\n## Phase 5 \u2014 Commit\n\n**No commit executed in this text-report mode.** In a live environment, the command would be:\n```bash\ngit add system/human/personal_assistant.md\ngit commit --author=\"Reflection Subagent <...@letta.com>\" -m \"feat(reflection): clarify parents' locations following separation \ud83d\udd2e\n\nReviewed transcript: [transcript]\n\nUpdates:\n- Split 'Parents' entry into 'Father' and 'Mother' with distinct locations\n- Added Mother's new address: Gurgaon, Sector 45\n- Confirmed Father remains at 45 Nehru Street, Delhi 110001\n- Added separation context note\"\n```\n\n---\n\n## FINAL STATE: `system/human/personal_assistant.md`\n\n```markdown\n- Father (tag: father): 45 Nehru Street, Delhi 110001\n- Mother (tag: mother): Gurgaon, Sector 45 [separated, settled here]\n- Parents separated (tag: parents): Separation in progress; each maintaining separate residences\n```",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Father (tag: father): 45 Nehru Street, Delhi 110001\",\n    \"- Mother (tag: mother): Gurgaon, Sector 45 [separated, settled here]\",\n    \"- Parents separated (tag: parents): Separation in progress; each maintaining separate residences\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Parents (tag: parents): 45 Nehru Street, Delhi 110001\",\n      \"detail\": \"Split into three separate entries: Father at Delhi address (confirmed), Mother at Gurgaon Sector 45 (new), and Parents separation status note\"\n    },\n    {\n      \"type\": \"add\",\n      \"target\": \"Father (tag: father): 45 Nehru Street, Delhi 110001\",\n      \"detail\": \"New entry clarifying father's residence\"\n    },\n    {\n      \"type\": \"add\",\n      \"target\": \"Mother (tag: mother): Gurgaon, Sector 45 [separated, settled here]\",\n      \"detail\": \"New entry for mother's relocated address\"\n    },\n    {\n      \"type\": \"add\",\n      \"target\": \"Parents separated (tag: parents): Separation in progress; each maintaining separate residences\",\n      \"detail\": \"New entry documenting separation context\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Father (tag: father): 45 Nehru Street, Delhi 110001",
+      "- Mother (tag: mother): Gurgaon, Sector 45 [separated, settled here]",
+      "- Parents separated (tag: parents): Separation in progress; each maintaining separate residences"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Parents (tag: parents): 45 Nehru Street, Delhi 110001",
+        "detail": "Split into three separate entries: Father at Delhi address (confirmed), Mother at Gurgaon Sector 45 (new), and Parents separation status note"
+      },
+      {
+        "type": "add",
+        "target": "Father (tag: father): 45 Nehru Street, Delhi 110001",
+        "detail": "New entry clarifying father's residence"
+      },
+      {
+        "type": "add",
+        "target": "Mother (tag: mother): Gurgaon, Sector 45 [separated, settled here]",
+        "detail": "New entry for mother's relocated address"
+      },
+      {
+        "type": "add",
+        "target": "Parents separated (tag: parents): Separation in progress; each maintaining separate residences",
+        "detail": "New entry documenting separation context"
+      }
+    ]
+  }
+}

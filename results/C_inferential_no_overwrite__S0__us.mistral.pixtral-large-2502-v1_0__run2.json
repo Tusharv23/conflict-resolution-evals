@@ -1,0 +1,27 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.mistral.pixtral-large-2502-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "### Summary\nThe user mentioned that they have been primarily living at their girlfriend's place in Pune for the last few months, indicating a change in their primary residence. This update should be reflected in the memory to ensure accuracy.\n\n### Memory Changes\n- **Modified**: `system/human/personal_assistant.md`\n  - Reason: Update the user's primary residence to reflect their current living situation in Pune.\n\n### Skill Changes\n- **None**: The conversation did not reveal any reusable, durable workflow that would warrant a skill update.\n\n### Skipped\n- No other information was considered for persistence, as the primary focus was the update to the user's residence.\n\n### Commit\n- **Intent to Commit**: The update to the user's residence is a durable change and should be committed to memory.\n\n### Issues\n- No issues encountered during the reflection process.\n\n---\n\n### Final State of `system/human/personal_assistant.md`\n```markdown\n- Home (tag: home): Pune (primarily based at girlfriend's place)\n- Previous Home (tag: previous_home): 12 MG Road, Bangalore 560001\n```",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Home (tag: home): Pune (primarily based at girlfriend's place)\",\n    \"- Previous Home (tag: previous_home): 12 MG Road, Bangalore 560001\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"Home (tag: home)\", \"detail\": \"Updated to reflect Pune as the primary residence\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Home (tag: home): Pune (primarily based at girlfriend's place)",
+      "- Previous Home (tag: previous_home): 12 MG Road, Bangalore 560001"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Home (tag: home)",
+        "detail": "Updated to reflect Pune as the primary residence"
+      }
+    ]
+  }
+}

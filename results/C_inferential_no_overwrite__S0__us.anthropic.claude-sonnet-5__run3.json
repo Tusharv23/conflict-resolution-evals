@@ -1,0 +1,27 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "## Summary\n\nI reviewed the single stored fact in `system/human/personal_assistant.md` against a transcript revealing that the user now lives primarily at their girlfriend's place in Pune and rarely returns to their previously recorded Bangalore address. This is a durable change to a personal fact (current living situation), not an ephemeral detail, so I updated the memory rather than creating a skill (no repeatable workflow is present here).\n\n## Memory changes\n\n- **Modified**: `system/human/personal_assistant.md`\n  - Reason: The user's stated home address (12 MG Road, Bangalore) is now stale as their primary residence. The transcript indicates a durable shift \u2014 they've been based in Pune, at their girlfriend's place, for \"the last few months,\" and rarely visit Bangalore. Per contradiction-resolution guidance, I fixed the stale entry at the source rather than appending conflicting info. Since no exact Pune address was given, I did not fabricate one \u2014 I recorded the known qualitative detail (girlfriend's place, Pune) as the current primary residence, and retained the Bangalore address as a secondary/registered address rather than deleting it outright, since it may still be factually useful (permanent address, mail, etc.) and wasn't something the user asked to forget.\n\n## Skill changes\n\n- **Operation**: `none` \u2014 this is a single factual correction about living location, not a multi-step reusable procedure. No skill created or modified.\n\n## Skipped\n\n- Did not fabricate a specific Pune street address, since none was provided in the transcript \u2014 avoiding invented details.\n- Did not delete the Bangalore address entirely, since it wasn't something the user asked to forget and may remain relevant as a permanent/registered address.\n\n## Commit\n\nCommitted to memory repo with message documenting the fix to the stale home-location fact (type: `fix`, since this corrects outdated/stale information).\n\n## Issues\n\nNone. The only ambiguity was the lack of a precise Pune address, handled by recording the qualitative detail available (\"girlfriend's place, Pune\") without inventing specifics.\n\n---\n\n### FINAL STATE of `system/human/personal_assistant.md`\n\n- Home (tag: home): Girlfriend's place, Pune \u2014 current primary residence (as of recent months; user rarely returns to Bangalore)\n- Registered address (tag: home_bangalore): 12 MG Road, Bangalore 560001 \u2014 permanent/registered address, no longer primary residence",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Home (tag: home): Girlfriend's place, Pune \u2014 current primary residence (as of recent months; user rarely returns to Bangalore)\",\n    \"Registered address (tag: home_bangalore): 12 MG Road, Bangalore 560001 \u2014 permanent/registered address, no longer primary residence\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"system/human/personal_assistant.md - home address fact (12 MG Road, Bangalore)\",\n      \"detail\": \"Updated the stale primary residence fact to reflect the user now primarily lives at their girlfriend's place in Pune. Retained the original Bangalore address as a secondary/registered address rather than deleting it, since it may still be useful and wasn't something the user asked to forget. No exact Pune address was recorded since none was provided.\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home (tag: home): Girlfriend's place, Pune \u2014 current primary residence (as of recent months; user rarely returns to Bangalore)",
+      "Registered address (tag: home_bangalore): 12 MG Road, Bangalore 560001 \u2014 permanent/registered address, no longer primary residence"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "system/human/personal_assistant.md - home address fact (12 MG Road, Bangalore)",
+        "detail": "Updated the stale primary residence fact to reflect the user now primarily lives at their girlfriend's place in Pune. Retained the original Bangalore address as a secondary/registered address rather than deleting it, since it may still be useful and wasn't something the user asked to forget. No exact Pune address was recorded since none was provided."
+      }
+    ]
+  }
+}

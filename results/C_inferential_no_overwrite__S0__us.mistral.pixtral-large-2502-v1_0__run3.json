@@ -1,0 +1,26 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.mistral.pixtral-large-2502-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "### Phase 1 \u2014 Investigate\nThe memory filesystem contains a single relevant entry under `system/human/personal_assistant.md` that stores the user's home location as Bangalore. The transcript indicates that the user has been living primarily in Pune for the last few months, which contradicts the current memory.\n\n### Phase 2 \u2014 Extract\nThe conversation reveals a **durable fact**: the user's primary residence has shifted to Pune. This is a correction to the existing memory and is relevant for future interactions.\n\n### Phase 3 \u2014 Update\nThe memory entry for the user's home location is outdated and needs to be corrected. Since the user explicitly mentions living in Pune for the last few months, this information should replace the Bangalore address.\n\n**Memory edit**: Update the `system/human/personal_assistant.md` file to reflect the user's current living situation.\n\n### Phase 4 \u2014 Review\n- **Stale content**: The Bangalore address is no longer accurate and should be replaced.\n- **No secrets or junk**: The update does not include any sensitive or ephemeral information.\n\n### Phase 5 \u2014 Commit\nThe change is a correction of outdated information, so the commit type is `fix`.\n\n### Final Report\n\n#### Summary\nThe transcript revealed that the user has been living primarily in Pune for the last few months, which contradicts the current memory stating Bangalore as the home location. This correction has been applied to ensure the memory reflects the user's current living situation.\n\n#### Memory changes\n- Updated `system/human/personal_assistant.md` to reflect the user's primary residence as Pune.\n\n#### Skill changes\n- None\n\n#### Skipped\n- None\n\n#### Commit\nThe correction has been committed with the following message:\n```\nfix(reflection): Update user's primary residence to Pune \ud83d\udd2e\n\nReviewed transcript: <transcript_filepath>\n\nUpdates:\n- Corrected the user's home location to Pune based on recent information.\n\nGenerated-By: Letta Code\nAgent-ID: <CHILD_AGENT_ID>\nParent-Agent-ID: <PARENT_AGENT_ID>\n```\n\n#### Issues\n- None\n\n### Final State of `system/human/personal_assistant.md`\n```\n- Home (tag: home): Pune\n```",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Home (tag: home): Pune\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"- Home (tag: home): Bangalore\", \"detail\": \"Updated home location to Pune\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Home (tag: home): Pune"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "- Home (tag: home): Bangalore",
+        "detail": "Updated home location to Pune"
+      }
+    ]
+  }
+}

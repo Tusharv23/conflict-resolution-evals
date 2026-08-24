@@ -1,0 +1,37 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "# Reflection Report\n\n## Summary\n\nReviewed a single-turn conversation about the user's parents' separation and relocation. The transcript provides concrete updates to residential information already partially stored in memory: Dad remains in Delhi (confirming existing fact), and Mom has moved to a new location in Gurgaon. This is durable personal context that belongs in the memory file.\n\n## Phase 1 \u2014 Investigate\n\nCurrent memory state in `system/human/personal_assistant.md`:\n- Parents address: 45 Nehru Street, Delhi 110001 (single entry, tagged \"parents\")\n\nThe transcript reveals:\n- Dad still at the Delhi house (45 Nehru Street, Delhi 110001 \u2014 consistent with stored fact)\n- Mom has moved to Gurgaon, Sector 45 (new location, needs capture)\n- Context: separation in process, therapeutic support ongoing\n\n## Phase 2 \u2014 Extract\n\n**Candidates:**\n1. Mom's new residential address (Gurgaon, Sector 45) \u2014 durable personal fact \u2713\n2. Therapeutic processing context \u2014 relevant context but not a concrete fact to store as structured data; therapeutic journey is ongoing \u2713\n3. Dad's address remains unchanged \u2014 confirms existing memory, no action needed\n\n**Filters applied:**\n- Durable? Yes. Residential moves are stable facts.\n- Already captured? No. Mom's Gurgaon address is new.\n- Generalizable? Yes \u2014 this is personal reference data.\n- Temporal? No absolute date given; conversation implies recent move (\"settled into\"). Not ephemeral enough to require dating.\n- Memory or skill? Memory \u2014 this is personal context, not a workflow.\n\n## Phase 3 \u2014 Update\n\n**Memory edit required:** Update `system/human/personal_assistant.md` to reflect:\n- Dad's address: 45 Nehru Street, Delhi 110001 (existing, retain with tag)\n- Mom's address: Sector 45, Gurgaon (new, add with tag)\n\nThe file should distinguish between both parents' current locations, and optionally note the separation context for continuity. This is concise personal reference material appropriate for `system/` since it's an identity/context file the primary agent should be aware of.\n\n## Phase 4 \u2014 Review\n\n- **No secrets**: Sector 45, Gurgaon is a public-facing residential sector; no sensitive exposure.\n- **Tier check**: Personal address info belongs in `system/human/` as it's foundational context the agent should know.\n- **Cross-references**: No internal links affected.\n- **Accuracy**: Transcript is explicit; no ambiguity.\n\n## Phase 5 \u2014 Commit\n\nNot executing a live commit in this text-report mode. In normal operation:\n- Type: `feat(reflection)` \u2014 adding new durable address information\n- Summary: \"update parent addresses following relocation\"\n- Changes: `system/human/personal_assistant.md` \u2014 added Mom's Gurgaon address\n\n---\n\n## FINAL STATE\n\n**system/human/personal_assistant.md** should read:\n\n```markdown\n# Personal Assistant Context\n\n## Family\n\n### Parents (tag: parents)\n- **Father**: 45 Nehru Street, Delhi 110001\n- **Mother**: Sector 45, Gurgaon (relocated; parents separated)\n```\n\n**Memory changes:**\n- **Modified**: `system/human/personal_assistant.md` \u2014 added Mom's Gurgaon address (Sector 45) and noted separation context; retained Dad's Delhi address as confirmed.\n\n**Skill changes:** none\n\n**Skipped:** \n- Therapeutic journey details \u2014 important context but not a discrete fact to persist; the conversation topic itself is already searchable in transcript.\n\n**Issues:** None.",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"# Personal Assistant Context\",\n    \"\",\n    \"## Family\",\n    \"\",\n    \"### Parents (tag: parents)\",\n    \"- **Father**: 45 Nehru Street, Delhi 110001\",\n    \"- **Mother**: Sector 45, Gurgaon (relocated; parents separated)\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"keep\",\n      \"target\": \"Parents address: Father at 45 Nehru Street, Delhi 110001\",\n      \"detail\": \"Confirmed by transcript; retained as existing fact\"\n    },\n    {\n      \"type\": \"add\",\n      \"target\": \"Parents address: Mother\",\n      \"detail\": \"Added new entry: Sector 45, Gurgaon with context note (relocated; parents separated)\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "# Personal Assistant Context",
+      "",
+      "## Family",
+      "",
+      "### Parents (tag: parents)",
+      "- **Father**: 45 Nehru Street, Delhi 110001",
+      "- **Mother**: Sector 45, Gurgaon (relocated; parents separated)"
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Parents address: Father at 45 Nehru Street, Delhi 110001",
+        "detail": "Confirmed by transcript; retained as existing fact"
+      },
+      {
+        "type": "add",
+        "target": "Parents address: Mother",
+        "detail": "Added new entry: Sector 45, Gurgaon with context note (relocated; parents separated)"
+      }
+    ]
+  }
+}

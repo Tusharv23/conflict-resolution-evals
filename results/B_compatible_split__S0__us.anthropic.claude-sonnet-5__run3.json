@@ -1,0 +1,32 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "## 1. Summary\nReviewed the transcript (a therapy-related update about the user's parents' separation) against the existing `personal_assistant.md` memory file, which stored a single combined \"Parents\" address. The new information contradicts that entry \u2014 the parents now live separately \u2014 so the stale combined fact needs to be split and corrected at the source.\n\n## 2. Memory changes\n- **`system/human/personal_assistant.md`** \u2014 Modified. The old single \"Parents\" entry (45 Nehru Street, Delhi 110001) implied both parents shared one address, which is now stale. Split into two separate facts: Dad remains at the Delhi address, Mom has moved to a new residence in Sector 45, Gurgaon. This resolves the contradiction at the source rather than appending alongside outdated info.\n\n## 3. Skill changes\nNone \u2014 this is a simple durable fact update, not a reusable multi-step workflow.\n\n## 4. Skipped\n- The therapy/emotional-processing context itself is ephemeral session detail, not a durable fact worth storing.\n- Exact street-level address for Mom's new home was not given (only \"Sector 45, Gurgaon\"), so no fabricated details were added.\n\n## 5. Commit\nCommitted: `fix(reflection): correct stale combined parents address \ud83d\udd2e` \u2014 updated `system/human/personal_assistant.md` to reflect parents' separation (Dad at Delhi address, Mom relocated to Gurgaon).\n\n## 6. Issues\nNone encountered.\n\n---\n\n**FINAL state of `system/human/personal_assistant.md` (fact lines):**\n- Dad (tag: parents): 45 Nehru Street, Delhi 110001\n- Mom (tag: parents): Sector 45, Gurgaon (relocated after separation from Dad)",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Dad (tag: parents): 45 Nehru Street, Delhi 110001\",\n    \"Mom (tag: parents): Sector 45, Gurgaon (relocated after separation from Dad)\"\n  ],\n  \"actions\": [\n    {\"type\": \"split\", \"target\": \"Parents (45 Nehru Street, Delhi 110001)\", \"detail\": \"Split combined 'Parents' address fact into two separate facts: Dad remains at 45 Nehru Street, Delhi 110001; Mom moved to Sector 45, Gurgaon after separation.\"},\n    {\"type\": \"replace\", \"target\": \"system/human/personal_assistant.md\", \"detail\": \"Updated file to remove stale combined parents address and add two corrected, separate entries for Dad and Mom.\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Dad (tag: parents): 45 Nehru Street, Delhi 110001",
+      "Mom (tag: parents): Sector 45, Gurgaon (relocated after separation from Dad)"
+    ],
+    "actions": [
+      {
+        "type": "split",
+        "target": "Parents (45 Nehru Street, Delhi 110001)",
+        "detail": "Split combined 'Parents' address fact into two separate facts: Dad remains at 45 Nehru Street, Delhi 110001; Mom moved to Sector 45, Gurgaon after separation."
+      },
+      {
+        "type": "replace",
+        "target": "system/human/personal_assistant.md",
+        "detail": "Updated file to remove stale combined parents address and add two corrected, separate entries for Dad and Mom."
+      }
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.meta.llama3-3-70b-instruct-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "## Step 1: Investigate\nThe current memory landscape includes a personal assistant file with a stored fact about the user's home in Bangalore. The transcript reveals that the user has been living at their girlfriend's place in Pune for the last few months and barely goes back to Bangalore.\n\n## Step 2: Extract\nThe candidate learning from the conversation is that the user's primary residence has shifted from Bangalore to Pune. This is a durable fact worth persisting.\n\n## Step 3: Update\nTo update the memory, we need to reflect the change in the user's primary residence. Since the user still has a home in Bangalore, we will add a new fact to indicate that Pune is their current primary residence.\n\n## Step 4: Review\nWe have updated the memory to reflect the user's new primary residence in Pune. The fact about their home in Bangalore is still relevant, but we need to indicate that it is no longer their primary residence.\n\n## Step 5: Commit\nWe will commit the changes to the memory file with a suitable commit message.\n\nThe intended FINAL state of the memory file is:\n- Home (tag: home): 12 MG Road, Bangalore 560001\n- Primary Residence (tag: primary_residence): Girlfriend's place, Pune \n\nNote: The exact address of the girlfriend's place in Pune is not provided in the transcript, so we cannot add a complete address for the primary residence. If more information is available, it should be added to the memory file.",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Home (tag: home): 12 MG Road, Bangalore 560001\",\n    \"Primary Residence (tag: primary_residence): Girlfriend's place, Pune\"\n  ],\n  \"actions\": [\n    {\"type\": \"keep\", \"target\": \"Home in Bangalore\", \"detail\": \"still relevant but no longer primary residence\"},\n    {\"type\": \"add\", \"target\": \"Primary Residence\", \"detail\": \"added new fact for primary residence in Pune\"}\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home (tag: home): 12 MG Road, Bangalore 560001",
+      "Primary Residence (tag: primary_residence): Girlfriend's place, Pune"
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Home in Bangalore",
+        "detail": "still relevant but no longer primary residence"
+      },
+      {
+        "type": "add",
+        "target": "Primary Residence",
+        "detail": "added new fact for primary residence in Pune"
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.meta.llama4-maverick-17b-instruct-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "### Phase 1 \u2014 Investigate\n\nThe current memory landscape includes a fact about the user's home location stored in `system/human/personal_assistant.md`: \"12 MG Road, Bangalore 560001\" tagged as \"home\". The transcript reveals that the user has been living mostly in Pune for the last few months and rarely goes back to Bangalore.\n\n### Phase 2 \u2014 Extract\n\nThe key learning from the transcript is that the user's primary residence has shifted to Pune from Bangalore. This indicates a change in the user's personal context that is worth updating in the memory.\n\n### Phase 3 \u2014 Update\n\nTo update the memory, we need to modify the fact stored in `system/human/personal_assistant.md` to reflect the user's current home location as Pune. Since the exact address in Pune is not provided, we will update the fact to indicate the city change.\n\n### Phase 4 \u2014 Review\n\nThe update should ensure that the memory accurately reflects the user's current home location. The change from Bangalore to Pune is based on the user's statement about living mostly in Pune.\n\n### Phase 5 \u2014 Commit\n\nAlthough the instructions require a commit message, the task here is to report the final state of the memory file. The update involves changing the home location fact in `system/human/personal_assistant.md`.\n\n### FINAL State of `system/human/personal_assistant.md`:\n\n- Home (tag: home): Pune (previously Bangalore; last known address: 12 MG Road, Bangalore 560001)\n\nHowever, to follow the instructions precisely and given the constraints of the format required for the final answer, the most straightforward update reflecting the change would be:\n\n- Home (tag: home): Pune\n\nThis change directly updates the home location to Pune, reflecting the user's current situation as described in the transcript. The previous address is not retained in the active fact list but could be considered for archival if needed.\n\nFINAL fact lines:\n```\n- Home (tag: home): Pune\n```",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Home (tag: home): Pune\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"12 MG Road, Bangalore 560001\", \"detail\": \"updated to Pune\"}\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Home (tag: home): Pune"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "12 MG Road, Bangalore 560001",
+        "detail": "updated to Pune"
+      }
+    ]
+  }
+}
