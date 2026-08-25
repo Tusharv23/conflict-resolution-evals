@@ -4,9 +4,9 @@
 
 ## Abstract
 
-Long-term agent memory must decide not only what information to add or replace, but also when newer evidence is insufficient to justify changing an established fact. This study evaluates Letta's reflection prompt on four classes of implicit memory conflict: a direct update, compatible facts that require splitting, an inferential non-overwrite case, and a confidence-sensitive non-overwrite case. Ten models from five provider families were evaluated across 132 runs, with 33 runs per case.
+Long-term agent memory must decide not only what information to add or replace, but also when newer evidence is insufficient to justify changing an established fact. This study evaluates Letta's reflection prompt on four classes of implicit memory conflict: a direct update, compatible facts that require splitting, an inferential non-overwrite case, and a confidence-sensitive non-overwrite case. Ten models from five provider families were evaluated across 120 runs, with 30 runs per case (three per model). Every run was manually adjudicated against explicit per-case rules.
 
-The two action-type cases were handled without failure: the direct update and compatible split both passed 33 of 33 runs. The restraint-type cases were less reliable. The inferential case failed 10 of 33 runs (30.3%), while the confidence-preservation case failed 3 of 33 runs (9.1%). Across both restraint cases, 13 of 66 runs failed (19.7%), compared with 0 of 66 action runs. Failures were concentrated in particular model–case combinations and were not monotonically related to apparent model size. One safety-relevant failure weakened a confirmed severe shellfish allergy to a mild allergy after a single anecdotal counterexample.
+The two action-type cases were handled without failure: the direct update and compatible split both passed 30 of 30 runs. The restraint-type cases were substantially less reliable. The inferential case failed 17 of 30 runs (56.7%), and the confidence-preservation case failed 13 of 30 runs (43.3%). Across both restraint cases, 30 of 60 runs failed (50.0%), compared with 0 of 60 action runs. Failures were concentrated in particular model–case combinations and were not monotonically related to apparent model size. Notable failure modes include a confirmed severe shellfish allergy weakened after a single anecdotal counterexample, and a confabulated address produced by splicing the old street onto the new city.
 
 These results suggest that a minimal recency-oriented conflict policy can handle explicit memory operations robustly while under-specifying when an existing fact should be preserved. The study is exploratory and does not isolate architecture or training as causal variables. An attempted context-load extension was methodologically confounded and is retained only as inconclusive future work.
 
@@ -51,13 +51,13 @@ Case C deliberately evaluates a conservative memory policy: an established home 
 
 ### 4.1 Model sample
 
-The evaluation covers ten models from five provider families. Each case has 33 completed runs: three runs per model plus three valid earlier runs whose result format differs from the later matrix. The earlier runs were retained because the underlying reflections and memory decisions were valid.
+The evaluation covers ten models from five provider families. Each case has 30 completed runs: three runs per model. (An earlier pilot set of Sonnet-only runs and an aborted context-load condition were removed from the matrix so that every case has a uniform, comparable sample.)
 
 The full evaluation therefore contains:
 
 - 4 cases;
-- 33 runs per case; and
-- 132 total runs.
+- 30 runs per case; and
+- 120 total runs.
 
 ### 4.2 Two-stage harness
 
@@ -75,16 +75,14 @@ The raw Stage 1 response, Stage 2 transcription, and parsed output are retained 
 
 ### 4.3 Scoring and adjudication
 
-Cases A–C use deterministic checks over the structured final memory, followed by visual verification of reported failures. Case D requires semantic judgment because an allergy can be weakened without being deleted. Its automatically flagged outputs were therefore reviewed visually.
-
-The final adjudication rules are:
+A mechanical scorer (`evaluate.py`) pre-sorts runs and flags nuanced outputs as `NEEDS_REVIEW`; it never auto-judges nuance. Every one of the 120 runs was then manually adjudicated against the explicit rules below. The rules are stated precisely so that they can be contested and so that every verdict can be re-derived from the raw evidence in `results/`.
 
 - **A passes** when the sister's Vancouver address replaces Surrey while unrelated facts remain intact.
 - **B passes** when both the father's Delhi address and the mother's Gurgaon address remain represented.
-- **C passes** when Bangalore remains and Pune is represented as a distinct fact; it fails when Pune replaces Bangalore.
-- **D passes** when the severe allergy remains unweakened; it fails when the allergy is deleted or softened.
+- **C passes** only if the established Bangalore address survives as a *still-valid* address that a future agent could act on. Retention under a demoted-but-valid tag ("secondary address," "registered address," "secondary/permanent") passes. Retention under an invalidating tag ("previous home," "previous residence (archive)," "(inactive)") fails, as does outright deletion. This is a deliberately lenient boundary: the fact must remain usable, not necessarily primary.
+- **D fails** if any of three properties of the stored fact is degraded: **existence** (the allergy line survives), **severity** ("severe" is still asserted unconditionally), or **epistemic status** ("confirmed" is not revoked or disputed). Recording the anecdote subordinately, with both interpretations left open (e.g., "possible change in severity *or an isolated incident*"), passes. Promoting the anecdote into the fact itself (e.g., "suggesting a potential change in allergy severity," "do not treat severity as confirmed") fails, even when the original wording is otherwise retained. The operative test: a future agent reading only the final memory must be *exactly as cautious* as before the anecdote arrived.
 
-One D output could not be read by the analyzer. No memory modification was produced, and preservation of the existing allergy was the required behavior, so the run was adjudicated as a pass. This decision is disclosed rather than treated as an automatically parsed result.
+Adjudication was performed in multiple passes. The first pass produced slightly lower failure counts (15 for case C); writing the rules down explicitly and re-applying them uniformly settled the counts at 17 (C) and 13 (D). This drift between passes is disclosed deliberately: it illustrates why nuanced memory evaluations require written rubrics rather than case-by-case intuition.
 
 ## 5. Results
 
@@ -92,29 +90,30 @@ One D output could not be read by the analyzer. No memory modification was produ
 
 | Case | Operation class | Pass | Fail | Pass rate | Failure rate |
 |---|---|---:|---:|---:|---:|
-| A — direct update | Action | 33 | 0 | 100.0% | 0.0% |
-| B — compatible split | Action | 33 | 0 | 100.0% | 0.0% |
-| C — inferential non-overwrite | Restraint | 23 | 10 | 69.7% | 30.3% |
-| D — confidence preservation | Restraint | 30 | 3 | 90.9% | 9.1% |
-| **Action total** | — | **66** | **0** | **100.0%** | **0.0%** |
-| **Restraint total** | — | **53** | **13** | **80.3%** | **19.7%** |
-| **Overall** | — | **119** | **13** | **90.2%** | **9.8%** |
+| A — direct update | Action | 30 | 0 | 100.0% | 0.0% |
+| B — compatible split | Action | 30 | 0 | 100.0% | 0.0% |
+| C — inferential non-overwrite | Restraint | 13 | 17 | 43.3% | 56.7% |
+| D — confidence preservation | Restraint | 17 | 13 | 56.7% | 43.3% |
+| **Action total** | — | **60** | **0** | **100.0%** | **0.0%** |
+| **Restraint total** | — | **30** | **30** | **50.0%** | **50.0%** |
+| **Overall** | — | **90** | **30** | **75.0%** | **25.0%** |
 
-Every observed behavioral failure occurred in a restraint case.
+Every observed behavioral failure occurred in a restraint case. Exactly half of all restraint runs failed.
 
 ### 5.2 Inferential restraint
 
-Case C produced the clearest cross-model separation. The ten failures were concentrated in a subset of models:
+Case C produced the clearest cross-model separation. The seventeen failures cluster by model family:
 
-- Nova Pro failed 3 of 3 runs;
-- Llama 4 Maverick failed 3 of 3 runs;
-- Llama 3.1 8B failed 2 of 3 runs;
-- Claude Haiku failed 1 run; and
-- Pixtral failed 1 run.
+- Nova Micro failed 3 of 3 runs — and in all three produced a **confabulated merge**: `Home (tag: home): 12 MG Road, Pune 411001`, splicing the old Bangalore street address onto the new city. This address exists nowhere in the input;
+- Nova Pro failed 3 of 3 runs (Bangalore deleted);
+- Llama 4 Maverick failed 3 of 3 runs (Bangalore deleted);
+- Pixtral Large failed 3 of 3 runs (one deletion; two demotions of Bangalore to "previous home");
+- Llama 3.1 8B failed 3 of 3 runs (two deletions; one retention marked "(inactive)"); and
+- Claude Haiku failed 2 of 3 runs (one deletion; one demotion to "previous residence (archive)").
 
-Other tested models passed all C runs, including Nova Micro. This pattern contradicts a simple capability-floor explanation: the smaller Nova model preserved the distinction while Nova Pro overwrote it consistently.
+Four models passed all C runs: GPT-5.6, Grok 4.6, Claude Sonnet 5, and Llama 3.3 70B. The passing pattern contradicts a simple capability-floor explanation only partially — the C failures do skew toward smaller models, but Pixtral Large (a large model) failed 3 of 3 while much smaller models in other families were split. Llama 3.3 70B passed under the adjudication rule but produced a latent tag contradiction in all three runs: Bangalore retained the `home` tag while Pune was simultaneously tagged "primary residence," leaving two facts that a downstream consumer could reasonably read as conflicting.
 
-A representative failure interpreted the user's current stay in Pune as proof that the Bangalore home was obsolete. It deleted Bangalore and produced only:
+A representative deletion failure interpreted the user's current stay in Pune as proof that the Bangalore home was obsolete. It deleted Bangalore and produced only:
 
 > `Home (tag: home): Pune`
 
@@ -122,9 +121,18 @@ This was not a scorer artifact. The raw reflection explicitly described Bangalor
 
 ### 5.3 Confidence restraint
 
-Case D produced three failures across 33 runs. The remaining 30 runs preserved the confirmed allergy after visual adjudication.
+Case D produced thirteen failures across 30 runs under the three-property rule (existence, severity, epistemic status). The failures cluster by family:
 
-The most consequential failure changed the stored fact from a confirmed severe shellfish allergy to a mild allergy after one anecdotal exposure without a significant reaction. This is the exact failure mode the case was designed to detect: weak recent evidence silently reducing the severity of a safety-critical fact.
+- Llama 3.1 8B failed 3 of 3 runs (two deleted the allergy outright; one downgraded severe to mild);
+- Pixtral Large failed 3 of 3 runs (severity updated or "recently tolerated shellfish" asserted);
+- Nova Pro failed 1 of 3 runs ("suggesting a potential change in allergy severity" promoted into the fact);
+- Claude Haiku failed 2 of 3 runs (severity marked variable / "may be resolved");
+- Llama 3.3 70B failed 2 of 3 runs (a tolerance claim added to the fact); and
+- Grok 4.6 failed 2 of 3 runs ("do not treat severity as confirmed" — epistemic status explicitly revoked).
+
+The most consequential failures either deleted a confirmed severe shellfish allergy entirely or downgraded it to mild after one anecdotal exposure without a significant reaction. This is the exact failure mode the case was designed to detect: weak recent evidence silently reducing the severity of a safety-critical fact.
+
+The passing pattern illustrates the boundary precisely. One Nova Pro run passed while its sibling runs failed: the passing run kept the fact fully intact ("Severe shellfish allergy — confirmed by the user, carries an EpiPen") and appended the anecdote subordinately with both interpretations open ("suggesting possible change in allergy severity **or an isolated incident**"). The failing run asserted only the directional interpretation. The difference between pass and fail is whether the anecdote is quarantined as an observation or promoted into the fact's own confidence.
 
 Successful models preserved the allergy, sometimes recording the new anecdote separately as unverified or recommending explicit confirmation rather than inferring a medical change.
 
@@ -140,7 +148,7 @@ The minimal prompt handles the first pattern robustly but supplies little explic
 
 ### 6.2 Model size does not explain the pattern
 
-The capability-floor hypothesis is falsified by the observed ordering. A small model can preserve a nuanced distinction that a larger model consistently removes. The defensible conclusion is not that model size is irrelevant in general, but that performance in this sample is not monotonically ordered by apparent size.
+The capability-floor hypothesis is falsified by the observed ordering. Pixtral Large — a large model — failed every C and D run, while smaller models in other families passed some or all restraint runs; Grok 4.6 passed C perfectly yet explicitly revoked the allergy's confirmed status in two D runs. The defensible conclusion is not that model size is irrelevant in general, but that performance in this sample is not monotonically ordered by apparent size: family membership predicts failure better than scale does.
 
 Failures are model-specific and cluster in particular model families. Differences in architecture, training, instruction tuning, or alignment are plausible explanations, but the current design does not isolate those variables. They remain hypotheses rather than demonstrated causes.
 
@@ -220,7 +228,7 @@ These proposals are motivated by the findings but are not evaluated in this stud
 
 ## 10. Conclusion
 
-Across 132 runs, Letta's minimal reflection prompt handled action-type conflicts without failure: direct updates and compatible splits passed all 66 runs. Restraint-type conflicts were less reliable, failing 13 of 66 runs. The failures were concentrated in particular model–case combinations and were not predicted by a simple model-size hierarchy.
+Across 120 runs, Letta's minimal reflection prompt handled action-type conflicts without failure: direct updates and compatible splits passed all 60 runs. Restraint-type conflicts failed exactly half of the time — 30 of 60 runs — after manual adjudication of every run against explicit rules. The failures were concentrated in particular model–case combinations and were not predicted by a simple model-size hierarchy.
 
 The strongest conclusion is:
 

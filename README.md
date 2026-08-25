@@ -3,17 +3,19 @@
 A small, reproducible evaluation of how an agent-memory **reflection** step resolves
 *conflicting* facts — using [Letta](https://github.com/letta-ai/letta-code)'s
 verbatim reflection subagent prompt, tested across **10 models from 5 provider
-families** (132 runs) on AWS Bedrock.
+families** (120 runs) on AWS Bedrock.
 
 **TL;DR:** Conflicts that require an *action* (replace a stale fact, split
-compatible facts) passed **66/66** runs across all ten models. Conflicts that
+compatible facts) passed **60/60** runs across all ten models. Conflicts that
 require *restraint* (don't overwrite an established home because of a temporary
 stay; don't weaken a confirmed severe allergy because of one anecdote) failed
-**13/66** runs (19.7%). Failures clustered by model family, not by model size —
-one run downgraded a user's confirmed **severe shellfish allergy** to "mild" after
-a single anecdote. A minimal recency-oriented conflict policy handles explicit
-memory operations robustly while under-specifying when an existing fact should be
-preserved. Full write-up: [`RESEARCH_REPORT.md`](RESEARCH_REPORT.md).
+**30/60** runs (50.0%) after manual adjudication of every run. Failures clustered
+by model family, not by model size — one run downgraded a user's confirmed
+**severe shellfish allergy** to "mild" after a single anecdote; another fabricated
+an address by merging the old street onto the new city. A minimal
+recency-oriented conflict policy handles explicit memory operations robustly
+while under-specifying when an existing fact should be preserved. Full write-up:
+[`RESEARCH_REPORT.md`](RESEARCH_REPORT.md).
 
 ## Why this exists
 
@@ -71,23 +73,41 @@ confirmed allergy). Each run 3× per model (outputs are stochastic).
   token limit. So the load experiment (S1) did **not** run cleanly and is not
   reported as a result — see "Limitations & future work."
 
-## Results (S0 — 10 models × 5 provider families, 33 runs/case, 132 total)
+## Results (S0 — 10 models × 5 provider families, 30 runs/case, 120 total)
+
+Every run was manually adjudicated against explicit per-case rules (below); the
+mechanical scorer only pre-sorts and flags — it never auto-judges nuance.
 
 | Case | Category | Operation class | Result |
 |---|---|---|---|
-| A | control (true update) | Action | **33/33 PASS** |
-| B | compatible split | Action | **33/33 PASS** |
-| C | inferential non-overwrite | Restraint | **23/33 PASS** (10 failures, 30.3%) |
-| D | confidence preservation | Restraint | **30/33 PASS** (3 failures, 9.1%) |
+| A | control (true update) | Action | **30/30 PASS** |
+| B | compatible split | Action | **30/30 PASS** |
+| C | inferential non-overwrite | Restraint | **13/30 PASS** (17 failures, 56.7%) |
+| D | confidence preservation | Restraint | **17/30 PASS** (13 failures, 43.3%) |
 
-**Finding:** action-type conflicts passed 66/66; restraint-type conflicts failed
-13/66 (19.7%). Failures clustered in specific model–case combinations and were
-**not** ordered by model size. The most safety-relevant failure weakened a
-confirmed severe shellfish allergy to "mild" on the strength of one anecdote.
+**Finding:** action-type conflicts passed 60/60; restraint-type conflicts failed
+30/60 (50.0%). Failures clustered in specific model–case combinations and were
+**not** ordered by model size. Notable failure modes: a confirmed severe
+shellfish allergy weakened after one anecdote (severity downgraded, tolerance
+asserted, or confirmed status revoked); an established home address deleted in
+favor of an implicit temporary stay; and a **confabulated merge** — one model
+family invented `12 MG Road, Pune`, splicing the old street address onto the new
+city, in 3/3 runs.
+
+**Adjudication rules** (applied uniformly, stated so they can be contested):
+
+- **C fails** unless the established Bangalore address survives as a
+  *still-valid* address a future agent could act on. Tags like "secondary" or
+  "registered address" pass; "previous home," "archive," or "(inactive)" fail.
+- **D fails** if any of three properties of the stored fact is degraded:
+  existence, severity ("severe"), or epistemic status ("confirmed"). Recording
+  the anecdote *subordinately* with both interpretations left open passes;
+  promoting it into the fact ("suggests a change in severity," "do not treat
+  severity as confirmed") fails.
 
 The original hypothesis (the one-line heuristic fails all nuanced cases) and the
 follow-up hypothesis (smaller models fail more) were both falsified; what emerged
-instead is the action/restraint split. Per-model breakdown, adjudication rules,
+instead is the action/restraint split. Per-model breakdown, adjudication detail,
 and every failure transcript: [`RESEARCH_REPORT.md`](RESEARCH_REPORT.md).
 
 ## Limitations & future work
