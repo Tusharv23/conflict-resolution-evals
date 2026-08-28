@@ -1,0 +1,44 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "\n\n**Phase 1 \u2014 Investigate**\n\nThe current memory landscape shows a single fact stored in `system/human/personal_assistant.md`: parents living at 45 Nehru Street, Delhi 110001. I will review the transcript to identify potential learnings.\n\n**Phase 2 \u2014 Extract**\n\nFrom the conversation, I identified a candidate learning: the parents are now in separate homes. The user mentioned Dad is still at the Delhi house, and Mom has settled into her own place in Gurgaon, specifically Sector 45.\n\nApplying the filters:\n\n* Lasting or ephemeral? Lasting, as it's a change in their living situation.\n* Already captured? No, it's not mentioned in the current memory.\n* Generalizable? Yes, it's a new fact about the user's family situation.\n* Temporal references? No, no relative dates are mentioned.\n* Memory or skill? Memory, as it's a fact about the user's family.\n\nThe learning survives filtering, so I will proceed to update the memory.\n\n**Phase 3 \u2014 Update**\n\nI will add the new fact to the existing `system/human/personal_assistant.md` file. Since the parents are now in separate homes, I will update the fact to reflect this change.\n\n**Memory edit**\n\nI will move the existing fact to a new file `system/human/parents.md` and add a new fact to `system/human/personal_assistant.md` to reflect the current situation.\n\n**system/human/personal_assistant.md** (new):\n- Parents (tag: parents): \n- Current living situation: Mom lives in Gurgaon, Sector 45, and Dad lives in Delhi, 45 Nehru Street, 110001\n\n**system/human/parents.md** (new):\n- Parents (tag: parents): 45 Nehru Street, Delhi 110001 (historical)\n- Current living situation: Mom lives in Gurgaon, Sector 45, and Dad lives in Delhi, 45 Nehru Street, 110001\n\n**Phase 4 \u2014 Review**\n\nI have reviewed the changes and ensured that:\n\n* No secrets or junk are being persisted.\n* The new fact is accurately reflected in the `system/human/personal_assistant.md` file.\n* The existing fact has been moved to a new file `system/human/parents.md` to maintain a clear history.\n\n**Phase 5 \u2014 Commit**\n\nI will commit the changes with the following commit message:\n\n`fix(reflection): update parents' living situation`\n\n**Summary**: I updated the memory to reflect the current living situation of the user's parents, who are now in separate homes.\n\n**Memory changes**:\n\n* Created `system/human/parents.md` with the historical living situation of the parents.\n* Updated `system/human/personal_assistant.md` with the current living situation of the parents.\n\n**Skill changes**: None\n\n**Skipped**: None\n\n**Commit**: Yes, the changes have been committed.\n\n**Issues**: None\n\n**FINAL STATE OF MEMORY**:\n\n**system/human/personal_assistant.md**:\n- Parents (tag: parents): \n- Current living situation: Mom lives in Gurgaon, Sector 45, and Dad lives in Delhi, 45 Nehru Street, 110001\n\n**system/human/parents.md**:\n- Parents (tag: parents): 45 Nehru Street, Delhi 110001 (historical)\n- Current living situation: Mom lives in Gurgaon, Sector 45, and Dad lives in Delhi, 45 Nehru Street, 110001",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Parents (tag: parents): \",\n    \"- Current living situation: Mom lives in Gurgaon, Sector 45, and Dad lives in Delhi, 45 Nehru Street, 110001\",\n    \"- Parents (tag: parents): 45 Nehru Street, Delhi 110001 (historical)\",\n    \"- Current living situation: Mom lives in Gurgaon, Sector 45, and Dad lives in Delhi, 45 Nehru Street, 110001\"\n  ],\n  \"actions\": [\n    {\"type\": \"split\", \"target\": \"system/human/personal_assistant.md\", \"detail\": \"split fact into two separate files\"},\n    {\"type\": \"add\", \"target\": \"system/human/personal_assistant.md\", \"detail\": \"new fact: Current living situation: Mom lives in Gurgaon, Sector 45, and Dad lives in Delhi, 45 Nehru Street, 110001\"},\n    {\"type\": \"add\", \"target\": \"system/human/parents.md\", \"detail\": \"new fact: Parents (tag: parents): 45 Nehru Street, Delhi 110001 (historical)\"},\n    {\"type\": \"replace\", \"target\": \"system/human/personal_assistant.md\", \"detail\": \"update fact: Parents (tag: parents) to blank\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Parents (tag: parents): ",
+      "- Current living situation: Mom lives in Gurgaon, Sector 45, and Dad lives in Delhi, 45 Nehru Street, 110001",
+      "- Parents (tag: parents): 45 Nehru Street, Delhi 110001 (historical)",
+      "- Current living situation: Mom lives in Gurgaon, Sector 45, and Dad lives in Delhi, 45 Nehru Street, 110001"
+    ],
+    "actions": [
+      {
+        "type": "split",
+        "target": "system/human/personal_assistant.md",
+        "detail": "split fact into two separate files"
+      },
+      {
+        "type": "add",
+        "target": "system/human/personal_assistant.md",
+        "detail": "new fact: Current living situation: Mom lives in Gurgaon, Sector 45, and Dad lives in Delhi, 45 Nehru Street, 110001"
+      },
+      {
+        "type": "add",
+        "target": "system/human/parents.md",
+        "detail": "new fact: Parents (tag: parents): 45 Nehru Street, Delhi 110001 (historical)"
+      },
+      {
+        "type": "replace",
+        "target": "system/human/personal_assistant.md",
+        "detail": "update fact: Parents (tag: parents) to blank"
+      }
+    ]
+  }
+}

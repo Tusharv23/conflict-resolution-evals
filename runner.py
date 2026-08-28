@@ -28,6 +28,7 @@ from context_loader import build_s1_memory
 ROOT = Path(__file__).parent
 REFLECTION_PROMPT = ROOT / "reflection_prompt.md"
 REFLECTION_PROMPT_V2 = ROOT / "reflection_prompt_v2.md"
+REFLECTION_PROMPT_PR = ROOT / "reflection_prompt_pr.md"  # exact text committed to the letta-code PR branch
 EXTRACTOR_PROMPT = ROOT / "extractor.md"
 CASES_PATH = ROOT / "cases.json"
 RESULTS_DIR = ROOT / "results"
@@ -121,10 +122,11 @@ def main():
     ap.add_argument("--only", help="run a single case id (e.g. B_compatible_split)")
     ap.add_argument("--stage", default="S0", choices=["S0", "S1"],
                     help="S0=tiny baseline, S1=large realistic memory (transcript unchanged)")
-    ap.add_argument("--prompt", help="Help choose among different prompt templates", choices=["v1", "v2"], default="v1")
+    ap.add_argument("--prompt", help="Help choose among different prompt templates", choices=["v1", "v2", "pr"], default="v1")
     args = ap.parse_args()
 
-    reflection = strip_frontmatter(REFLECTION_PROMPT.read_text(encoding="utf-8") if args.prompt == "v1" else REFLECTION_PROMPT_V2.read_text(encoding="utf-8"))
+    prompt_files = {"v1": REFLECTION_PROMPT, "v2": REFLECTION_PROMPT_V2, "pr": REFLECTION_PROMPT_PR}
+    reflection = strip_frontmatter(prompt_files[args.prompt].read_text(encoding="utf-8"))
     extractor = strip_frontmatter(EXTRACTOR_PROMPT.read_text(encoding="utf-8"))
     cases = json.loads(CASES_PATH.read_text(encoding="utf-8"))["cases"]
     if args.only:

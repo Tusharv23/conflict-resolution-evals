@@ -1,0 +1,26 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.amazon.nova-micro-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "**Summary**\nThis review addresses the user's statement about their current living situation and its reflection in the agent's memory about their home address. The user indicated a change in their primary residence, which requires updating the agent's memory of their home address.\n\n**Memory changes**\n- Updated the home address to reflect the user's current primary residence.\n\n**Skipped**\nNothing was skipped as all relevant information for updating the memory was available.\n\n**Commit**\nConfirmed: The changes will be committed to the memory filesystem.\n\n**Issues**\nNone\n\n**Final state of memory file:**\n\n```markdown\n- Home (tag: home): 12 MG Road, Pune 411001\n```\n\n",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Home (tag: home): 12 MG Road, Pune 411001\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Home\",\n      \"detail\": \"Updated the home address to reflect the user's current primary residence.\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home (tag: home): 12 MG Road, Pune 411001"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Home",
+        "detail": "Updated the home address to reflect the user's current primary residence."
+      }
+    ]
+  }
+}

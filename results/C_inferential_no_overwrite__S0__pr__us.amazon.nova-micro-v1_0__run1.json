@@ -1,0 +1,26 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.amazon.nova-micro-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "**Summary**: The conversation indicates that the assistant's home base has shifted from Bangalore to Pune due to recent living arrangements with a girlfriend. This update is relevant and should be reflected in the agent's memory.\n\n**Memory changes**:\n- Updated the assistant's primary location from Bangalore to Pune.\n\n**Skill changes**:\n- No skills were impacted by this conversation.\n\n**Skipped**:\n- Nothing was skipped.\n\n**Commit**:\n- Commit confirmed.\n\n**Intended FINAL state of the memory file** (`system/human/personal_assistant.md`):\n\n```\n- Home (tag: home): 12 MG Road, Pune 411001\n```\n\n**Issues**:\n- None encountered.",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Home (tag: home): 12 MG Road, Pune 411001\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"assistant's primary location\",\n      \"detail\": \"Updated the assistant's primary location from Bangalore to Pune.\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Home (tag: home): 12 MG Road, Pune 411001"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "assistant's primary location",
+        "detail": "Updated the assistant's primary location from Bangalore to Pune."
+      }
+    ]
+  }
+}

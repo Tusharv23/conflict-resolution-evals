@@ -1,0 +1,32 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "## Summary\n\nI reviewed the personal assistant memory file (`system/human/personal_assistant.md`) against a short transcript where the user reveals they've been primarily living at their girlfriend's place in Pune for the past few months and rarely return to their registered home in Bangalore. This is a lasting, generalizable fact worth retaining, but since no specific Pune address was given and the \"home\" tag may still represent a permanent/registered address, I've annotated the situation as a separate current-living-context fact rather than overwriting the existing Bangalore entry.\n\n## Memory changes\n\n- **`system/human/personal_assistant.md`** (modified): Kept the existing Bangalore home address entry unchanged (no explicit new address or confirmation that it's been permanently replaced), and added a new fact noting the user's current living situation is primarily in Pune at their girlfriend's place, per their own account as of this conversation. This follows the \"Annotate\" rule \u2014 the transcript establishes a *current living pattern* but not a full contradiction/replacement of the stored home address (no street address given, permanence unclear).\n\n## Skill changes\n\nNone. This is a simple factual update, not a reusable multi-step workflow. No skill files were created, updated, or modified.\n\n## Skipped\n\n- Did not remove or overwrite the Bangalore address \u2014 the user did not state they moved out permanently or provide a new address, so weakening/replacing the stored home fact isn't warranted yet.\n- Did not fabricate a Pune street address since none was provided in the transcript.\n\n## Commit\n\nCommitted to the memory repo with message type `chore` (routine context addition), reflecting the annotated update to `system/human/personal_assistant.md`.\n\n## Issues\n\nNone. The only limitation is that no specific Pune address was given, so the new fact is recorded at the level of detail actually provided (\"girlfriend's place in Pune\").\n\n---\n\n**FINAL state of `system/human/personal_assistant.md`:**\n\n- Home (tag: home): 12 MG Road, Bangalore 560001\n- Current living situation (as of this conversation): Primarily staying at girlfriend's place in Pune for the last few months; rarely returns to the Bangalore home during this period. Exact Pune address unknown.",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Home (tag: home): 12 MG Road, Bangalore 560001\",\n    \"Current living situation (as of this conversation): Primarily staying at girlfriend's place in Pune for the last few months; rarely returns to the Bangalore home during this period. Exact Pune address unknown.\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"keep\",\n      \"target\": \"Home (tag: home): 12 MG Road, Bangalore 560001\",\n      \"detail\": \"Kept unchanged since no explicit new address or confirmation of permanent move was given.\"\n    },\n    {\n      \"type\": \"add\",\n      \"target\": \"Current living situation fact\",\n      \"detail\": \"Added a new annotation fact noting the user is currently primarily staying at their girlfriend's place in Pune, with exact address unknown, without overwriting the existing Bangalore home entry.\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home (tag: home): 12 MG Road, Bangalore 560001",
+      "Current living situation (as of this conversation): Primarily staying at girlfriend's place in Pune for the last few months; rarely returns to the Bangalore home during this period. Exact Pune address unknown."
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Home (tag: home): 12 MG Road, Bangalore 560001",
+        "detail": "Kept unchanged since no explicit new address or confirmation of permanent move was given."
+      },
+      {
+        "type": "add",
+        "target": "Current living situation fact",
+        "detail": "Added a new annotation fact noting the user is currently primarily staying at their girlfriend's place in Pune, with exact address unknown, without overwriting the existing Bangalore home entry."
+      }
+    ]
+  }
+}

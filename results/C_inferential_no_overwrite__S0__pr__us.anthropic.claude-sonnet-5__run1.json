@@ -1,0 +1,32 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "## Reflection Report\n\n**1. Summary**\nReviewed a single-exchange transcript where the user mentioned they've mostly been living at their girlfriend's place in Pune recently and rarely return to their Bangalore home. This is a personal-life update but lacks a concrete new address and describes a self-characterized temporary situation (\"last few months\"), so per the Annotate/Restraint guidance I'm preserving the confirmed Bangalore home address and adding the new information as a separate, clearly-flagged unverified note rather than overwriting the existing fact.\n\n**2. Memory changes**\n- Modified `system/human/personal_assistant.md`: Added a new annotated line noting the user's current living situation (mostly in Pune, at girlfriend's place) as an unverified/temporary observation, while leaving the original Bangalore home address fact unchanged and authoritative.\n\n**3. Skill changes**\n- Operation: `none` \u2014 this is a single factual/preference update, not a repeatable multi-step workflow. No skill created or modified.\n\n**4. Skipped**\n- Did not overwrite or relocate the \"home\" address tag, since no confirmed new address was given and the user's own framing (\"for the last few months\") signals a possibly temporary arrangement rather than an established permanent move. Did not invent a Pune address, as none was provided.\n\n**5. Commit**\nCommitted the change to `system/human/personal_assistant.md` (addition of the annotated note line) with an appropriate `chore(reflection)` message.\n\n**6. Issues**\nNo absolute date was available in the transcript to timestamp the observation, so the note is phrased without a specific date rather than fabricating one. If the primary agent later learns a specific date or a confirmed permanent Pune address, this note should be updated/promoted accordingly.\n\n---\n\n**Final state of `system/human/personal_assistant.md`:**\n\n```\n- Home (tag: home): 12 MG Road, Bangalore 560001\n- Current status (tag: note, unverified): User reports currently spending most of their time at girlfriend's place in Pune rather than at the Bangalore home; treat the Bangalore address above as the confirmed home address unless/until a permanent address change is explicitly confirmed.\n```",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Home (tag: home): 12 MG Road, Bangalore 560001\",\n    \"- Current status (tag: note, unverified): User reports currently spending most of their time at girlfriend's place in Pune rather than at the Bangalore home; treat the Bangalore address above as the confirmed home address unless/until a permanent address change is explicitly confirmed.\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"keep\",\n      \"target\": \"Home (tag: home): 12 MG Road, Bangalore 560001\",\n      \"detail\": \"Preserved unchanged as the confirmed, authoritative home address.\"\n    },\n    {\n      \"type\": \"add\",\n      \"target\": \"Current status note about Pune living situation\",\n      \"detail\": \"Added a new annotated, unverified note stating the user reports mostly living at girlfriend's place in Pune, while explicitly deferring to the Bangalore address as confirmed until a permanent change is verified.\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Home (tag: home): 12 MG Road, Bangalore 560001",
+      "- Current status (tag: note, unverified): User reports currently spending most of their time at girlfriend's place in Pune rather than at the Bangalore home; treat the Bangalore address above as the confirmed home address unless/until a permanent address change is explicitly confirmed."
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Home (tag: home): 12 MG Road, Bangalore 560001",
+        "detail": "Preserved unchanged as the confirmed, authoritative home address."
+      },
+      {
+        "type": "add",
+        "target": "Current status note about Pune living situation",
+        "detail": "Added a new annotated, unverified note stating the user reports mostly living at girlfriend's place in Pune, while explicitly deferring to the Bangalore address as confirmed until a permanent change is verified."
+      }
+    ]
+  }
+}

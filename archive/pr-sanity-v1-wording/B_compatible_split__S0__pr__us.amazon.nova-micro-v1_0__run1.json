@@ -1,0 +1,26 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.amazon.nova-micro-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "**Summary**\nThis transcript updates the agent's memory regarding the user's parents' living arrangements. It confirms that the user's parents are now living separately \u2014 Dad in Delhi and Mom in Gurgaon. The agent's memory will be updated to reflect this new information.\n\n**Memory changes**\n- Update the parents' location to reflect the separation.\n\n**Intended FINAL state of the memory file (`system/human/personal_assistant.md`):**\n```\n- Parents (tag: parents): \n  - Dad: 45 Nehru Street, Delhi 110001\n  - Mom: Sector 45, Gurgaon\n```\n\n**Skill changes**\n- No skill changes were necessary as there was no repeatable, multi-step workflow introduced in this conversation.\n\n**Skipped**\n- No one-off details or ephemeral information were introduced that needed to be skipped.\n\n**Commit**\n- A commit will be made to update the memory regarding the parents' new living arrangements.\n\n**Issues**\n- No issues encountered in this process.",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Parents (tag: parents): Dad: 45 Nehru Street, Delhi 110001 Mom: Sector 45, Gurgaon\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Parents location\",\n      \"detail\": \"Updated to reflect the separation: Dad in Delhi and Mom in Gurgaon.\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Parents (tag: parents): Dad: 45 Nehru Street, Delhi 110001 Mom: Sector 45, Gurgaon"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Parents location",
+        "detail": "Updated to reflect the separation: Dad in Delhi and Mom in Gurgaon."
+      }
+    ]
+  }
+}

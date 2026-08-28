@@ -68,13 +68,15 @@ def score(case_id: str, parsed) -> tuple[str, str]:
 
 def prompt_of(filename: str) -> str:
     """Prompt version is encoded in the filename (e.g. ...__S0__v2__model__run1)."""
+    if "__pr__" in filename:
+        return "pr"
     return "v2" if "__v2__" in filename else "baseline"
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--stage", help="only score this stage (S0, S1, ...). Default: all, grouped.")
-    ap.add_argument("--prompt", choices=["baseline", "v2"],
+    ap.add_argument("--prompt", choices=["baseline", "v2", "pr"],
                     help="only score runs from this prompt version. Default: all, grouped.")
     args = ap.parse_args()
 

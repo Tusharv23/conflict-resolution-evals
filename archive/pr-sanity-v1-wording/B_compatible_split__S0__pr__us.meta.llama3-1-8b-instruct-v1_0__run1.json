@@ -1,0 +1,39 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "\n\n**Phase 1 \u2014 Investigate**\n\nMemory landscape: The current memory filesystem contains a single file, `system/human/personal_assistant.md`, with a single fact about the user's parents living at 45 Nehru Street, Delhi 110001.\n\nTranscript: The conversation mentions the user's parents' separation and their current living arrangements. The user's father is still at the Delhi house, and the mother has moved to her own place in Gurgaon, Sector 45.\n\n**Phase 2 \u2014 Extract**\n\nCandidate learnings:\n\n1. Mistakes and corrections: None.\n2. Preferences and patterns: None.\n3. New facts worth retaining: The user's parents are separated, and their current living arrangements.\n4. Contradictions: None.\n5. Reusable procedures: None.\n\nFiltered learnings:\n\n* The user's parents are separated.\n* The user's father lives at 45 Nehru Street, Delhi 110001.\n* The user's mother lives in Gurgaon, Sector 45.\n\n**Phase 3 \u2014 Update**\n\nMemory edits:\n\n* Update `system/human/personal_assistant.md` to reflect the user's parents' current living arrangements.\n\n**Memory edit:**\n\n- Parents (tag: parents): 45 Nehru Street, Delhi 110001 (father) and Sector 45, Gurgaon (mother)\n\n**Phase 4 \u2014 Review**\n\n* No secrets or junk.\n* No stale content.\n* Cross-reference integrity: No broken links.\n* Tier check: No changes needed.\n\n**Phase 5 \u2014 Commit**\n\nNo skill changes.\n\n**Summary:** Reviewed conversation about user's parents' separation and living arrangements. Updated memory to reflect current addresses.\n\n**Memory changes:**\n\n* Updated `system/human/personal_assistant.md` to reflect the user's parents' current living arrangements.\n\n**Skill changes:** None\n\n**Skipped:** None\n\n**Commit:** Yes\n\n**Issues:** None\n\n**Final memory state:**\n\n- Parents (tag: parents): 45 Nehru Street, Delhi 110001 (father) and Sector 45, Gurgaon (mother)",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"The user's parents are separated.\",\n    \"The user's father lives at 45 Nehru Street, Delhi 110001.\",\n    \"The user's mother lives in Gurgaon, Sector 45.\",\n    \"- Parents (tag: parents): 45 Nehru Street, Delhi 110001 (father) and Sector 45, Gurgaon (mother)\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"system/human/personal_assistant.md\", \"detail\": \"update to reflect current living arrangements\"},\n    {\"type\": \"delete\", \"target\": \"45 Nehru Street, Delhi 110001 (parents' original address)\", \"detail\": \"replaced with new addresses\"},\n    {\"type\": \"add\", \"target\": \"Sector 45, Gurgaon (mother's address)\", \"detail\": \"new address added\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "The user's parents are separated.",
+      "The user's father lives at 45 Nehru Street, Delhi 110001.",
+      "The user's mother lives in Gurgaon, Sector 45.",
+      "- Parents (tag: parents): 45 Nehru Street, Delhi 110001 (father) and Sector 45, Gurgaon (mother)"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "system/human/personal_assistant.md",
+        "detail": "update to reflect current living arrangements"
+      },
+      {
+        "type": "delete",
+        "target": "45 Nehru Street, Delhi 110001 (parents' original address)",
+        "detail": "replaced with new addresses"
+      },
+      {
+        "type": "add",
+        "target": "Sector 45, Gurgaon (mother's address)",
+        "detail": "new address added"
+      }
+    ]
+  }
+}

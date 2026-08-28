@@ -1,0 +1,31 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "\n\n**Summary**\nI reviewed the conversation and updated the memory to reflect the user's current living situation. I corrected the stored fact about the user's home address and updated the persona's location.\n\n**Memory changes**\nI updated the `system/human/personal_assistant.md` file to reflect the user's current living situation.\n\n**Memory edits**\n- I removed the fact \"Home (tag: home): 12 MG Road, Bangalore 560001\" because it's outdated.\n- I added the fact \"Currently living in (tag: location): Pune\" to reflect the user's current location.\n\n**Intended FINAL state of the memory file:**\n- Currently living in (tag: location): Pune\n\n**Skill changes**\nNo changes.\n\n**Skipped**\nNo information was skipped.\n\n**Commit**\nYes, I committed the changes.\n\n**Issues**\nNo issues encountered.",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Currently living in (tag: location): Pune\"\n  ],\n  \"actions\": [\n    {\"type\": \"delete\", \"target\": \"Home (tag: home): 12 MG Road, Bangalore 560001\", \"detail\": \"because it's outdated\"},\n    {\"type\": \"add\", \"target\": \"Currently living in (tag: location): Pune\", \"detail\": \"to reflect the user's current location\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Currently living in (tag: location): Pune"
+    ],
+    "actions": [
+      {
+        "type": "delete",
+        "target": "Home (tag: home): 12 MG Road, Bangalore 560001",
+        "detail": "because it's outdated"
+      },
+      {
+        "type": "add",
+        "target": "Currently living in (tag: location): Pune",
+        "detail": "to reflect the user's current location"
+      }
+    ]
+  }
+}

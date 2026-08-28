@@ -1,0 +1,37 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "**Summary:** The user disclosed that their parents have separated \u2014 Dad remains at the existing Delhi address, while Mom has moved to a new residence in Sector 45, Gurgaon. This directly updates the stored \"Parents\" address fact, which assumed a single shared address.\n\n**Memory changes:**\n- Modified `system/human/personal_assistant.md`: Split the single \"Parents\" entry into separate \"Dad\" and \"Mom\" entries under the `parents` tag, since they now live at different addresses following their separation. Retained the existing Delhi address for Dad, added Mom's new Gurgaon address, and noted the separation as context.\n\n**Skill changes:** None \u2014 this is a one-off personal/family fact update, not a reusable procedure.\n\n**Skipped:**\n- The detail that the user is in therapy processing this \u2014 ephemeral/personal context not tied to an actionable fact the assistant needs on every turn; not stored.\n- Exact street-level address in Gurgaon was not provided (only \"Sector 45\"), so only that level of detail is recorded rather than inventing specifics.\n\n**Commit:** Recorded (memory file updated to reflect the change).\n\n**Issues:** None.\n\n---\n\n**FINAL state of `system/human/personal_assistant.md` (facts section):**\n\n```\n- Dad (tag: parents): 45 Nehru Street, Delhi 110001\n- Mom (tag: parents): Sector 45, Gurgaon (moved here after separating from Dad)\n```",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Dad (tag: parents): 45 Nehru Street, Delhi 110001\",\n    \"Mom (tag: parents): Sector 45, Gurgaon (moved here after separating from Dad)\"\n  ],\n  \"actions\": [\n    {\"type\": \"split\", \"target\": \"Parents (shared address entry)\", \"detail\": \"Split single 'Parents' entry into separate 'Dad' and 'Mom' entries under the parents tag, since they now live at different addresses following their separation. Retained existing Delhi address for Dad, added Mom's new Sector 45, Gurgaon address, and noted the separation as context.\"},\n    {\"type\": \"flag\", \"target\": \"Therapy context\", \"detail\": \"Skipped storing \u2014 ephemeral/personal context not tied to an actionable fact.\"},\n    {\"type\": \"flag\", \"target\": \"Exact Gurgaon street address\", \"detail\": \"Skipped \u2014 not provided, only 'Sector 45' recorded rather than inventing specifics.\"}\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Dad (tag: parents): 45 Nehru Street, Delhi 110001",
+      "Mom (tag: parents): Sector 45, Gurgaon (moved here after separating from Dad)"
+    ],
+    "actions": [
+      {
+        "type": "split",
+        "target": "Parents (shared address entry)",
+        "detail": "Split single 'Parents' entry into separate 'Dad' and 'Mom' entries under the parents tag, since they now live at different addresses following their separation. Retained existing Delhi address for Dad, added Mom's new Sector 45, Gurgaon address, and noted the separation as context."
+      },
+      {
+        "type": "flag",
+        "target": "Therapy context",
+        "detail": "Skipped storing \u2014 ephemeral/personal context not tied to an actionable fact."
+      },
+      {
+        "type": "flag",
+        "target": "Exact Gurgaon street address",
+        "detail": "Skipped \u2014 not provided, only 'Sector 45' recorded rather than inventing specifics."
+      }
+    ]
+  }
+}

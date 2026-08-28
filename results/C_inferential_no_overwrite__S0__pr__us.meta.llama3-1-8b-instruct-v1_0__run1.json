@@ -1,0 +1,35 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "\n\n### Phase 1 \u2014 Investigate\n\nThe memory filesystem is already provided. I'll review the `human/personal_assistant.md` file to understand the current context.\n\n### Phase 2 \u2014 Extract\n\nFrom the transcript, I identify a candidate learning:\n\n* The user's residence has changed, and they are now mostly based in Pune.\n\nThis learning survives the filters:\n\n* Lasting or ephemeral? Lasting, as it's a change in the user's residence.\n* Already captured? No, it's not mentioned in the current memory.\n* Generalizable? Yes, it's a change in the user's residence.\n* Temporal references? No, no relative dates are mentioned.\n* Memory or skill? Memory, as it's a fact about the user's residence.\n\n### Phase 3 \u2014 Update\n\nI'll update the `human/personal_assistant.md` file to reflect the new information.\n\nI'll add a new fact to the file:\n\n* The user's residence has changed to Pune.\n\nI'll also update the existing fact about the user's home address to reflect that it's not their current residence.\n\n### Phase 4 \u2014 Review\n\nI've reviewed the changes and ensured that:\n\n* No secrets or junk are being persisted.\n* The cross-reference integrity is maintained.\n* The tier check is correct, and the new information is stored in the `system/human/personal_assistant.md` file.\n\n### Phase 5 \u2014 Commit\n\nI'll commit the changes with the following message:\n\n`feat(reflection): update user's residence to Pune \ud83d\udd2e\n\nReviewed transcript: <transcript>\n\nUpdates:\n- Updated user's residence to Pune\n- Removed Bangalore as the user's current residence\n\nGenerated-By: Reflection Subagent\nAgent-ID: agent-abc123\nParent-Agent-ID: agent-def456`\n\n### Final State of the Memory File\n\nThe final state of the `human/personal_assistant.md` file should be:\n\n- Home (tag: home): 12 MG Road, Bangalore 560001 ( archived )\n- Residence (tag: residence): Pune\n\nNote: I've archived the original home address and added a new fact about the user's current residence in Pune.",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Home (tag: home): 12 MG Road, Bangalore 560001 ( archived )\",\n    \"- Residence (tag: residence): Pune\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"user's residence\", \"detail\": \"updated to Pune\"},\n    {\"type\": \"delete\", \"target\": \"Bangalore as the user's current residence\"},\n    {\"type\": \"add\", \"target\": \"user's residence has changed to Pune\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Home (tag: home): 12 MG Road, Bangalore 560001 ( archived )",
+      "- Residence (tag: residence): Pune"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "user's residence",
+        "detail": "updated to Pune"
+      },
+      {
+        "type": "delete",
+        "target": "Bangalore as the user's current residence"
+      },
+      {
+        "type": "add",
+        "target": "user's residence has changed to Pune"
+      }
+    ]
+  }
+}
