@@ -1,0 +1,27 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "## Reflection Report\n\n### Phase 1 \u2014 Investigate\n\nCurrent memory state:\n- `system/human/personal_assistant.md` contains a single fact: Home address tagged as \"home\" is 12 MG Road, Bangalore 560001\n\nThis is a personal location fact in the system tier, suggesting it's load-bearing context for the primary agent.\n\n### Phase 2 \u2014 Extract\n\n**Candidate learning:** The user has disclosed that they've been living at their girlfriend's place in Pune for the last few months and barely return to Bangalore.\n\n**Applying filters:**\n- **Durable or ephemeral?** This is durable. A change in primary residence/location is a meaningful fact about the user's current life situation and living arrangement.\n- **Already captured?** No. The current memory only records Bangalore as \"home\"; it does not reflect the user's recent relocation.\n- **Generalizable?** Yes \u2014 this is a personal fact about where the user currently lives, which is relevant for context (scheduling, recommendations, location-aware advice, etc.).\n- **Temporal reference?** \"Last few months\" is relative. Based on context, I'll treat this as a recent and ongoing situation without a precise date; the statement implies Pune is the current primary location.\n- **Memory or skill?** This is memory (a personal fact), not a skill.\n\n**Contradiction:** The existing memory records Bangalore as the home address, but the user now indicates Pune is their primary residence. This is a direct contradiction that must be resolved by updating the stale entry.\n\n### Phase 3 \u2014 Update\n\n**Action:** Update `system/human/personal_assistant.md` to reflect the user's current primary residence and add the Bangalore address as secondary context if needed.\n\n**Approach:** \n- Update the primary home tag to Pune (girlfriend's place, recent primary residence).\n- Retain the Bangalore address as a secondary fact (still relevant, but not current primary residence).\n- Add a note about the relocation for context.\n\n### Phase 4 \u2014 Review\n\n- **Stale content:** Yes \u2014 the Bangalore address as \"home\" is superseded by the user's disclosure about Pune being their primary residence.\n- **Tier check:** This remains appropriate for `system/human/` since it's a personal fact the agent should know on every turn.\n- **Contradiction resolved:** The Bangalore address is retained for reference but demoted; Pune is now the primary home.\n\n### Phase 5 \u2014 Commit\n\nThis is a memory update fixing stale information. The change is durable and based on explicit user disclosure. A commit would be warranted in the normal workflow.\n\n---\n\n## FINAL STATE\n\n**Intended state of `system/human/personal_assistant.md` after edits:**\n\n```\n- Home (tag: home): Girlfriend's place in Pune (primary residence as of recent months)\n- Previous home (tag: previous): 12 MG Road, Bangalore 560001\n```\n\n**Reasoning:** The user's disclosure that they've been living primarily in Pune with their girlfriend for the last few months supersedes the previous Bangalore address as the primary home. The Bangalore address is retained as historical context but is no longer the current primary residence. This update reflects the user's current living situation and ensures the agent has accurate location information for context-aware assistance going forward.",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Home (tag: home): Girlfriend's place in Pune (primary residence as of recent months)\",\n    \"Previous home (tag: previous): 12 MG Road, Bangalore 560001\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Home address tagged as 'home' is 12 MG Road, Bangalore 560001\",\n      \"detail\": \"Updated primary home to girlfriend's place in Pune; Bangalore address demoted to previous home\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home (tag: home): Girlfriend's place in Pune (primary residence as of recent months)",
+      "Previous home (tag: previous): 12 MG Road, Bangalore 560001"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Home address tagged as 'home' is 12 MG Road, Bangalore 560001",
+        "detail": "Updated primary home to girlfriend's place in Pune; Bangalore address demoted to previous home"
+      }
+    ]
+  }
+}

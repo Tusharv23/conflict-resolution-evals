@@ -1,0 +1,32 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "\n\n**Phase 1 \u2014 Investigate**\n\nThe current memory landscape shows the user's home address in Bangalore, but the transcript suggests the user has been living in Pune for a few months. I'll investigate further.\n\n**Phase 2 \u2014 Extract**\n\nThe conversation reveals a contradiction between the stored fact and the user's current situation. I'll extract the new information and prioritize it as a correction to the existing fact.\n\n**Phase 3 \u2014 Update**\n\nI'll update the memory to reflect the user's current living situation.\n\n*   I'll create a new fact in the `system/human/personal_assistant.md` file to reflect the user's current location.\n*   I'll update the existing fact about the user's home address in Bangalore to indicate that it's no longer the user's primary residence.\n\n**Memory edits**\n\nI'll update the `system/human/personal_assistant.md` file to reflect the new information.\n\n**Current stored facts:**\n- Home (tag: home): 12 MG Road, Bangalore 560001\n\n**Updated stored facts:**\n- Home (tag: home): 12 MG Road, Bangalore 560001 (inactive)\n- Current residence: Pune\n\n**Phase 4 \u2014 Review**\n\nI've reviewed the changes and ensured that the new fact is accurate and correctly categorized.\n\n**Phase 5 \u2014 Commit**\n\nI'll commit the changes with a commit message that reflects the updates.\n\n**Summary**\nI updated the user's home address in Bangalore to inactive and added a new fact about the user's current residence in Pune.\n\n**Memory changes**\n- system/human/personal_assistant.md: updated to reflect the user's current living situation\n\n**Skill changes**\nNone\n\n**Skipped**\nNone\n\n**Commit**\nCommit message: \"fix(reflection): update user's home address and add current residence fact\"\n\n**Issues**\nNone\n\n**Final memory file:**\n\n```markdown\n- Home (tag: home): 12 MG Road, Bangalore 560001 (inactive)\n- Current residence: Pune\n```",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Home (tag: home): 12 MG Road, Bangalore 560001 (inactive)\",\n    \"- Current residence: Pune\"\n  ],\n  \"actions\": [\n    {\"type\": \"delete\", \"target\": \"Home (tag: home): 12 MG Road, Bangalore 560001\", \"detail\": \"marked as inactive\"},\n    {\"type\": \"add\", \"target\": \"Current residence\", \"detail\": \"Pune\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Home (tag: home): 12 MG Road, Bangalore 560001 (inactive)",
+      "- Current residence: Pune"
+    ],
+    "actions": [
+      {
+        "type": "delete",
+        "target": "Home (tag: home): 12 MG Road, Bangalore 560001",
+        "detail": "marked as inactive"
+      },
+      {
+        "type": "add",
+        "target": "Current residence",
+        "detail": "Pune"
+      }
+    ]
+  }
+}

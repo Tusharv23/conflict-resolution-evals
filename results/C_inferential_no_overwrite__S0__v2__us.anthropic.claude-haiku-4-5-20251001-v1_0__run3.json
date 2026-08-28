@@ -1,0 +1,26 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "# Reflection Report\n\n## Summary\n\nReviewed a single-turn conversation where the user disclosed that their primary residence has shifted from Bangalore to their girlfriend's place in Pune over the last few months. This directly contradicts the stored home address. The new information is recent, explicit, and establishes a material change in living situation.\n\n## Phase 1 \u2014 Investigate\n\nCurrent memory state:\n- `system/human/personal_assistant.md` contains a single fact: \"Home (tag: home): 12 MG Road, Bangalore 560001\"\n\nThis is the only relevant memory file. No skills are involved.\n\n## Phase 2 \u2014 Extract\n\n**Candidate learning**: User's primary residence has changed from Bangalore to Pune (girlfriend's place).\n\n**Durability check**: \u2713 Durable. The user stated \"basically been living at my girlfriend's place... for the last few months\" and \"barely go back to Bangalore these days,\" establishing a sustained change in primary residence, not a temporary visit.\n\n**Already captured?** \u2717 No. The stored address is stale.\n\n**Generalizable?** \u2713 Yes. This is a personal fact (residence) that should be reflected in persistent context.\n\n**Conflict?** \u2713 Yes. The stored Bangalore address contradicts the user's current living situation.\n\n## Phase 3 \u2014 Update\n\nThe stored home address is explicitly superseded. Per durability guidelines, I will resolve in favor of the latest evidence and remove the stale entry.\n\n**Action**: Correct the home address in `system/human/personal_assistant.md`. The user has not provided a specific Pune address, only that it is their girlfriend's place. I will record the primary residence as Pune and note the shift in context.\n\n## Phase 4 \u2014 Review\n\n- **No secrets**: The information disclosed is straightforward location data, not sensitive.\n- **Tier check**: This belongs in `system/human/personal_assistant.md` because it is a core personal fact the agent should know on every turn.\n- **Stale content removed**: The Bangalore address is replaced, not archived, because it was temporary context (a former address, not historical record worth keeping).\n\n## Phase 5 \u2014 Commit\n\nMemory changes were made. A commit will be issued.\n\n---\n\n## FINAL State of Memory File\n\n**File**: `system/human/personal_assistant.md`\n\n**Exact fact lines after edits**:\n\n```\n- Home (tag: home): Pune (girlfriend's place; primary residence as of recent months)\n```\n\n**Rationale**: The stale Bangalore address has been replaced with the user's current primary residence. The parenthetical notes capture the context (girlfriend's place) and temporal anchor (recent months) to clarify why the address changed and what it represents, without requiring a specific street address the user has not yet provided.",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Home (tag: home): Pune (girlfriend's place; primary residence as of recent months)\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Home (tag: home): 12 MG Road, Bangalore 560001\",\n      \"detail\": \"Replaced with current primary residence in Pune (girlfriend's place) due to explicit user disclosure of sustained relocation over recent months\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home (tag: home): Pune (girlfriend's place; primary residence as of recent months)"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Home (tag: home): 12 MG Road, Bangalore 560001",
+        "detail": "Replaced with current primary residence in Pune (girlfriend's place) due to explicit user disclosure of sustained relocation over recent months"
+      }
+    ]
+  }
+}

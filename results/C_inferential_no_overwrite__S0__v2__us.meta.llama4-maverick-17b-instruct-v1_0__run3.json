@@ -1,0 +1,32 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.meta.llama4-maverick-17b-instruct-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "### Phase 1 \u2014 Investigate\n\nThe current memory landscape includes a fact about the user's home location stored in `system/human/personal_assistant.md`: \"12 MG Road, Bangalore 560001\" tagged as \"home\". The transcript reveals that the user has been living mostly in Pune for the last few months.\n\n### Phase 2 \u2014 Extract\n\nThe conversation indicates a potential change in the user's primary residence or frequent location. The key learning here is that the user's current base is Pune, not Bangalore.\n\n### Phase 3 \u2014 Update\n\nTo update the memory, we need to consider whether the information about the user's home is still accurate or if it needs to be adjusted to reflect the current situation. Since the user has been living in Pune for a few months, it suggests a significant change in their living situation.\n\nThe fact stored is \"Home (tag: home): 12 MG Road, Bangalore 560001\". Given the new information, this fact may be considered stale or in need of clarification. However, the transcript does not explicitly state that the user has changed their home address or that they no longer have a connection to the Bangalore address.\n\nA reasonable update would be to add a new fact reflecting the user's current living situation in Pune, while keeping the existing fact about Bangalore as it might still be relevant (e.g., if the user still maintains the address as their official home).\n\n### Phase 4 \u2014 Review\n\nBefore finalizing the update, it's essential to ensure that the change is appropriate and does not introduce any inconsistencies. Adding a fact about the user's current residence in Pune seems like a reasonable step, as it reflects the current situation without erasing historical information.\n\n### Phase 5 \u2014 Commit\n\nWhile the instructions require a commit message, the task here is to report the intended final state of the memory file.\n\n### Edits\n\nTo capture the new information, we will add a fact to `system/human/personal_assistant.md`. The updated file should include both the original home address and the new information about the user's current residence.\n\n### FINAL State of `system/human/personal_assistant.md`\n\n- Home (tag: home): 12 MG Road, Bangalore 560001\n- Current Residence (tag: current-residence): Girlfriend's place, Pune (recently living there for a few months)",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Home (tag: home): 12 MG Road, Bangalore 560001\",\n    \"Current Residence (tag: current-residence): Girfriend's place, Pune (recently living there for a few months)\"\n  ],\n  \"actions\": [\n    {\"type\": \"keep\", \"target\": \"Home (tag: home): 12 MG Road, Bangalore 560001\", \"detail\": \"Kept as it might still be relevant\"},\n    {\"type\": \"add\", \"target\": \"Current Residence (tag: current-residence): Girfriend's place, Pune (recently living there for a few months)\", \"detail\": \"Added to reflect the user's current living situation\"}\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home (tag: home): 12 MG Road, Bangalore 560001",
+      "Current Residence (tag: current-residence): Girfriend's place, Pune (recently living there for a few months)"
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Home (tag: home): 12 MG Road, Bangalore 560001",
+        "detail": "Kept as it might still be relevant"
+      },
+      {
+        "type": "add",
+        "target": "Current Residence (tag: current-residence): Girfriend's place, Pune (recently living there for a few months)",
+        "detail": "Added to reflect the user's current living situation"
+      }
+    ]
+  }
+}

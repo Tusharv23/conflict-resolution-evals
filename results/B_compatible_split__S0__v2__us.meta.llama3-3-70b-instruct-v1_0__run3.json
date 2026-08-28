@@ -1,0 +1,26 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.meta.llama3-3-70b-instruct-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "## Step 1: Investigate\nThe current memory landscape includes a file `system/human/personal_assistant.md` with a fact about the user's parents' address. The transcript discusses the user's parents' separation and their current living arrangements.\n\n## Step 2: Extract\nThe conversation reveals a change in the user's parents' living situation. The user mentions that their dad is still at the Delhi house, but their mom has moved to a new place in Gurgaon, Sector 45. This information contradicts the existing fact in memory, which states that the parents are at 45 Nehru Street, Delhi 110001.\n\n## Step 3: Update\nTo reflect the new information, we need to update the existing fact in `system/human/personal_assistant.md`. Since the parents are now separated and living in different locations, we should capture this change. The fact about the parents' address should be updated to reflect their current living arrangements.\n\n## Step 4: Review\nWe have identified the necessary change and will update the fact accordingly. The new fact will reflect the parents' separation and their current addresses.\n\n## Step 5: Commit\nAlthough we are not actually committing changes in this environment, we would normally commit the updated fact with a meaningful commit message.\n\nThe final state of the memory file `system/human/personal_assistant.md` should be:\n- Parents (tag: parents): Dad is at 45 Nehru Street, Delhi 110001, and Mom is at Sector 45, Gurgaon.",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Parents (tag: parents): Dad is at 45 Nehru Street, Delhi 110001, and Mom is at Sector 45, Gurgaon.\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Parents' address fact\",\n      \"detail\": \"Updated to reflect parents' separation and current living arrangements\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Parents (tag: parents): Dad is at 45 Nehru Street, Delhi 110001, and Mom is at Sector 45, Gurgaon."
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Parents' address fact",
+        "detail": "Updated to reflect parents' separation and current living arrangements"
+      }
+    ]
+  }
+}

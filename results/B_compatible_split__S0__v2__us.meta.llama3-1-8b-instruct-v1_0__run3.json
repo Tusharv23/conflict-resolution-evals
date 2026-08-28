@@ -1,0 +1,31 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "\n\n**Summary**\nI reviewed the conversation about the user's parents' separation and updated the memory file accordingly.\n\n**Memory changes**\nI updated the `personal_assistant.md` file under `system/human/` to reflect the user's parents' new living arrangements.\n\n**Memory edits**\n- I added a new fact to the `personal_assistant.md` file: \"Parents (tag: parents): Dad is at 45 Nehru Street, Delhi 110001, and Mom is at Sector 45, Gurgaon.\"\n- I removed the old fact about the parents' shared address.\n\n**Final memory file**\n```\nsystem/human/personal_assistant.md\n- Parents (tag: parents): Dad is at 45 Nehru Street, Delhi 110001, and Mom is at Sector 45, Gurgaon.\n```\nI made no skill changes. I did not commit any changes to the memory filesystem.",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"system/human/personal_assistant.md - Parents (tag: parents): Dad is at 45 Nehru Street, Delhi 110001, and Mom is at Sector 45, Gurgaon.\"\n  ],\n  \"actions\": [\n    {\"type\": \"add\", \"target\": \"system/human/personal_assistant.md - Parents (tag: parents): Dad is at 45 Nehru Street, Delhi 110001, and Mom is at Sector 45, Gurgaon.\", \"detail\": \"added new fact\"},\n    {\"type\": \"delete\", \"target\": \"old fact about the parents' shared address\", \"detail\": \"removed old fact\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "system/human/personal_assistant.md - Parents (tag: parents): Dad is at 45 Nehru Street, Delhi 110001, and Mom is at Sector 45, Gurgaon."
+    ],
+    "actions": [
+      {
+        "type": "add",
+        "target": "system/human/personal_assistant.md - Parents (tag: parents): Dad is at 45 Nehru Street, Delhi 110001, and Mom is at Sector 45, Gurgaon.",
+        "detail": "added new fact"
+      },
+      {
+        "type": "delete",
+        "target": "old fact about the parents' shared address",
+        "detail": "removed old fact"
+      }
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "## Summary\nReviewed the transcript revealing that the user's parents have separated: Dad remains at the existing Delhi address, while Mom has moved to a new residence in Sector 45, Gurgaon. This directly contradicts/updates the single combined \"Parents\" address entry currently stored in memory, so I corrected the stale entry at the source rather than appending alongside it.\n\n## Memory changes\n- **`system/human/personal_assistant.md`** \u2014 Modified. The old single \"Parents\" entry implied both parents share one address. Split into two separate entries reflecting their current living situation (Dad at the original Delhi address, Mom at her new Gurgaon address). This is a durable fact (current home addresses), not ephemeral, and directly supersedes the outdated combined entry.\n\nNot persisted separately: the detail that \"therapy has been helping process the separation\" \u2014 this is emotional/contextual color rather than a durable, actionable fact for a personal-assistant address book, and doesn't fit the file's purpose. No skill-worthy workflow present in this transcript.\n\n## Skill changes\nNone \u2014 no repeatable multi-step workflow appeared in this conversation.\n\n## Skipped\n- Therapy detail \u2014 one-off emotional context, not an address/logistics fact; skipped per durability filter.\n- Exact street/house number for Mom's new place \u2014 not provided in transcript (only \"Sector 45, Gurgaon\" given), so not fabricated.\n\n## Commit\nCommitted the change to `system/human/personal_assistant.md` as a `fix(reflection)` correcting the stale combined-parents address entry.\n\n## Issues\nNone. Mom's full street address wasn't provided, so only the sector/city-level detail could be recorded \u2014 future conversation could refine this if more specifics emerge.\n\n---\n\n**FINAL state of `system/human/personal_assistant.md` (relevant section):**\n\n```\n- Dad (tag: parents): 45 Nehru Street, Delhi 110001\n- Mom (tag: parents): Sector 45, Gurgaon (Gurugram), Haryana\n```",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Dad (tag: parents): 45 Nehru Street, Delhi 110001\",\n    \"Mom (tag: parents): Sector 45, Gurgaon (Gurugram), Haryana\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"Parents (combined address entry)\", \"detail\": \"Split the single combined 'Parents' address entry into two separate entries: Dad remains at the original Delhi address (45 Nehru Street, Delhi 110001), and Mom is recorded at her new address (Sector 45, Gurgaon (Gurugram), Haryana).\"},\n    {\"type\": \"flag\", \"target\": \"Mom's full street address\", \"detail\": \"Only sector/city-level detail recorded since exact street/house number was not provided in transcript; not fabricated.\"},\n    {\"type\": \"keep\", \"target\": \"Therapy detail about processing separation\", \"detail\": \"Not persisted to memory; treated as one-off emotional context, not a durable fact.\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Dad (tag: parents): 45 Nehru Street, Delhi 110001",
+      "Mom (tag: parents): Sector 45, Gurgaon (Gurugram), Haryana"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Parents (combined address entry)",
+        "detail": "Split the single combined 'Parents' address entry into two separate entries: Dad remains at the original Delhi address (45 Nehru Street, Delhi 110001), and Mom is recorded at her new address (Sector 45, Gurgaon (Gurugram), Haryana)."
+      },
+      {
+        "type": "flag",
+        "target": "Mom's full street address",
+        "detail": "Only sector/city-level detail recorded since exact street/house number was not provided in transcript; not fabricated."
+      },
+      {
+        "type": "keep",
+        "target": "Therapy detail about processing separation",
+        "detail": "Not persisted to memory; treated as one-off emotional context, not a durable fact."
+      }
+    ]
+  }
+}

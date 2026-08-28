@@ -1,0 +1,32 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "## Reflection Summary\n\n**Reviewed:** Single transcript \u2014 user disclosed they've effectively been living at their girlfriend's place in Pune for the past few months and rarely return to their Bangalore address.\n\n**Analysis:** This doesn't explicitly establish that the stored Bangalore home address (12 MG Road, Bangalore 560001) is stale or incorrect \u2014 the user didn't say they moved out or changed their permanent address, only that they're currently spending most time elsewhere. Per the contradiction-resolution rules, since staleness isn't explicitly established, I keep the original Bangalore entry unchanged and add this as a new, separate, clearly-flagged current-location fact rather than overwriting it.\n\n**Memory changes:** `system/human/personal_assistant.md` \u2014 appended a new entry noting the user's current living situation in Pune, marked as a recent/unverified-duration status distinct from the permanent home address.\n\n**Skill changes:** None \u2014 this is a simple personal fact update, not a repeatable multi-step workflow.\n\n**Skipped:** No skill created; no other files touched (no existing memory covers a \"current location\" concept, and this single fact doesn't warrant a new external file \u2014 kept in the existing concise system file).\n\n**Commit:** Would commit as `chore(reflection): note user's temporary Pune residence \ud83d\udd2e` in a real environment (tool calls unavailable here per instructions; reporting intended state as text).\n\n**Issues:** No absolute date was available in the transcript or system context to timestamp this observation precisely, so it's recorded as a recent/undated status update rather than fabricating a date.\n\n---\n\n### FINAL state of `system/human/personal_assistant.md`\n\n```\n- Home (tag: home): 12 MG Road, Bangalore 560001\n- Current residence (tag: current, unverified duration): User reports living mostly at girlfriend's place in Pune for the past few months, rarely returning to the Bangalore home address.\n```",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Home (tag: home): 12 MG Road, Bangalore 560001\",\n    \"- Current residence (tag: current, unverified duration): User reports living mostly at girlfriend's place in Pune for the past few months, rarely returning to the Bangalore home address.\"\n  ],\n  \"actions\": [\n    {\"type\": \"keep\", \"target\": \"Home (tag: home): 12 MG Road, Bangalore 560001\", \"detail\": \"Kept unchanged since staleness of permanent address was not explicitly established by the transcript.\"},\n    {\"type\": \"add\", \"target\": \"Current residence (tag: current, unverified duration)\", \"detail\": \"Added new fact noting user's current living situation in Pune with girlfriend, marked as recent/unverified-duration status separate from permanent home address.\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Home (tag: home): 12 MG Road, Bangalore 560001",
+      "- Current residence (tag: current, unverified duration): User reports living mostly at girlfriend's place in Pune for the past few months, rarely returning to the Bangalore home address."
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Home (tag: home): 12 MG Road, Bangalore 560001",
+        "detail": "Kept unchanged since staleness of permanent address was not explicitly established by the transcript."
+      },
+      {
+        "type": "add",
+        "target": "Current residence (tag: current, unverified duration)",
+        "detail": "Added new fact noting user's current living situation in Pune with girlfriend, marked as recent/unverified-duration status separate from permanent home address."
+      }
+    ]
+  }
+}

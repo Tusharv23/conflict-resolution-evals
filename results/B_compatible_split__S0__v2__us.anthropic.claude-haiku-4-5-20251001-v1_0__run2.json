@@ -1,0 +1,29 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "## Reflection Report\n\n### Phase 1 \u2014 Investigate\n\nCurrent memory state:\n- `system/human/personal_assistant.md` contains a single parents entry with an address (45 Nehru Street, Delhi 110001) tagged as \"parents\"\n\nThis appears to be a consolidated address for the parents. The file is minimal and resides in `system/` (in-context).\n\n### Phase 2 \u2014 Extract\n\n**Candidate learnings:**\n\n1. **New durable fact**: Parents' separation is now official; Mom has relocated to Gurgaon, Sector 45. Dad remains at the Delhi house.\n   - Filter: **Durable** \u2713 (material family change affecting contact/context)\n   - Filter: **Generalizable** \u2713 (affects future memory about family structure)\n   - Filter: **Already captured?** \u2717 (current memory treats them as one household; separation and dual addresses are new)\n\n2. **Emotional context**: User is processing the separation with therapeutic support.\n   - Filter: **Durable or ephemeral?** Semi-durable (context for understanding user's emotional state, useful for empathy in future conversations)\n   - Filter: **Already captured?** \u2717 (not in memory)\n\n3. **No skill candidate** \u2014 this is straightforward factual memory, not a repeatable workflow.\n\n### Phase 3 \u2014 Update\n\n**Action: Update `system/human/personal_assistant.md`**\n\nThe current single-line entry conflates both parents at one address. I need to:\n- Clarify that the parents are separated\n- Record Mom's new address in Gurgaon, Sector 45\n- Keep Dad's address at the Delhi house\n- Add context that the user is processing this separation\n\n**Replacement content:**\n\nReplace the single-line entry with a structured update that reflects both addresses and the separation status:\n\n```\n- Parents (tag: parents):\n  - Father: 45 Nehru Street, Delhi 110001\n  - Mother: Sector 45, Gurgaon (moved after separation)\n  - Status: Separated; user processing adjustment with therapy support\n```\n\n### Phase 4 \u2014 Review\n\n- **Stale content**: The old single address entry no longer accurately represents the family structure. \u2713 Updated.\n- **Tier check**: Family contact information belongs in `system/` (in-context, personal). \u2713 Correct tier.\n- **No secrets/junk**: Addresses are non-sensitive contact details. \u2713 Safe to store.\n- **Accuracy**: Both addresses are explicit from the transcript. \u2713 Verified.\n\n### Phase 5 \u2014 Commit\n\nNo actual filesystem operations in this simulation environment. The commit would be:\n\n```\nfix(reflection): update parents' addresses and separation status\n\nReviewed transcript: [therapy conversation reflecting parents' separation]\n\nUpdates:\n- Parents now live separately: Father at 45 Nehru Street, Delhi 110001; Mother at Sector 45, Gurgaon\n- Added context that user is processing separation with therapeutic support\n- Updated memory structure to reflect dual addresses instead of consolidated household\n```\n\n---\n\n## FINAL STATE of `system/human/personal_assistant.md`\n\n```\n- Parents (tag: parents):\n  - Father: 45 Nehru Street, Delhi 110001\n  - Mother: Sector 45, Gurgaon (moved after separation)\n  - Status: Separated; user processing adjustment with therapy support\n```",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Parents (tag: parents):\",\n    \"  - Father: 45 Nehru Street, Delhi 110001\",\n    \"  - Mother: Sector 45, Gurgaon (moved after separation)\",\n    \"  - Status: Separated; user processing adjustment with therapy support\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"system/human/personal_assistant.md \u2014 parents entry\",\n      \"detail\": \"Replaced single consolidated address entry with structured dual-address record reflecting parental separation; added Father's address at Delhi location, Mother's new address in Gurgaon, and separation status with emotional context\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Parents (tag: parents):",
+      "  - Father: 45 Nehru Street, Delhi 110001",
+      "  - Mother: Sector 45, Gurgaon (moved after separation)",
+      "  - Status: Separated; user processing adjustment with therapy support"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "system/human/personal_assistant.md \u2014 parents entry",
+        "detail": "Replaced single consolidated address entry with structured dual-address record reflecting parental separation; added Father's address at Delhi location, Mother's new address in Gurgaon, and separation status with emotional context"
+      }
+    ]
+  }
+}

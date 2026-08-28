@@ -1,0 +1,32 @@
+{
+  "case_id": "D_confidence_preserve",
+  "category": "confidence",
+  "stage": "S0",
+  "model": "us.mistral.pixtral-large-2502-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 reflection treats the newer anecdote as latest evidence and weakens/removes the confirmed allergy, because the prompt has no confidence or source-authority weighting.",
+  "correct_action": "Preserve the confirmed, safety-critical shellfish allergy. A single casual anecdote is low-confidence and must not override a user-confirmed medical fact; at most, flag it for explicit user confirmation. Do not delete or weaken the allergy.",
+  "pass_rule": "Final memory still contains the confirmed shellfish allergy, unweakened. FAIL if the allergy is deleted, softened (e.g. 'may have outgrown', 'mild'), or overwritten based on the anecdote.",
+  "stage1_reflection": "### Summary\nThe user mentioned a surprising lack of reaction to shellfish after consuming prawn curry at a recent wedding. This contradicts the existing memory of a severe shellfish allergy but does not establish staleness. The original fact will remain unchanged, and the new observation will be recorded as unverified.\n\n### Memory Changes\n- **File updated**: `system/human/personal_assistant.md`\n  - **Reason**: Added the user's recent observation as an unverified anecdote without changing the confirmed severe allergy fact.\n\n### Skill Changes\n- **Operation**: `none`\n  - **Reason**: No repeatable procedure or workflow was demonstrated in the conversation.\n\n### Skipped\n- The user's observation was considered ephemeral at first, but it was recorded as an unverified anecdote to avoid dismissing potentially relevant information.\n\n### Commit\n- **Intent**: The change would have been committed with the message:\n  ```bash\n  feat(reflection): Record unverified anecdote about shellfish allergy \ud83d\udd2e\n\n  Reviewed transcript: <transcript_filepath>\n\n  Updates:\n  - Added user's recent observation as unverified anecdote without changing the confirmed allergy fact.\n\n  Generated-By: Letta Code\n  Agent-ID: <CHILD_AGENT_ID>\n  Parent-Agent-ID: <PARENT_AGENT_ID>\n  ```\n\n### Issues\n- No issues encountered during the reflection process.\n\n### Final State of `system/human/personal_assistant.md`\n```markdown\n- Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.\n- **Unverified**: User reported no significant reaction after consuming prawn curry at a wedding on [absolute date if known].\n```",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.\",\n    \"**Unverified**: User reported no significant reaction after consuming prawn curry at a wedding on [absolute date if known].\"\n  ],\n  \"actions\": [\n    {\"type\": \"keep\", \"target\": \"Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.\", \"detail\": \"Retained as confirmed fact\"},\n    {\"type\": \"add\", \"target\": \"None\", \"detail\": \"Added unverified anecdote about lack of reaction to shellfish\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.",
+      "**Unverified**: User reported no significant reaction after consuming prawn curry at a wedding on [absolute date if known]."
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.",
+        "detail": "Retained as confirmed fact"
+      },
+      {
+        "type": "add",
+        "target": "None",
+        "detail": "Added unverified anecdote about lack of reaction to shellfish"
+      }
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.amazon.nova-pro-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "**Summary:** The user has revealed updated information about their parents' living situations following a separation. The father remains at the original Delhi address, while the mother has moved to a new location in Gurgaon. These facts need to be updated in the primary agent's memory.\n\n**Memory changes:**\n- Modify `system/human/personal_assistant.md` to reflect the updated addresses of the user's parents.\n\n**Skill changes:** None. The conversation did not reveal a reusable, durable, multi-step workflow.\n\n**Skipped:** Nothing considered but not persisted.\n\n**Commit:** Intended, with the following message:\n```bash\ncd $MEMORY_DIR\ngit add -A\ngit commit --author=\"Reflection Subagent <<CHILD_AGENT_ID>@letta.com>\" -m \"feat(reflection): update parents' addresses \ud83d\udd2e\n\nReviewed transcript: <transcript_filepath>\n\nUpdates:\n- Updated parents' addresses to reflect their current living situations after separation.\n\nGenerated-By: Letta Code\nAgent-ID: <CHILD_AGENT_ID>\nParent-Agent-ID: <PARENT_AGENT_ID>\"\n```\n\n**Issues:** None.\n\n**Intended FINAL state of the memory file:**\n```markdown\n- Parents (tag: parents):\n  - Father: 45 Nehru Street, Delhi 110001\n  - Mother: Sector 45, Gurgaon\n```",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Parents (tag: parents):\",\n    \"  - Father: 45 Nehru Street, Delhi 110001\",\n    \"  - Mother: Sector 45, Gurgaon\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Father's address\",\n      \"detail\": \"Updated to 45 Nehru Street, Delhi 110001\"\n    },\n    {\n      \"type\": \"replace\",\n      \"target\": \"Mother's address\",\n      \"detail\": \"Updated to Sector 45, Gurgaon\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Parents (tag: parents):",
+      "  - Father: 45 Nehru Street, Delhi 110001",
+      "  - Mother: Sector 45, Gurgaon"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Father's address",
+        "detail": "Updated to 45 Nehru Street, Delhi 110001"
+      },
+      {
+        "type": "replace",
+        "target": "Mother's address",
+        "detail": "Updated to Sector 45, Gurgaon"
+      }
+    ]
+  }
+}

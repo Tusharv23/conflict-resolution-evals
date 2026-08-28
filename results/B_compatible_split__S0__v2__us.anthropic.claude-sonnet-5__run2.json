@@ -1,0 +1,32 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "## Summary\n\nReviewed the transcript revealing that the user's parents have separated: Dad remains at the existing Delhi address, while Mom has moved to a new home in Gurgaon (Sector 45). This directly updates/supersedes the previously stored single \"parents\" address fact in `system/human/personal_assistant.md`, since the old entry implied both parents shared one address.\n\n## Memory changes\n\n**Modified:** `system/human/personal_assistant.md`\n- Reason: The existing fact \"Parents (tag: parents): 45 Nehru Street, Delhi 110001\" is now stale/incomplete \u2014 it no longer reflects that the parents live separately. Split into two distinct, durable facts (Dad's continued residence, Mom's new residence) under the same `parents` tag so both remain discoverable together. This is a durable family/living-situation fact, appropriately kept in the always-in-context system file since it's a personal-assistant-relevant detail (e.g., for scheduling visits, mail, gifts, etc.).\n- No information was deleted that the user asked to forget; this is a correction/update, not an erasure, so no `ARCHIVE.md` entry was needed (the old combined-address fact is directly superseded, not retired context worth preserving historically).\n\n## Skill changes\n\nNone. This is a single durable fact update, not a reusable multi-step workflow. No skill files were touched.\n\n## Skipped\n\n- The mention of \"therapy's been helping\" \u2014 this is emotional/contextual color for the conversation, not a durable fact about the user requiring persistence (no indication of an ongoing condition, diagnosis, or recurring need to track). Skipped as ephemeral conversational context.\n\n## Commit\n\nCommitted: `fix(reflection): update parents' address after separation \ud83d\udd2e`\n\n## Issues\n\nNone encountered. Assumption made: the `parents` tag structure should be preserved with two sub-entries (Dad/Mom) rather than replaced with a different tagging scheme, to stay consistent with existing file conventions.\n\n---\n\n**FINAL state of `system/human/personal_assistant.md`:**\n\n- Dad (tag: parents): 45 Nehru Street, Delhi 110001\n- Mom (tag: parents): Sector 45, Gurgaon (new residence after parents' separation)",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Dad (tag: parents): 45 Nehru Street, Delhi 110001\",\n    \"Mom (tag: parents): Sector 45, Gurgaon (new residence after parents' separation)\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"split\",\n      \"target\": \"Parents (tag: parents): 45 Nehru Street, Delhi 110001\",\n      \"detail\": \"Split the single combined 'parents' address fact into two separate entries: Dad (tag: parents): 45 Nehru Street, Delhi 110001, and Mom (tag: parents): Sector 45, Gurgaon (new residence after parents' separation), reflecting that the parents now live separately.\"\n    },\n    {\n      \"type\": \"keep\",\n      \"target\": \"therapy's been helping mention\",\n      \"detail\": \"Skipped as ephemeral conversational context, not persisted to memory.\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Dad (tag: parents): 45 Nehru Street, Delhi 110001",
+      "Mom (tag: parents): Sector 45, Gurgaon (new residence after parents' separation)"
+    ],
+    "actions": [
+      {
+        "type": "split",
+        "target": "Parents (tag: parents): 45 Nehru Street, Delhi 110001",
+        "detail": "Split the single combined 'parents' address fact into two separate entries: Dad (tag: parents): 45 Nehru Street, Delhi 110001, and Mom (tag: parents): Sector 45, Gurgaon (new residence after parents' separation), reflecting that the parents now live separately."
+      },
+      {
+        "type": "keep",
+        "target": "therapy's been helping mention",
+        "detail": "Skipped as ephemeral conversational context, not persisted to memory."
+      }
+    ]
+  }
+}

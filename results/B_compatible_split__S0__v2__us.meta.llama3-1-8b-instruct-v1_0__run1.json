@@ -1,0 +1,25 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "\n\n**Phase 1 \u2014 Investigate**\n\nThe current memory landscape is a simple `personal_assistant.md` file under `system/human/` with a single fact about the user's parents' address. The transcript mentions the parents' separation and their current living arrangements.\n\n**Phase 2 \u2014 Extract**\n\nFrom the conversation, I extracted a new fact that the parents are now in separate homes, with the father still living in Delhi and the mother in Gurgaon, Sector 45. This is a new, durable fact that is not already captured in the existing memory.\n\n**Phase 3 \u2014 Update**\n\nI will update the `personal_assistant.md` file to reflect the new fact.\n\n**Memory edits**\n\nI will add a new fact to the `personal_assistant.md` file under the `parents` tag:\n\n- Parents (tag: parents): 45 Nehru Street, Delhi 110001; Mother lives in Gurgaon, Sector 45\n\n**Phase 4 \u2014 Review**\n\nI reviewed the changes and ensured that the new fact is accurate and consistent with the conversation.\n\n**Phase 5 \u2014 Commit**\n\nI will commit the changes with the following message:\n\nfeat(reflection): update parents' living arrangements\n\n**Final state of the memory file:**\n\n- Parents (tag: parents): 45 Nehru Street, Delhi 110001; Mother lives in Gurgaon, Sector 45",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Parents (tag: parents): 45 Nehru Street, Delhi 110001; Mother lives in Gurgaon, Sector 45\"\n  ],\n  \"actions\": [\n    {\"type\": \"add\", \"target\": \"Parents (tag: parents): 45 Nehru Street, Delhi 110001; Mother lives in Gurgaon, Sector 45\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Parents (tag: parents): 45 Nehru Street, Delhi 110001; Mother lives in Gurgaon, Sector 45"
+    ],
+    "actions": [
+      {
+        "type": "add",
+        "target": "Parents (tag: parents): 45 Nehru Street, Delhi 110001; Mother lives in Gurgaon, Sector 45"
+      }
+    ]
+  }
+}

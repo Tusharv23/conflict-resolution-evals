@@ -1,0 +1,32 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.mistral.pixtral-large-2502-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "### Summary\nThe user mentioned that they have been primarily living at their girlfriend's place in Pune for the last few months, which suggests a shift in their residential status. This information should be reflected in the memory to ensure accuracy.\n\n### Memory Changes\n- **File**: `system/human/personal_assistant.md`\n  - **Reason**: Update the user's residential status to reflect the current situation.\n\n### Skill Changes\n- **Operation**: `none`\n  - **Reason**: No repeatable, durable workflow was identified in the conversation.\n\n### Skipped\n- **Reason**: No other durable learnings or contradictions were identified.\n\n### Commit\n- **Intended Commit**: The update to the user's residential status will be committed as a `fix`.\n\n### Issues\n- No issues were encountered during the reflection process.\n\n---\n\n### Intended FINAL State of `system/human/personal_assistant.md`\n```markdown\n- Home (tag: home): Pune (primarily living at girlfriend's place since [absolute date three months ago])\n- Previous Home (tag: previous_home): 12 MG Road, Bangalore 560001\n```\n\n### Explanation\n- The user's current residential status is updated to reflect Pune as their primary location.\n- The previous home address is retained for historical context, with a note indicating the approximate duration of the change.",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Home (tag: home): Pune (primarily living at girlfriend's place since [absolute date three months ago])\",\n    \"- Previous Home (tag: previous_home): 12 MG Road, Bangalore 560001\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"Home (tag: home)\", \"detail\": \"Updated residential status to Pune (primarily living at girlfriend's place since [absolute date three months ago])\"},\n    {\"type\": \"keep\", \"target\": \"Previous Home (tag: previous_home)\", \"detail\": \"Retained for historical context\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Home (tag: home): Pune (primarily living at girlfriend's place since [absolute date three months ago])",
+      "- Previous Home (tag: previous_home): 12 MG Road, Bangalore 560001"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Home (tag: home)",
+        "detail": "Updated residential status to Pune (primarily living at girlfriend's place since [absolute date three months ago])"
+      },
+      {
+        "type": "keep",
+        "target": "Previous Home (tag: previous_home)",
+        "detail": "Retained for historical context"
+      }
+    ]
+  }
+}

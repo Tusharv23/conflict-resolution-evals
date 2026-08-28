@@ -1,0 +1,33 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "## Summary\nReviewed the transcript revealing that the user's parents have separated \u2014 Dad remains at the previously stored Delhi address, while Mom has moved to her own residence in Sector 45, Gurgaon. This contradicts the current memory entry, which stored a single \"Parents\" fact tied to one shared address. I resolved this at the source by splitting the entry into two separate, accurate facts rather than appending a duplicate.\n\n## Memory changes\n- **Modified** `system/human/personal_assistant.md`: Replaced the single \"Parents\" fact (which implied both parents share the Delhi address) with two distinct entries \u2014 one for Dad (unchanged Delhi address) and one for Mom (new Gurgaon address). This reflects the parents' separation and keeps the record accurate rather than stale/misleading.\n\n## Skill changes\nNone. This is a simple factual update, not a repeatable workflow \u2014 no skill created, updated, or modified.\n\n## Skipped\n- The detail that \"therapy's been helping process the separation\" \u2014 this is emotional/contextual color, not a durable fact requiring storage (no ongoing therapy schedule, provider, or actionable preference was mentioned).\n- No exact date was given for when the separation/move occurred, so no date was fabricated or recorded.\n\n## Commit\nCommitted to memory repo:\n- Type: `fix(reflection)` \u2014 correcting a stale/inaccurate combined fact at its source.\n- Message noted: split outdated \"Parents\" single-address entry into separate Father/Mother entries due to their separation, per user's therapy-context disclosure.\n\n## Issues\nNone \u2014 the transcript clearly established both new facts (Dad stays in Delhi, Mom moved to Gurgaon Sector 45), and no ambiguity remained after resolving the contradiction.\n\n---\n\n**FINAL STATE of `system/human/personal_assistant.md`:**\n\n```\n- Father (tag: father): 45 Nehru Street, Delhi 110001\n- Mother (tag: mother): Sector 45, Gurgaon\n- Note: Parents are separated, now living at separate addresses.\n```",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Father (tag: father): 45 Nehru Street, Delhi 110001\",\n    \"Mother (tag: mother): Sector 45, Gurgaon\",\n    \"Note: Parents are separated, now living at separate addresses.\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"split\",\n      \"target\": \"Parents (single shared Delhi address fact)\",\n      \"detail\": \"Replaced the single 'Parents' fact with two distinct entries: Father (unchanged Delhi address) and Mother (new Gurgaon Sector 45 address), plus a note that the parents are separated.\"\n    },\n    {\n      \"type\": \"delete\",\n      \"target\": \"Parents\",\n      \"detail\": \"The original combined 'Parents' fact tied to one shared address was removed and replaced by the split entries.\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Father (tag: father): 45 Nehru Street, Delhi 110001",
+      "Mother (tag: mother): Sector 45, Gurgaon",
+      "Note: Parents are separated, now living at separate addresses."
+    ],
+    "actions": [
+      {
+        "type": "split",
+        "target": "Parents (single shared Delhi address fact)",
+        "detail": "Replaced the single 'Parents' fact with two distinct entries: Father (unchanged Delhi address) and Mother (new Gurgaon Sector 45 address), plus a note that the parents are separated."
+      },
+      {
+        "type": "delete",
+        "target": "Parents",
+        "detail": "The original combined 'Parents' fact tied to one shared address was removed and replaced by the split entries."
+      }
+    ]
+  }
+}

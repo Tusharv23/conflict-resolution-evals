@@ -1,0 +1,32 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.meta.llama4-maverick-17b-instruct-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "### Phase 1 \u2014 Investigate\n\nThe current memory landscape includes a fact about the user's home location stored in `system/human/personal_assistant.md`: \"12 MG Road, Bangalore 560001\" tagged as \"home\".\n\n### Phase 2 \u2014 Extract\n\nThe transcript reveals that the user has been living mostly at their girlfriend's place in Pune for the last few months and barely goes back to Bangalore. This indicates a potential change or update to the user's current home or primary location.\n\nCandidate learning: The user's primary location might have changed to Pune.\n\nApplying filters:\n- Durable or ephemeral? The information about living in Pune is considered durable as it has been the case for \"the last few months\".\n- Already captured? The current home location is stored as Bangalore, so this is new information.\n- Generalizable? The fact that the user is primarily living in Pune is a generalizable preference or fact.\n- Temporal references? The transcript mentions \"the last few months\", which is a relative date. To make it absolute, we need to consider the current date and calculate the exact period.\n\nAssuming the current date is around late August 2024 (given the knowledge cutoff and today's date), \"the last few months\" could imply the user started living in Pune around May or June 2024.\n\n### Phase 3 \u2014 Update\n\nTo update the memory, we need to edit `system/human/personal_assistant.md` to reflect the new information about the user's primary location.\n\nSince the user's home location has potentially changed, we should update the existing fact or add a new fact to reflect this change.\n\n### Phase 4 \u2014 Review\n\nBefore committing, let's review the changes:\n- The update involves changing the stored fact about the user's home location to reflect their current primary residence.\n\n### Phase 5 \u2014 Commit\n\nFor the purpose of this exercise, we will simulate the commit message and the final state of the memory file.\n\nLet's assume the update involves annotating the existing fact with the new information rather than overwriting it, to keep a record of the change.\n\n### FINAL State of `system/human/personal_assistant.md`:\n\n- Home (tag: home, until: 2024-05): 12 MG Road, Bangalore 560001\n- Home (tag: home, from: 2024-05): Girlfriend's place, Pune (exact address not provided)\n\nHowever, since the exact address in Pune is not provided, a more appropriate update might be:\n\n- Home (tag: home, until: 2024-05): 12 MG Road, Bangalore 560001\n- Current Residence (tag: current-residence, from: 2024-05): Pune (living at girlfriend's place)\n\nLet's adjust to the exact format as requested:\n\nFINAL fact lines:\n- Home (tag: home, until: 2024-05): 12 MG Road, Bangalore 560001\n- Current Residence (tag: current-residence, from: 2024-05): Pune (living at girlfriend's place)",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Home (tag: home, until: 2024-05): 12 MG Road, Bangalore 560001\",\n    \"Current Residence (tag: current-residence, from: 2024-05): Pune (living at girlfriend's place)\"\n  ],\n  \"actions\": [\n    {\"type\": \"split\", \"target\": \"12 MG Road, Bangalore 560001\", \"detail\": \"into a fact with an end date\"},\n    {\"type\": \"add\", \"target\": \"Pune (living at girlfriend's place)\", \"detail\": \"as a new fact with a start date\"}\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home (tag: home, until: 2024-05): 12 MG Road, Bangalore 560001",
+      "Current Residence (tag: current-residence, from: 2024-05): Pune (living at girlfriend's place)"
+    ],
+    "actions": [
+      {
+        "type": "split",
+        "target": "12 MG Road, Bangalore 560001",
+        "detail": "into a fact with an end date"
+      },
+      {
+        "type": "add",
+        "target": "Pune (living at girlfriend's place)",
+        "detail": "as a new fact with a start date"
+      }
+    ]
+  }
+}

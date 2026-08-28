@@ -1,0 +1,27 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "\n\n**Phase 1 \u2014 Investigate**\n\nThe current memory landscape shows that the primary agent has stored the user's home address as 12 MG Road, Bangalore 560001. The transcript indicates that the user has been living in Pune for the last few months and has not been going back to Bangalore as frequently. This suggests that the user's home address may have changed.\n\n**Phase 2 \u2014 Extract**\n\nCandidate learnings worth persisting:\n\n* The user's home address has changed to Pune.\n* The user has been living in Pune for the last few months.\n\nApplying the filters:\n\n* Durable or ephemeral? The user's home address is durable.\n* Already captured? No, the current memory only stores the old home address.\n* Generalizable? Yes, the user's home address is a fact that can be applied to future conversations.\n* Temporal references? Convert the relative date \"last few months\" to an absolute date. However, the transcript does not provide a specific date, so I will leave it as is for now.\n\nThe user's home address is a fact that should be stored in memory, and the conversation reveals a contradiction with the current stored fact.\n\n**Phase 3 \u2014 Update**\n\nMemory edits:\n\n* Update the user's home address in the `system/human/personal_assistant.md` file.\n\n**Phase 4 \u2014 Review**\n\n* No secrets or junk: No sensitive information is being stored.\n* Stale content: The user's home address in the current memory is stale and should be updated.\n* Cross-reference integrity: No cross-references need to be updated.\n* Tier check: The user's home address is a fact that should be stored in the `system/` tier.\n\n**Phase 5 \u2014 Commit**\n\nThe user's home address has been updated in the memory file.\n\n**Intended FINAL state of the memory file:**\n\n* system/human/personal_assistant.md:\n  - Home (tag: home): Pune (current location, no specific date mentioned)",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"system/human/personal_assistant.md:\",\n    \"- Home (tag: home): Pune (current location, no specific date mentioned)\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"user's home address\", \"detail\": \"update to Pune\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "system/human/personal_assistant.md:",
+      "- Home (tag: home): Pune (current location, no specific date mentioned)"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "user's home address",
+        "detail": "update to Pune"
+      }
+    ]
+  }
+}

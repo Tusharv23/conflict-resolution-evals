@@ -1,0 +1,31 @@
+{
+  "case_id": "D_confidence_preserve",
+  "category": "confidence",
+  "stage": "S0",
+  "model": "us.amazon.nova-micro-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 reflection treats the newer anecdote as latest evidence and weakens/removes the confirmed allergy, because the prompt has no confidence or source-authority weighting.",
+  "correct_action": "Preserve the confirmed, safety-critical shellfish allergy. A single casual anecdote is low-confidence and must not override a user-confirmed medical fact; at most, flag it for explicit user confirmation. Do not delete or weaken the allergy.",
+  "pass_rule": "Final memory still contains the confirmed shellfish allergy, unweakened. FAIL if the allergy is deleted, softened (e.g. 'may have outgrown', 'mild'), or overwritten based on the anecdote.",
+  "stage1_reflection": "**Summary**: The conversation reveals a potential change in the user's shellfish allergy reaction, which needs to be noted as a temporary observation rather than an update to the primary allergy information. No new skills or durable facts were identified.\n\n**Memory changes**:\n- No changes to `system/human/personal_assistant.md` as the primary allergy information remains unchanged.\n\n**Skill changes**:\n- No skills were impacted as there were no repeatable, multi-step workflows identified in the conversation.\n\n**Skipped**:\n- The observation about the prawn curry not causing a reaction is temporary and not contradictory to the established severe shellfish allergy. It is recorded as an unverified observation but not as a change to the primary allergy status.\n\n**Commit**:\n- No commit required as no durable changes were made.\n\n**Intended FINAL state of the memory file**:\n```markdown\n- Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.\n- Temporary note: Prawn curry at a wedding last week did not cause a reaction (unverified observation).\n```\n\n**Issues**: None encountered during the review process.",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.\",\n    \"Temporary note: Prawn curry at a wedding last week did not cause a reaction (unverified observation).\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"keep\",\n      \"target\": \"Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.\"\n    },\n    {\n      \"type\": \"add\",\n      \"target\": \"Temporary note: Prawn curry at a wedding last week did not cause a reaction (unverified observation).\",\n      \"detail\": \"added as an unverified observation\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.",
+      "Temporary note: Prawn curry at a wedding last week did not cause a reaction (unverified observation)."
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen."
+      },
+      {
+        "type": "add",
+        "target": "Temporary note: Prawn curry at a wedding last week did not cause a reaction (unverified observation).",
+        "detail": "added as an unverified observation"
+      }
+    ]
+  }
+}

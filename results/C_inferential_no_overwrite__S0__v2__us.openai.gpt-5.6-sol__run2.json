@@ -1,0 +1,32 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.openai.gpt-5.6-sol",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "I\u2019ll review the existing memory and transcript, distinguish a temporary living pattern from a confirmed home-address change, and persist only what is durable.\n## Summary\nThe user\u2019s Bangalore home address remains valid; the conversation does not explicitly replace it. The sustained living pattern in Pune should be recorded separately as the user\u2019s current base.\n\n## Memory changes\n- **Intended modification:** `system/human/personal_assistant.md`\n- Add Pune as the current day-to-day base without deleting or changing the established Bangalore home address.\n\n## Skill changes\n- **None** \u2014 no reusable workflow was revealed.\n\n## Skipped\n- No Pune street address was recorded because none was provided.\n- The Bangalore address was not marked obsolete because the user only said they rarely return there.\n\n## Commit\n- **No commit** \u2014 per instruction, edits are reported as intended text rather than applied through tools.\n\n## Issues\n- The transcript provides no absolute date, so the living arrangement cannot be date-anchored.\n\n## FINAL state of `system/human/personal_assistant.md`\n- Home (tag: home): 12 MG Road, Bangalore 560001\n- Current base (tag: current base): Girlfriend's place in Pune; spends most of the time there and rarely returns to Bangalore.",
+  "stage2_extraction": "{\"complete\":true,\"final_memory_lines\":[\"Home (tag: home): 12 MG Road, Bangalore 560001\",\"Current base (tag: current base): Girlfriend's place in Pune; spends most of the time there and rarely returns to Bangalore.\"],\"actions\":[{\"type\":\"keep\",\"target\":\"Home (tag: home)\",\"detail\":\"Kept the established Bangalore home address unchanged: 12 MG Road, Bangalore 560001.\"},{\"type\":\"add\",\"target\":\"Current base (tag: current base)\",\"detail\":\"Added Girlfriend's place in Pune; spends most of the time there and rarely returns to Bangalore.\"}]}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home (tag: home): 12 MG Road, Bangalore 560001",
+      "Current base (tag: current base): Girlfriend's place in Pune; spends most of the time there and rarely returns to Bangalore."
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Home (tag: home)",
+        "detail": "Kept the established Bangalore home address unchanged: 12 MG Road, Bangalore 560001."
+      },
+      {
+        "type": "add",
+        "target": "Current base (tag: current base)",
+        "detail": "Added Girlfriend's place in Pune; spends most of the time there and rarely returns to Bangalore."
+      }
+    ]
+  }
+}

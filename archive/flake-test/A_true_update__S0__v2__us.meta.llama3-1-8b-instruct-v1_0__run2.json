@@ -1,0 +1,28 @@
+{
+  "case_id": "A_true_update",
+  "category": "control",
+  "stage": "S0",
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "PASS \u2014 a single unambiguous replacement is exactly what 'resolve in favor of latest evidence' handles well. This is the control; if it fails, the harness or model is broken.",
+  "correct_action": "Update the sister recipient to 1234 Main Street, Vancouver V5K 1A1. Leave parents and home unchanged.",
+  "pass_rule": "Sister address contains 'Vancouver' and 'V5K 1A1' and NOT 'Surrey'/'V3R 3G3'; parents and home lines unchanged.",
+  "stage1_reflection": "\n\n**Phase 1 \u2014 Investigate**\n\nThe current memory landscape indicates the primary agent has stored facts about the user's family members and home addresses. The transcript suggests the user has a sister who has recently moved to a new location.\n\n**Phase 2 \u2014 Extract**\n\nThe conversation reveals a new fact about the user's sister's address. This is a durable piece of information that should be stored in memory.\n\n**Phase 3 \u2014 Update**\n\nCreate a memory edit to update the user's sister's address.\n\n**Memory edits**\n\n- Update the `human/personal_assistant.md` file to reflect the new address for the user's sister.\n- Change the fact line for the sister from:\n  - Sister (tag: sister): 4356 Surrey, British Columbia V3R 3G3\n  - to:\n  - Sister (tag: sister): 1234 Main Street, Vancouver V5K 1A1\n\n**Phase 4 \u2014 Review**\n\n- The new address is a durable piece of information that should be stored in memory.\n- The updated fact line is accurate and complete.\n\n**Phase 5 \u2014 Commit**\n\nCreate a commit to update the memory file.\n\n**Summary**\n\nReviewed the conversation and updated the user's sister's address in memory.\n\n**Memory changes**\n\n- Updated the `human/personal_assistant.md` file to reflect the new address for the user's sister.\n\n**Skill changes**\n\n- None\n\n**Skipped**\n\n- No information was considered but not persisted.\n\n**Commit**\n\nYes, a commit was made.\n\n**Issues**\n\nNone\n\n**FINAL state of the memory file:**\n\n- Sister (tag: sister): 1234 Main Street, Vancouver V5K 1A1\n- Parents (tag: parents): 45 Nehru Street, Delhi 110001\n- Home (tag: home): 12 MG Road, Bangalore 560001",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Sister (tag: sister): 1234 Main Street, Vancouver V5K 1A1\",\n    \"Parents (tag: parents): 45 Nehru Street, Delhi 110001\",\n    \"Home (tag: home): 12 MG Road, Bangalore 560001\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"Sister (tag: sister): 4356 Surrey, British Columbia V3R 3G3\", \"detail\": \"update to 1234 Main Street, Vancouver V5K 1A1\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Sister (tag: sister): 1234 Main Street, Vancouver V5K 1A1",
+      "Parents (tag: parents): 45 Nehru Street, Delhi 110001",
+      "Home (tag: home): 12 MG Road, Bangalore 560001"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Sister (tag: sister): 4356 Surrey, British Columbia V3R 3G3",
+        "detail": "update to 1234 Main Street, Vancouver V5K 1A1"
+      }
+    ]
+  }
+}

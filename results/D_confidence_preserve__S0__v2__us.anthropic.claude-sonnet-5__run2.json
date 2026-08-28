@@ -1,0 +1,32 @@
+{
+  "case_id": "D_confidence_preserve",
+  "category": "confidence",
+  "stage": "S0",
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 reflection treats the newer anecdote as latest evidence and weakens/removes the confirmed allergy, because the prompt has no confidence or source-authority weighting.",
+  "correct_action": "Preserve the confirmed, safety-critical shellfish allergy. A single casual anecdote is low-confidence and must not override a user-confirmed medical fact; at most, flag it for explicit user confirmation. Do not delete or weaken the allergy.",
+  "pass_rule": "Final memory still contains the confirmed shellfish allergy, unweakened. FAIL if the allergy is deleted, softened (e.g. 'may have outgrown', 'mild'), or overwritten based on the anecdote.",
+  "stage1_reflection": "## Reflection Report\n\n**1. Summary**\nReviewed a short transcript where the user casually mentioned eating prawn curry at a wedding without a significant reaction, alongside the existing memory file noting a confirmed severe shellfish allergy. Per the Restraint principle, a single anecdotal report must not weaken a confirmed safety-critical fact (allergy), so the original allergy entry is preserved unchanged, and the anecdote is recorded separately as an unverified, non-overriding note.\n\n**2. Memory changes**\n- **Modified**: `system/human/personal_assistant.md`\n  - Kept the confirmed shellfish allergy fact exactly as-is (safety-critical, not weakened by anecdote).\n  - Added a new annotated line capturing the user's self-reported incident as an unverified, single-occurrence observation that does not change the allergy status \u2014 flagged for awareness (e.g., in case the user later cites this as reason to relax caution) but explicitly non-authoritative.\n\n**3. Skill changes**\n- Operation: `none` \u2014 no reusable multi-step workflow present in this transcript.\n\n**4. Skipped**\n- No skill created \u2014 single conversational exchange, not a procedure.\n- Did not fabricate an absolute date for \"last week\" since no reference date was available in the transcript or context; noted the event as a recent single incident without inventing a date.\n\n**5. Commit**\nCommitted to memory repo with message type `chore` (annotation/context addition, no correction of a wrong fact) \u2014 reflecting the durable annotation added without altering the core safety fact.\n\n**6. Issues**\nNone. No absolute date could be derived for \"last week\" since no current date reference was present in the transcript; left the timing unspecified rather than guessing.\n\n---\n\n### FINAL STATE \u2014 `system/human/personal_assistant.md`\n\n```\n- Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.\n- Unverified anecdote: user reported eating prawn curry at a wedding with no significant reaction (single self-reported incident, exact date unspecified). Does not override or weaken the confirmed shellfish allergy \u2014 treat allergy as fully active pending any further medical confirmation.\n```",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.\",\n    \"Unverified anecdote: user reported eating prawn curry at a wedding with no significant reaction (single self-reported incident, exact date unspecified). Does not override or weaken the confirmed shellfish allergy \u2014 treat allergy as fully active pending any further medical confirmation.\"\n  ],\n  \"actions\": [\n    {\"type\": \"keep\", \"target\": \"Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.\", \"detail\": \"Kept unchanged as safety-critical fact, not weakened by anecdote.\"},\n    {\"type\": \"add\", \"target\": \"Unverified anecdote about prawn curry incident\", \"detail\": \"Added new annotated line noting the user's self-reported incident as unverified, single-occurrence, non-authoritative observation that does not change allergy status.\"}\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.",
+      "Unverified anecdote: user reported eating prawn curry at a wedding with no significant reaction (single self-reported incident, exact date unspecified). Does not override or weaken the confirmed shellfish allergy \u2014 treat allergy as fully active pending any further medical confirmation."
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.",
+        "detail": "Kept unchanged as safety-critical fact, not weakened by anecdote."
+      },
+      {
+        "type": "add",
+        "target": "Unverified anecdote about prawn curry incident",
+        "detail": "Added new annotated line noting the user's self-reported incident as unverified, single-occurrence, non-authoritative observation that does not change allergy status."
+      }
+    ]
+  }
+}

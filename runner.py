@@ -27,6 +27,7 @@ from context_loader import build_s1_memory
 
 ROOT = Path(__file__).parent
 REFLECTION_PROMPT = ROOT / "reflection_prompt.md"
+REFLECTION_PROMPT_V2 = ROOT / "reflection_prompt_v2.md"
 EXTRACTOR_PROMPT = ROOT / "extractor.md"
 CASES_PATH = ROOT / "cases.json"
 RESULTS_DIR = ROOT / "results"
@@ -120,23 +121,24 @@ def main():
     ap.add_argument("--only", help="run a single case id (e.g. B_compatible_split)")
     ap.add_argument("--stage", default="S0", choices=["S0", "S1"],
                     help="S0=tiny baseline, S1=large realistic memory (transcript unchanged)")
+    ap.add_argument("--prompt", help="Help choose among different prompt templates", choices=["v1", "v2"], default="v1")
     args = ap.parse_args()
 
-    reflection = strip_frontmatter(REFLECTION_PROMPT.read_text(encoding="utf-8"))
+    reflection = strip_frontmatter(REFLECTION_PROMPT.read_text(encoding="utf-8") if args.prompt == "v1" else REFLECTION_PROMPT_V2.read_text(encoding="utf-8"))
     extractor = strip_frontmatter(EXTRACTOR_PROMPT.read_text(encoding="utf-8"))
     cases = json.loads(CASES_PATH.read_text(encoding="utf-8"))["cases"]
     if args.only:
         cases = [c for c in cases if c["id"] == args.only]
 
     RESULTS_DIR.mkdir(exist_ok=True)
-    session = boto3.Session(profile_name=os.environ.get("AWS_PROFILE", "default"))
+    session = boto3.Session(profile_name=os.environ.get("AWS_PROFILE", "bedrock"))
     client = session.client("bedrock-runtime", region_name=REGION)
 
     for model_id in args.models:
         for case in cases:
             for run_i in range(1, args.repeats + 1):
                 safe_model = model_id.replace("/", "_").replace(":", "_")
-                tag = f"{case['id']}__{args.stage}__{safe_model}__run{run_i}"
+                tag = f"{case['id']}__{args.stage}__{args.prompt}__{safe_model}__run{run_i}"
                 print(f"[running] {tag}")
                 try:
                     s1 = call_model(client, model_id, reflection,

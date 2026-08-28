@@ -66,9 +66,16 @@ def score(case_id: str, parsed) -> tuple[str, str]:
     return "INVALID", "unknown case"
 
 
+def prompt_of(filename: str) -> str:
+    """Prompt version is encoded in the filename (e.g. ...__S0__v2__model__run1)."""
+    return "v2" if "__v2__" in filename else "baseline"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--stage", help="only score this stage (S0, S1, ...). Default: all, grouped.")
+    ap.add_argument("--prompt", choices=["baseline", "v2"],
+                    help="only score runs from this prompt version. Default: all, grouped.")
     args = ap.parse_args()
 
     files = sorted(RESULTS_DIR.glob("*.json"))
@@ -77,29 +84,32 @@ def main():
         return
 
     rows = []
-    tally = defaultdict(lambda: defaultdict(int))  # (stage, case) -> verdict -> count
+    tally = defaultdict(lambda: defaultdict(int))  # (prompt, stage, case) -> verdict -> count
     for f in files:
         d = json.loads(f.read_text(encoding="utf-8"))
         stage = d.get("stage", "S0")  # older files predate the stage field
         if args.stage and stage != args.stage:
             continue
+        prompt = prompt_of(f.name)
+        if args.prompt and prompt != args.prompt:
+            continue
         verdict, note = score(d["case_id"], d.get("parsed"))
-        rows.append((stage, d["case_id"], d["model"].split(".")[-1][:20], d["run"], verdict, note))
-        tally[(stage, d["case_id"])][verdict] += 1
+        rows.append((prompt, stage, d["case_id"], d["model"].split(".")[-1][:20], d["run"], verdict, note))
+        tally[(prompt, stage, d["case_id"])][verdict] += 1
 
     if not rows:
-        print(f"No results for stage {args.stage!r}.")
+        print(f"No results for stage {args.stage!r} / prompt {args.prompt!r}.")
         return
 
-    print(f"{'stage':<6}{'case':<28}{'model':<22}{'run':<5}{'verdict':<14}note")
-    print("-" * 105)
-    for stage, case_id, model, run, verdict, note in rows:
-        print(f"{stage:<6}{case_id:<28}{model:<22}{run:<5}{verdict:<14}{note}")
+    print(f"{'prompt':<10}{'stage':<6}{'case':<28}{'model':<22}{'run':<5}{'verdict':<14}note")
+    print("-" * 115)
+    for prompt, stage, case_id, model, run, verdict, note in rows:
+        print(f"{prompt:<10}{stage:<6}{case_id:<28}{model:<22}{run:<5}{verdict:<14}{note}")
 
-    print("\n=== tally per (stage, case) ===")
-    for (stage, case_id), verdicts in sorted(tally.items()):
+    print("\n=== tally per (prompt, stage, case) ===")
+    for (prompt, stage, case_id), verdicts in sorted(tally.items()):
         summary = ", ".join(f"{v}:{n}" for v, n in sorted(verdicts.items()))
-        print(f"{stage:<6}{case_id:<28}{summary}")
+        print(f"{prompt:<10}{stage:<6}{case_id:<28}{summary}")
 
     print("\nNEEDS_REVIEW rows require you to read stage1_reflection by eye "
           "before the finding is final.")

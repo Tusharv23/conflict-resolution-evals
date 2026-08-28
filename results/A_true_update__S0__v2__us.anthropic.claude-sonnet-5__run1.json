@@ -1,0 +1,38 @@
+{
+  "case_id": "A_true_update",
+  "category": "control",
+  "stage": "S0",
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 1,
+  "status": "ok",
+  "prediction": "PASS \u2014 a single unambiguous replacement is exactly what 'resolve in favor of latest evidence' handles well. This is the control; if it fails, the harness or model is broken.",
+  "correct_action": "Update the sister recipient to 1234 Main Street, Vancouver V5K 1A1. Leave parents and home unchanged.",
+  "pass_rule": "Sister address contains 'Vancouver' and 'V5K 1A1' and NOT 'Surrey'/'V3R 3G3'; parents and home lines unchanged.",
+  "stage1_reflection": "**Phase 1 \u2014 Investigate**\n\nReviewed the stored memory file `system/human/personal_assistant.md`, which lists three tagged addresses (sister, parents, home). The transcript indicates the sister moved to a new address, explicitly described as her \"new place\" and that she's \"fully moved in now\" \u2014 this is explicit evidence that the previously stored sister address (Surrey, BC) is stale and superseded, not merely a second data point.\n\n**Phase 2 \u2014 Extract**\n\n- Candidate: Sister's address changed from \"4356 Surrey, British Columbia V3R 3G3\" to \"1234 Main Street, Vancouver V5K 1A1\".\n- Durable? Yes \u2014 home/contact addresses are durable facts the assistant should have correct for future tasks (mail, visits, reminders).\n- Already captured? No, existing entry is now outdated.\n- Contradiction handling: The user's phrasing (\"new place,\" \"fully moved in\") explicitly establishes staleness of the old address, so per the Durability/Resolution rules this warrants correcting the entry at the source rather than appending a duplicate.\n- No reusable multi-step workflow present \u2014 this is a simple fact update, not a skill candidate.\n\n**Phase 3 \u2014 Update**\n\nEdited `system/human/personal_assistant.md`: replaced the sister's old address with the new Vancouver address, since the old one is confirmed stale by the user's own description of the move.\n\n**Phase 4 \u2014 Review**\n\n- No secrets, no ephemeral data (no dates/timestamps needed since no explicit date was given in the transcript, so none was fabricated).\n- No stale cross-references elsewhere to update.\n- Parents' and home addresses remain unaffected and correct.\n\n**Phase 5 \u2014 Commit**\n\nChange committed to memory repo (fix: correct sister's address per confirmed move).\n\n---\n\n1. **Summary** \u2014 Reviewed a short transcript reporting the user's sister has moved to a new, confirmed address. Updated the stored sister address in `system/human/personal_assistant.md` to reflect this durable contact-fact correction; no skill-worthy workflow was present.\n\n2. **Memory changes**\n   - Modified `system/human/personal_assistant.md`: replaced sister's address (was \"4356 Surrey, British Columbia V3R 3G3\") with \"1234 Main Street, Vancouver V5K 1A1\" \u2014 user explicitly confirmed this is her new, fully-moved-into home, establishing the old entry as stale.\n\n3. **Skill changes** \u2014 None. This was a single fact update, not a repeatable multi-step procedure.\n\n4. **Skipped** \u2014 Nothing else warranted persistence; the assistant's reply was purely conversational with no new facts beyond the address change.\n\n5. **Commit** \u2014 Committed as `fix(reflection): update sister's address to new Vancouver location \ud83d\udd2e`.\n\n6. **Issues** \u2014 None.\n\n**FINAL state of `system/human/personal_assistant.md` facts:**\n- Sister (tag: sister): 1234 Main Street, Vancouver V5K 1A1\n- Parents (tag: parents): 45 Nehru Street, Delhi 110001\n- Home (tag: home): 12 MG Road, Bangalore 560001",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Sister (tag: sister): 1234 Main Street, Vancouver V5K 1A1\",\n    \"Parents (tag: parents): 45 Nehru Street, Delhi 110001\",\n    \"Home (tag: home): 12 MG Road, Bangalore 560001\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"Sister's address\", \"detail\": \"Replaced '4356 Surrey, British Columbia V3R 3G3' with '1234 Main Street, Vancouver V5K 1A1' due to confirmed move.\"},\n    {\"type\": \"keep\", \"target\": \"Parents' address\", \"detail\": \"Unchanged: 45 Nehru Street, Delhi 110001.\"},\n    {\"type\": \"keep\", \"target\": \"Home address\", \"detail\": \"Unchanged: 12 MG Road, Bangalore 560001.\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Sister (tag: sister): 1234 Main Street, Vancouver V5K 1A1",
+      "Parents (tag: parents): 45 Nehru Street, Delhi 110001",
+      "Home (tag: home): 12 MG Road, Bangalore 560001"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Sister's address",
+        "detail": "Replaced '4356 Surrey, British Columbia V3R 3G3' with '1234 Main Street, Vancouver V5K 1A1' due to confirmed move."
+      },
+      {
+        "type": "keep",
+        "target": "Parents' address",
+        "detail": "Unchanged: 45 Nehru Street, Delhi 110001."
+      },
+      {
+        "type": "keep",
+        "target": "Home address",
+        "detail": "Unchanged: 12 MG Road, Bangalore 560001."
+      }
+    ]
+  }
+}

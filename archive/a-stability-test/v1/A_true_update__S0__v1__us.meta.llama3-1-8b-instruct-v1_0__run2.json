@@ -1,0 +1,33 @@
+{
+  "case_id": "A_true_update",
+  "category": "control",
+  "stage": "S0",
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "PASS \u2014 a single unambiguous replacement is exactly what 'resolve in favor of latest evidence' handles well. This is the control; if it fails, the harness or model is broken.",
+  "correct_action": "Update the sister recipient to 1234 Main Street, Vancouver V5K 1A1. Leave parents and home unchanged.",
+  "pass_rule": "Sister address contains 'Vancouver' and 'V5K 1A1' and NOT 'Surrey'/'V3R 3G3'; parents and home lines unchanged.",
+  "stage1_reflection": "\n\n**Summary**: The conversation updated the user's sister's address. I updated the memory to reflect this change.\n\n**Memory changes**:\n\n* Modified `system/human/personal_assistant.md`:\n\t+ Removed the old address for the user's sister (4356 Surrey, British Columbia V3R 3G3)\n\t+ Added the new address for the user's sister (1234 Main Street, Vancouver V5K 1A1)\n\n**Skill changes**: None\n\n**Skipped**: None\n\n**Commit**: Yes, with the following commit message:\n\n```bash\nfeat(reflection): update sister's address\n\nReviewed transcript: transcript.txt\n\nUpdates:\n- Updated sister's address to 1234 Main Street, Vancouver V5K 1A1\n\nGenerated-By: Letta Code\nAgent-ID: agent-abc123\nParent-Agent-ID: agent-def456\n```\n\n**Issues**: None\n\n**Intended FINAL state of the memory file**:\n\n* Sister (tag: sister): 1234 Main Street, Vancouver V5K 1A1\n* Parents (tag: parents): 45 Nehru Street, Delhi 110001\n* Home (tag: home): 12 MG Road, Bangalore 560001",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Sister (tag: sister): 1234 Main Street, Vancouver V5K 1A1\",\n    \"Parents (tag: parents): 45 Nehru Street, Delhi 110001\",\n    \"Home (tag: home): 12 MG Road, Bangalore 560001\"\n  ],\n  \"actions\": [\n    {\"type\": \"delete\", \"target\": \"4356 Surrey, British Columbia V3R 3G3\", \"detail\": \"user's sister's old address\"},\n    {\"type\": \"add\", \"target\": \"1234 Main Street, Vancouver V5K 1A1\", \"detail\": \"user's sister's new address\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Sister (tag: sister): 1234 Main Street, Vancouver V5K 1A1",
+      "Parents (tag: parents): 45 Nehru Street, Delhi 110001",
+      "Home (tag: home): 12 MG Road, Bangalore 560001"
+    ],
+    "actions": [
+      {
+        "type": "delete",
+        "target": "4356 Surrey, British Columbia V3R 3G3",
+        "detail": "user's sister's old address"
+      },
+      {
+        "type": "add",
+        "target": "1234 Main Street, Vancouver V5K 1A1",
+        "detail": "user's sister's new address"
+      }
+    ]
+  }
+}

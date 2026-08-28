@@ -1,0 +1,31 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "\n\n### Phase 1 \u2014 Investigate\n\nThe current memory landscape shows a single fact in `system/human/personal_assistant.md` about the user's home address in Bangalore. The transcript indicates the user has been living in Pune for the last few months and rarely goes back to Bangalore.\n\n### Phase 2 \u2014 Extract\n\nBased on the conversation, the following learnings are worth persisting:\n\n* The user's current residence is in Pune, not Bangalore.\n* The user's primary base is in Pune.\n\nThese learnings are durable and not one-off details tied to a single session.\n\n### Phase 3 \u2014 Update\n\n#### Memory edits\n\n* Update the user's residence fact in `system/human/personal_assistant.md` to reflect their current location in Pune.\n\n#### Skill changes\n\nNo reusable procedures or workflows were identified in the conversation.\n\n### Phase 4 \u2014 Review\n\n* No secrets or junk were persisted.\n* The updated residence fact in `system/human/personal_assistant.md` is correct.\n* The tier check shows that the updated fact belongs in the `system/human/personal_assistant.md` file.\n\n### Phase 5 \u2014 Commit\n\nThe updated fact in `system/human/personal_assistant.md` is:\n\n- Residence (tag: residence): Pune\n- Home (tag: home): 12 MG Road, Bangalore 560001\n\nNote: The user's home address in Bangalore is still listed as a fact, but it is marked with a \"home\" tag, indicating it is not their current residence.\n\nThe intended FINAL state of the memory file is:\n\n- Residence (tag: residence): Pune\n- Home (tag: home): 12 MG Road, Bangalore 560001",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Residence (tag: residence): Pune\",\n    \"- Home (tag: home): 12 MG Road, Bangalore 560001\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"system/human/personal_assistant.md: Residence\", \"detail\": \"update to Pune\"},\n    {\"type\": \"keep\", \"target\": \"system/human/personal_assistant.md: Home (tag: home): 12 MG Road, Bangalore 560001\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Residence (tag: residence): Pune",
+      "- Home (tag: home): 12 MG Road, Bangalore 560001"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "system/human/personal_assistant.md: Residence",
+        "detail": "update to Pune"
+      },
+      {
+        "type": "keep",
+        "target": "system/human/personal_assistant.md: Home (tag: home): 12 MG Road, Bangalore 560001"
+      }
+    ]
+  }
+}

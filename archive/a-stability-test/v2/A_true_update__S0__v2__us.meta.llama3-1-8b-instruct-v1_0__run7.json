@@ -1,0 +1,28 @@
+{
+  "case_id": "A_true_update",
+  "category": "control",
+  "stage": "S0",
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 7,
+  "status": "ok",
+  "prediction": "PASS \u2014 a single unambiguous replacement is exactly what 'resolve in favor of latest evidence' handles well. This is the control; if it fails, the harness or model is broken.",
+  "correct_action": "Update the sister recipient to 1234 Main Street, Vancouver V5K 1A1. Leave parents and home unchanged.",
+  "pass_rule": "Sister address contains 'Vancouver' and 'V5K 1A1' and NOT 'Surrey'/'V3R 3G3'; parents and home lines unchanged.",
+  "stage1_reflection": "\n\n**Phase 1 \u2014 Investigate**\n\nI review the current memory landscape. The `human/personal_assistant.md` file contains three facts about the user's personal life. I will use this information to inform my reflection.\n\n**Phase 2 \u2014 Extract**\n\nFrom the transcript, I identify a new fact about the user's sister's location. The user mentioned that their sister has moved to a new place at 1234 Main Street, Vancouver V5K 1A1. This is a durable fact that should be added to the memory.\n\n**Phase 3 \u2014 Update**\n\nI will add this new fact to the `human/personal_assistant.md` file under the \"sister\" tag.\n\n**Memory edits**\n\nI will update the `human/personal_assistant.md` file to include the new fact about the sister's location.\n\n**Update**\n\nThe new fact will be added under the \"sister\" tag, replacing the old address. I will not create a new file or move the existing file.\n\n**Phase 4 \u2014 Review**\n\nI review the changes to ensure that they are accurate and consistent.\n\n**Memory changes**\n\nI will add a new fact to the `human/personal_assistant.md` file.\n\n**Final memory state**\n\nHere is the intended final state of the `human/personal_assistant.md` file:\n\n- Sister (tag: sister): 1234 Main Street, Vancouver V5K 1A1\n- Parents (tag: parents): 45 Nehru Street, Delhi 110001\n- Home (tag: home): 12 MG Road, Bangalore 560001\n\nI will commit these changes with the following commit message:\n\n`feat(reflection): update sister's address`\n\n**Commit**\n\nI will commit the changes to the memory repository.\n\n**Issues**\n\nNo issues were encountered during the reflection process.",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Sister (tag: sister): 1234 Main Street, Vancouver V5K 1A1\",\n    \"- Parents (tag: parents): 45 Nehru Street, Delhi 110001\",\n    \"- Home (tag: home): 12 MG Road, Bangalore 560001\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"sister's address\", \"detail\": \"update with new address 1234 Main Street, Vancouver V5K 1A1\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Sister (tag: sister): 1234 Main Street, Vancouver V5K 1A1",
+      "- Parents (tag: parents): 45 Nehru Street, Delhi 110001",
+      "- Home (tag: home): 12 MG Road, Bangalore 560001"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "sister's address",
+        "detail": "update with new address 1234 Main Street, Vancouver V5K 1A1"
+      }
+    ]
+  }
+}

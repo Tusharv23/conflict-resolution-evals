@@ -17,6 +17,28 @@ recency-oriented conflict policy handles explicit memory operations robustly
 while under-specifying when an existing fact should be preserved. Full write-up:
 [`RESEARCH_REPORT.md`](RESEARCH_REPORT.md).
 
+## ⚠️ Use the evaluator carefully
+
+`evaluate.py` is a **first-pass triage tool, not a judge**. Before citing any
+numbers from this harness, understand its limits:
+
+- **Substring checks can be fooled.** The scorer matches keywords in
+  `final_memory_lines`. A confabulated merge like `"12 MG Road, Pune"` (old
+  street welded onto the new city — a fabricated address) *passes* the
+  mechanical check because both keywords are present. Only human review catches
+  it. This happened in our own runs, under both prompt versions.
+- **`NEEDS_REVIEW` means exactly that.** Case D verdicts are deliberately not
+  auto-judged — whether an allergy was "softened" requires reading the model
+  output by eye. Every headline number in this repo went through manual
+  adjudication of all 120 runs against a written rules doc
+  (see `RESEARCH_REPORT.md` §4).
+- **Adjudicate blind and consistently.** Score against pre-written rules,
+  ideally without knowing which prompt/model produced the run. We documented
+  our own rubric-drift mistake in the report (§4.3) so you can avoid it.
+- **Mechanical tallies ≠ final results.** Our baseline C-case failure count
+  moved from 10/30 (mechanical) to 17/30 (adjudicated). If you fork this and
+  publish only `evaluate.py` output, you will be wrong in both directions.
+
 ## Why this exists
 
 Letta's reflection subagent resolves memory contradictions with a single documented

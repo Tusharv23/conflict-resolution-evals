@@ -1,0 +1,32 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.mistral.pixtral-large-2502-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "### Summary\nThe user mentioned that they have been primarily living at their girlfriend's place in Pune for the last few months, which suggests a change in their residential status. This information should be reflected in the memory to ensure accuracy.\n\n### Memory Changes\n- **File Modified**: `system/human/personal_assistant.md`\n  - **Reason**: The user's residential status has changed, and the memory should reflect their current living situation.\n\n### Skill Changes\n- **Operation**: `none`\n  - **Reason**: No reusable, durable workflow was demonstrated in the conversation.\n\n### Skipped\n- **Ephemeral Details**: The conversation mentioned \"the last few months,\" which is a relative time reference. This was converted to an absolute date range (e.g., \"September 2024 to November 2024\") based on the current date (November 2024) for durability.\n\n### Commit\n- **Action**: Commit the changes to ensure the memory is updated with the user's current living situation.\n- **Type**: `fix` (correcting outdated information)\n\n### Issues\n- No issues encountered during the reflection process.\n\n---\n\n### Final State of `system/human/personal_assistant.md`\n```markdown\n- Home (tag: home): 12 MG Road, Bangalore 560001 (rarely visited since September 2024)\n- Temporary Residence (tag: temporary_home): Pune (primarily based here since September 2024)\n```",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Home (tag: home): 12 MG Road, Bangalore 560001 (rarely visited since September 2024)\",\n    \"- Temporary Residence (tag: temporary_home): Pune (primarily based here since September 2024)\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"- Home (tag: home): 12 MG Road, Bangalore 560001\", \"detail\": \"Updated to include 'rarely visited since September 2024'\"},\n    {\"type\": \"add\", \"target\": \"N/A\", \"detail\": \"Added '- Temporary Residence (tag: temporary_home): Pune (primarily based here since September 2024)'\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Home (tag: home): 12 MG Road, Bangalore 560001 (rarely visited since September 2024)",
+      "- Temporary Residence (tag: temporary_home): Pune (primarily based here since September 2024)"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "- Home (tag: home): 12 MG Road, Bangalore 560001",
+        "detail": "Updated to include 'rarely visited since September 2024'"
+      },
+      {
+        "type": "add",
+        "target": "N/A",
+        "detail": "Added '- Temporary Residence (tag: temporary_home): Pune (primarily based here since September 2024)'"
+      }
+    ]
+  }
+}

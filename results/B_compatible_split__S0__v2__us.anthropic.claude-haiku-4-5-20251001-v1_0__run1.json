@@ -1,0 +1,43 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "# Reflection Report\n\n## Summary\nThe transcript reveals a significant life change: the user's parents have separated, with their father remaining at the Delhi house and their mother now living in Gurgaon. The existing memory contains only the Delhi address (parents' presumed joint residence). I need to update this to reflect the new reality\u2014two separate households\u2014while preserving the known address and adding the mother's new location.\n\n## Phase 1 \u2014 Investigate\nCurrent memory state:\n- Single entry: \"Parents (tag: parents): 45 Nehru Street, Delhi 110001\"\n\nThis appears to be the family home where the father currently resides. The mother has now moved to a separate address in Gurgaon, Sector 45 (specific address not provided in transcript).\n\n## Phase 2 \u2014 Extract\n**Candidate learning:**\n- Parents are now separated (new durable fact)\n- Father's residence: 45 Nehru Street, Delhi 110001 (already captured)\n- Mother's residence: Gurgaon, Sector 45 (new durable fact)\n\n**Filters applied:**\n- Durable? Yes \u2014 separation is a significant life change relevant to the user's context and support network.\n- Already captured? Partially \u2014 the Delhi address exists but no reference to mother's separate residence or the separation itself.\n- Generalizable? Yes \u2014 these are facts about the user's family structure and support network, not ephemeral session details.\n- Contradictions? Yes \u2014 the existing entry treats \"45 Nehru Street\" as the parent residence (singular), but context now indicates it's the father's residence only.\n\n**Decision:** Update the existing entry to disambiguate and add mother's new address.\n\n## Phase 3 \u2014 Update\n\n**Memory edit:**\nReplace the single consolidated entry with clarified entries distinguishing the two households:\n\n```\n- Father (tag: father, family): 45 Nehru Street, Delhi 110001\n- Mother (tag: mother, family): Gurgaon, Sector 45 [specific street/building unknown]\n- Family status: Parents separated (user processing adjustment)\n```\n\n**Rationale:** \n- Splits the old monolithic \"parents\" entry into individual entries for clarity\n- Preserves the confirmed Delhi address and attributes it correctly to father\n- Adds mother's confirmed location (Gurgaon, Sector 45) with an honest note that the full address was not provided\n- Records the separation as context relevant to the user's emotional processing\n\n## Phase 4 \u2014 Review\n\n\u2713 **Stale content:** The old \"Parents (tag: parents)\" entry conflated two now-separate residences. Replaced with granular entries.\n\n\u2713 **Cross-references:** No other files reference this entry; no updates needed elsewhere.\n\n\u2713 **Tier check:** These are core facts about the user's family and support network\u2014appropriate for `system/human/personal_assistant.md`.\n\n\u2713 **No secrets or junk:** Addresses are already tagged as such; no sensitive content added.\n\n## Phase 5 \u2014 Commit\nNo commit is needed in this environment (reporting-only mode per instructions). \n\n---\n\n## FINAL STATE of `system/human/personal_assistant.md`\n\n```\n- Father (tag: father, family): 45 Nehru Street, Delhi 110001\n- Mother (tag: mother, family): Gurgaon, Sector 45 [specific address not yet known]\n- Family context: Parents separated; user actively processing this transition\n```",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Father (tag: father, family): 45 Nehru Street, Delhi 110001\",\n    \"Mother (tag: mother, family): Gurgaon, Sector 45 [specific address not yet known]\",\n    \"Family context: Parents separated; user actively processing this transition\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Parents (tag: parents): 45 Nehru Street, Delhi 110001\",\n      \"detail\": \"Split into separate father and mother entries with individual residences\"\n    },\n    {\n      \"type\": \"add\",\n      \"target\": \"Father (tag: father, family): 45 Nehru Street, Delhi 110001\",\n      \"detail\": \"Created from existing parents entry, clarified as father's residence\"\n    },\n    {\n      \"type\": \"add\",\n      \"target\": \"Mother (tag: mother, family): Gurgaon, Sector 45 [specific address not yet known]\",\n      \"detail\": \"New entry capturing mother's relocated residence\"\n    },\n    {\n      \"type\": \"add\",\n      \"target\": \"Family context: Parents separated; user actively processing this transition\",\n      \"detail\": \"New entry recording separation as durable family context fact\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Father (tag: father, family): 45 Nehru Street, Delhi 110001",
+      "Mother (tag: mother, family): Gurgaon, Sector 45 [specific address not yet known]",
+      "Family context: Parents separated; user actively processing this transition"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Parents (tag: parents): 45 Nehru Street, Delhi 110001",
+        "detail": "Split into separate father and mother entries with individual residences"
+      },
+      {
+        "type": "add",
+        "target": "Father (tag: father, family): 45 Nehru Street, Delhi 110001",
+        "detail": "Created from existing parents entry, clarified as father's residence"
+      },
+      {
+        "type": "add",
+        "target": "Mother (tag: mother, family): Gurgaon, Sector 45 [specific address not yet known]",
+        "detail": "New entry capturing mother's relocated residence"
+      },
+      {
+        "type": "add",
+        "target": "Family context: Parents separated; user actively processing this transition",
+        "detail": "New entry recording separation as durable family context fact"
+      }
+    ]
+  }
+}

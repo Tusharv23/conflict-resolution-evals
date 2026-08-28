@@ -1,0 +1,37 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.meta.llama3-3-70b-instruct-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "## Step 1: Investigate\nThe current memory landscape includes a personal assistant file with facts about the user's parents, specifically their address at 45 Nehru Street, Delhi 110001. The transcript discusses the user's parents' separation, with the father still at the Delhi house and the mother moving to her own place in Gurgaon, Sector 45.\n\n## Step 2: Extract\nCandidate learnings from the conversation include the update on the parents' living situation. The user's mother has moved to a new location in Gurgaon, while the father remains at the original address in Delhi. This information is durable and relevant to the user's personal life.\n\n## Step 3: Update\nTo capture this learning, we need to update the existing fact about the parents' address in the personal assistant file. Since the parents are now separated and living in different locations, we should reflect this change. The father's address remains the same, but we need to add the mother's new address.\n\n## Step 4: Review\nBefore finalizing the update, we review the changes for accuracy and relevance. The update correctly reflects the new information about the parents' living situation and is concise.\n\n## Step 5: Commit\nAlthough the actual commit process is not performed here, the intended changes are as follows:\n\nThe FINAL state of the memory file should be:\n- Parents (tag: parents): \n  - Father: 45 Nehru Street, Delhi 110001\n  - Mother: Sector 45, Gurgaon\n\nThis updated version accurately reflects the current living situation of the user's parents as discussed in the transcript.",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Father: 45 Nehru Street, Delhi 110001\",\n    \"Mother: Sector 45, Gurgaon\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"parents' address\", \"detail\": \"updated to reflect separation and new addresses\"},\n    {\"type\": \"add\", \"target\": \"mother's address\", \"detail\": \"added Sector 45, Gurgaon as the mother's new address\"},\n    {\"type\": \"keep\", \"target\": \"father's address\", \"detail\": \"kept 45 Nehru Street, Delhi 110001 as the father's address\"}\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Father: 45 Nehru Street, Delhi 110001",
+      "Mother: Sector 45, Gurgaon"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "parents' address",
+        "detail": "updated to reflect separation and new addresses"
+      },
+      {
+        "type": "add",
+        "target": "mother's address",
+        "detail": "added Sector 45, Gurgaon as the mother's new address"
+      },
+      {
+        "type": "keep",
+        "target": "father's address",
+        "detail": "kept 45 Nehru Street, Delhi 110001 as the father's address"
+      }
+    ]
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "# Reflection Report\n\n## Summary\n\nI reviewed one conversation transcript where the user disclosed that their parents have recently separated, with their father remaining at the Delhi house (45 Nehru Street) and their mother moving to Sector 45, Gurgaon. The existing memory contains only the Delhi address and a parents tag. The new transcript adds durability to that fact and introduces the mother's new location \u2014 a significant life event and updated family structure.\n\n## Phase 1 \u2014 Investigate\n\nCurrent memory state:\n- `system/human/personal_assistant.md` contains one entry:\n  - Parents (tag: parents): 45 Nehru Street, Delhi 110001\n\nThis is a concise, factual entry in the `system/` tier, appropriate for an in-context prompt. The transcript reveals new, durable information about family separation and maternal relocation.\n\n## Phase 2 \u2014 Extract\n\n**Candidate learnings:**\n\n1. **Family separation**: User's parents have separated \u2014 a significant life event affecting family structure and living arrangements.\n2. **Updated parental locations**: \n   - Father: 45 Nehru Street, Delhi 110001 (confirmed, no change)\n   - Mother: newly settled in Sector 45, Gurgaon (new fact)\n3. **Emotional context**: User is processing this through therapy (contextual but not a fact to store separately).\n\n**Filter application:**\n\n- **Durable or ephemeral?** Both locations and the separation event are durable family facts, not temporary or session-specific.\n- **Already captured?** The Delhi address is stored; the Gurgaon address and separation context are new.\n- **Generalizable?** Yes \u2014 these are stable personal facts relevant to understanding the user's family structure and context.\n- **Temporal references?** The separation is recent (\"settled now\", \"Dad's still at\") but no specific date is given. The relative timing (\"now\") suggests this is current state, not historical. I'll record it as present-tense family structure.\n\n**Survival outcome**: All three learnings survive filtering. This is durably relevant to the user's personal context.\n\n## Phase 3 \u2014 Update\n\n**Memory edit \u2014 `system/human/personal_assistant.md`:**\n\nThe existing entry conflates \"parents\" with a single address. I need to disambiguate and record current family structure clearly:\n\n- Remove the generic \"Parents\" tag pointing to a single address (stale structure).\n- Add separate entries for father and mother with their current locations.\n- Optionally tag the separation event for context.\n\n**Intended action**: Update the file to separate parental records and add the mother's new address.\n\n## Phase 4 \u2014 Review\n\n- **No secrets or junk**: Both addresses are personal but legitimate and not sensitive in this context (already stored; Delhi address expanded).\n- **Stale content**: The original single-line entry conflated two separate households. Updating it to separate records resolves this ambiguity.\n- **Cross-reference integrity**: No cross-references exist in the single-line entry; no links to update.\n- **Tier check**: This belongs in `system/` because family structure and key contact locations are in-context facts the agent should know on every turn.\n\n## Phase 5 \u2014 Commit\n\nNo commit is requested in this task format. I am providing the final state only.\n\n---\n\n## FINAL STATE \u2014 `system/human/personal_assistant.md`\n\n```markdown\nPersonal Assistant Context\n\n## Family\n- **Father**: 45 Nehru Street, Delhi 110001\n- **Mother**: Sector 45, Gurgaon (recently separated from father; now living separately)\n\nTags: parents, family-structure\n```\n\n**Rationale for this structure:**\n- Clarifies two separate household locations instead of conflating them\n- Adds a brief context note on the separation so the agent understands the household split is recent and intentional\n- Preserves the original Delhi address (confirmed, no change)\n- Records the mother's new Gurgaon location (new durable fact)\n- Maintains concise in-context readability",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Personal Assistant Context\",\n    \"\",\n    \"## Family\",\n    \"- **Father**: 45 Nehru Street, Delhi 110001\",\n    \"- **Mother**: Sector 45, Gurgaon (recently separated from father; now living separately)\",\n    \"\",\n    \"Tags: parents, family-structure\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Parents (tag: parents): 45 Nehru Street, Delhi 110001\",\n      \"detail\": \"Replaced single conflated entry with separate father and mother records; added mother's Gurgaon address and separation context\"\n    },\n    {\n      \"type\": \"add\",\n      \"target\": \"Father entry\",\n      \"detail\": \"Added '**Father**: 45 Nehru Street, Delhi 110001' to clarify father's confirmed location\"\n    },\n    {\n      \"type\": \"add\",\n      \"target\": \"Mother entry\",\n      \"detail\": \"Added '**Mother**: Sector 45, Gurgaon (recently separated from father; now living separately)' as new durable fact\"\n    },\n    {\n      \"type\": \"add\",\n      \"target\": \"Tags\",\n      \"detail\": \"Updated tags from 'parents' to 'parents, family-structure' to reflect structural change\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Personal Assistant Context",
+      "",
+      "## Family",
+      "- **Father**: 45 Nehru Street, Delhi 110001",
+      "- **Mother**: Sector 45, Gurgaon (recently separated from father; now living separately)",
+      "",
+      "Tags: parents, family-structure"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Parents (tag: parents): 45 Nehru Street, Delhi 110001",
+        "detail": "Replaced single conflated entry with separate father and mother records; added mother's Gurgaon address and separation context"
+      },
+      {
+        "type": "add",
+        "target": "Father entry",
+        "detail": "Added '**Father**: 45 Nehru Street, Delhi 110001' to clarify father's confirmed location"
+      },
+      {
+        "type": "add",
+        "target": "Mother entry",
+        "detail": "Added '**Mother**: Sector 45, Gurgaon (recently separated from father; now living separately)' as new durable fact"
+      },
+      {
+        "type": "add",
+        "target": "Tags",
+        "detail": "Updated tags from 'parents' to 'parents, family-structure' to reflect structural change"
+      }
+    ]
+  }
+}

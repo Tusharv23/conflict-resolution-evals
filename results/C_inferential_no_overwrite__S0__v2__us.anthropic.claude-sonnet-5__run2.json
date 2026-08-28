@@ -1,0 +1,32 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "**1. Summary**\nReviewed the personal assistant memory file and a short transcript where the user reveals they've been primarily living at their girlfriend's place in Pune for the past few months and rarely return to their Bangalore address. This is a durable lifestyle/location update, but since no full Pune street address was given, I'm preserving the existing Bangalore address as the registered/permanent one and adding an annotation noting the current primary residence, rather than overwriting the specific address with incomplete information.\n\n**2. Memory changes**\n- `system/human/personal_assistant.md` \u2014 Updated the \"Home\" entry: kept the existing Bangalore address (still the only full address on record, likely permanent/registered), and added a new annotation line noting the user currently lives primarily in Pune at their girlfriend's place, visiting Bangalore infrequently. No overwrite of the Bangalore address since no full Pune address was provided (per the \"annotate, don't overwrite when info is incomplete\" guidance).\n\n**3. Skill changes**\nNone \u2014 this is a single factual/preference update, not a repeatable multi-step workflow. No skill created or modified.\n\n**4. Skipped**\n- Did not fabricate a specific Pune street address, since the user only mentioned \"girlfriend's place in Pune\" without street details.\n- Did not attach a specific date to the change since no absolute date was available in context (avoided using the relative phrase \"last few months\" verbatim).\n\n**5. Commit**\nCommitted the change to `system/human/personal_assistant.md` (single-file memory update).\n\n**6. Issues**\nNo exact Pune address available, so the location note is city-level only. If the user provides a specific address in the future, it should replace this annotation.\n\n**FINAL state of `system/human/personal_assistant.md`:**\n\n```\n- Home (tag: home): 12 MG Road, Bangalore 560001 (registered/permanent address)\n- Current residence: primarily living at girlfriend's place in Pune; visits Bangalore infrequently\n```",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Home (tag: home): 12 MG Road, Bangalore 560001 (registered/permanent address)\",\n    \"- Current residence: primarily living at girlfriend's place in Pune; visits Bangalore infrequently\"\n  ],\n  \"actions\": [\n    {\"type\": \"keep\", \"target\": \"Home (tag: home): 12 MG Road, Bangalore 560001\", \"detail\": \"Kept existing Bangalore address as registered/permanent, unchanged\"},\n    {\"type\": \"add\", \"target\": \"Current residence annotation\", \"detail\": \"Added new line noting user currently lives primarily in Pune at girlfriend's place, visiting Bangalore infrequently\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Home (tag: home): 12 MG Road, Bangalore 560001 (registered/permanent address)",
+      "- Current residence: primarily living at girlfriend's place in Pune; visits Bangalore infrequently"
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Home (tag: home): 12 MG Road, Bangalore 560001",
+        "detail": "Kept existing Bangalore address as registered/permanent, unchanged"
+      },
+      {
+        "type": "add",
+        "target": "Current residence annotation",
+        "detail": "Added new line noting user currently lives primarily in Pune at girlfriend's place, visiting Bangalore infrequently"
+      }
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.openai.gpt-5.6-sol",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "### Summary\nReviewed the update about the user\u2019s parents\u2019 separation and current residences. The previous shared-address fact is now stale and should be replaced with separate residence facts.\n\n### Memory changes\n- Update `system/human/personal_assistant.md`.\n- Replace the shared \u201cParents\u201d address with:\n  - Dad remains at the Delhi house, preserving the known full address.\n  - Mom now lives separately in Sector 45, Gurgaon; no more specific address was provided.\n\n### Skill changes\n- **none** \u2014 no reusable workflow was present.\n\n### Skipped\n- Therapy and emotional-processing details were not persisted because they are sensitive and unnecessary for the address update.\n- No street address for Mom was inferred.\n\n### Commit\n- No commit; per instruction, edits are reported as intended text only.\n\n### Issues\n- None.\n\n### Intended FINAL state of `system/human/personal_assistant.md`\n```markdown\n- Dad (tag: parents): 45 Nehru Street, Delhi 110001\n- Mom (tag: parents): Sector 45, Gurgaon\n```",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Dad (tag: parents): 45 Nehru Street, Delhi 110001\",\n    \"- Mom (tag: parents): Sector 45, Gurgaon\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"shared \u201cParents\u201d address\",\n      \"detail\": \"Replaced it with separate residence facts: Dad remains at 45 Nehru Street, Delhi 110001, and Mom lives in Sector 45, Gurgaon.\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Dad (tag: parents): 45 Nehru Street, Delhi 110001",
+      "- Mom (tag: parents): Sector 45, Gurgaon"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "shared \u201cParents\u201d address",
+        "detail": "Replaced it with separate residence facts: Dad remains at 45 Nehru Street, Delhi 110001, and Mom lives in Sector 45, Gurgaon."
+      }
+    ]
+  }
+}

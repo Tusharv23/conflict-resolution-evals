@@ -1,0 +1,26 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S0",
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "\n\n**Phase 1 \u2014 Investigate**\n\nThe current memory landscape is a single `system/personal_assistant.md` file with a fact about the user's parents' address. The transcript indicates the user's parents are now separated and living in different locations.\n\n**Phase 2 \u2014 Extract**\n\nA new durable fact is that the user's parents are separated and living in different locations. This is a correction to the existing fact about their address.\n\n**Phase 3 \u2014 Update**\n\nCreate a memory edit to update the `system/personal_assistant.md` file.\n\n**Memory edit**\n\nUpdate the `system/personal_assistant.md` file to reflect the new information:\n\n- Parents (tag: parents): Dad is at 45 Nehru Street, Delhi 110001, and Mom is at Sector 45, Gurgaon.\n\n**Phase 4 \u2014 Review**\n\nThe updated memory file is accurate and does not contain any sensitive or ephemeral information. The `[[path]]` links are not affected by this update.\n\n**Phase 5 \u2014 Commit**\n\nThe commit message would be:\n\n```bash\ngit commit --author=\"Reflection Subagent @letta.com>\" -m \"fix(reflection): update parents' address \ud83d\udd2e\n\nReviewed transcript: <transcript>\n\nUpdates:\n- Updated parents' address to reflect separation and new locations\n\nGenerated-By: Letta Code\nAgent-ID: agent-abc123\nParent-Agent-ID: agent-def456\"\n```\n\n**Final memory file**\n\nThe intended final state of the `system/personal_assistant.md` file is:\n\n- Parents (tag: parents): Dad is at 45 Nehru Street, Delhi 110001, and Mom is at Sector 45, Gurgaon.",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Parents (tag: parents): Dad is at 45 Nehru Street, Delhi 110001, and Mom is at Sector 45, Gurgaon.\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Parents (tag: parents): Dad is at 45 Nehru Street, Delhi 110001\",\n      \"detail\": \"with 'Dad is at 45 Nehru Street, Delhi 110001, and Mom is at Sector 45, Gurgaon.'\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Parents (tag: parents): Dad is at 45 Nehru Street, Delhi 110001, and Mom is at Sector 45, Gurgaon."
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Parents (tag: parents): Dad is at 45 Nehru Street, Delhi 110001",
+        "detail": "with 'Dad is at 45 Nehru Street, Delhi 110001, and Mom is at Sector 45, Gurgaon.'"
+      }
+    ]
+  }
+}

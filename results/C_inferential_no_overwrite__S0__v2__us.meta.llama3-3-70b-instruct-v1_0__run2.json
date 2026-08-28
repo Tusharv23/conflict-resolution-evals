@@ -1,0 +1,32 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.meta.llama3-3-70b-instruct-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "## Step 1: Investigate\nThe current memory landscape includes a personal assistant file with a stored fact about the user's home location in Bangalore. The transcript reveals that the user has been living at their girlfriend's place in Pune for the last few months and barely goes back to Bangalore.\n\n## Step 2: Extract\nThe candidate learning from the conversation is that the user's current primary residence is in Pune, not Bangalore. This is a durable fact that should be persisted in memory.\n\n## Step 3: Update\nTo update the memory, we need to modify the existing fact about the user's home location. Since the user still owns a home in Bangalore but is currently living in Pune, we can add a new fact to reflect the current primary residence.\n\n## Step 4: Review\nThe updated memory should include both the original fact about the home in Bangalore and the new fact about the primary residence in Pune. We should ensure that the new fact is accurately represented and that the original fact is not deleted.\n\n## Step 5: Commit\nThe commit message should reflect the change made to the memory, including the addition of a new fact about the user's primary residence in Pune.\n\nThe final state of the memory file should be:\n- Home (tag: home): 12 MG Road, Bangalore 560001\n- Primary Residence (tag: primary_residence): Girlfriend's place, Pune \n\nNote: The exact address of the girlfriend's place in Pune is not provided in the transcript, so it cannot be included in the updated memory.",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Home (tag: home): 12 MG Road, Bangalore 560001\",\n    \"Primary Residence (tag: primary_residence): Girlfriend's place, Pune\"\n  ],\n  \"actions\": [\n    {\"type\": \"keep\", \"target\": \"Home location in Bangalore\", \"detail\": \"Retained existing fact\"},\n    {\"type\": \"add\", \"target\": \"Primary Residence in Pune\", \"detail\": \"Added new fact about current primary residence\"}\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home (tag: home): 12 MG Road, Bangalore 560001",
+      "Primary Residence (tag: primary_residence): Girlfriend's place, Pune"
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Home location in Bangalore",
+        "detail": "Retained existing fact"
+      },
+      {
+        "type": "add",
+        "target": "Primary Residence in Pune",
+        "detail": "Added new fact about current primary residence"
+      }
+    ]
+  }
+}

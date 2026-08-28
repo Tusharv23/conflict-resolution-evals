@@ -1,0 +1,26 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.amazon.nova-micro-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "**Summary**  \nThis reflection involves reviewing the recent conversation between the primary agent and the user to determine if any durable changes are needed to the agent's memory. The user disclosed a significant change in their residence, which suggests an update to the agent's memory regarding the user's primary location.\n\n**Memory changes**  \n- Updated the user's primary residence to reflect their recent living situation.\n\n**Skill changes**  \n- None, as there is no new workflow introduced in the conversation.\n\n**Skipped**  \n- No items were skipped as all relevant information was processed.\n\n**Commit**  \n- The changes are committed as they pertain to durable facts about the user's current residence.\n\n**Issues**  \n- No issues encountered during the reflection process.\n\n**Final state of memory file**  \n```markdown\n- Home (tag: home): 12 MG Road, Pune 411001\n```\n\n**Intended FINAL state of memory file:**\n```markdown\n- Home (tag: home): 12 MG Road, Pune 411001\n```",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"- Home (tag: home): 12 MG Road, Pune 411001\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"user's primary residence\",\n      \"detail\": \"Updated to reflect the user's recent living situation\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "- Home (tag: home): 12 MG Road, Pune 411001"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "user's primary residence",
+        "detail": "Updated to reflect the user's recent living situation"
+      }
+    ]
+  }
+}

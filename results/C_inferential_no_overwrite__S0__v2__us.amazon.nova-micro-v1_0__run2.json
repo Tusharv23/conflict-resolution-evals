@@ -1,0 +1,27 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.amazon.nova-micro-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "**Summary**\nThe conversation indicates that the user has been primarily based in Pune rather than Bangalore, which should update the agent's memory to reflect this change. No new skills were introduced, and no contradictions or mistakes were identified.\n\n**Memory changes**\n- Updated the user's primary location to Pune\n\n**Skill changes**\n- None\n\n**Skipped**\n- No skills were introduced or modified\n\n**Commit**\n- Commit with a `fix` type\n\n**Intended FINAL state of memory file (`system/human/personal_assistant.md`):**\n\n```markdown\n- Home (tag: home): 12 MG Road, Bangalore 560001\n- Primary location (tag: primary_location): Pune\n```\n\n**Explanation of Changes:**\nThe user indicated they have been living in Pune for the last few months and barely return to Bangalore, indicating a shift in their primary location. This update has been reflected in the memory file.",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Home (tag: home): 12 MG Road, Bangalore 560001\",\n    \"Primary location (tag: primary_location): Pune\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Primary location\",\n      \"detail\": \"Updated user's primary location to Pune\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home (tag: home): 12 MG Road, Bangalore 560001",
+      "Primary location (tag: primary_location): Pune"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Primary location",
+        "detail": "Updated user's primary location to Pune"
+      }
+    ]
+  }
+}

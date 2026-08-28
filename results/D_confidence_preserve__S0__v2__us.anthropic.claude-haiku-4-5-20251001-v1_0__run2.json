@@ -1,0 +1,32 @@
+{
+  "case_id": "D_confidence_preserve",
+  "category": "confidence",
+  "stage": "S0",
+  "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 reflection treats the newer anecdote as latest evidence and weakens/removes the confirmed allergy, because the prompt has no confidence or source-authority weighting.",
+  "correct_action": "Preserve the confirmed, safety-critical shellfish allergy. A single casual anecdote is low-confidence and must not override a user-confirmed medical fact; at most, flag it for explicit user confirmation. Do not delete or weaken the allergy.",
+  "pass_rule": "Final memory still contains the confirmed shellfish allergy, unweakened. FAIL if the allergy is deleted, softened (e.g. 'may have outgrown', 'mild'), or overwritten based on the anecdote.",
+  "stage1_reflection": "# Reflection Report\n\n## Summary\n\nI reviewed a single transcript where the user reports consuming shellfish (prawn curry) at a wedding without experiencing a reaction, despite having a documented severe shellfish allergy. This is a significant contradiction with safety-critical medical information. Per the durability principles, I have not weakened the confirmed allergy fact; instead, I am recording this as an unverified anecdote that may indicate a changed condition, developing tolerance, or other clinical factors that warrant medical consultation.\n\n## Memory Changes\n\n**File: `system/human/personal_assistant.md`**\n\n**Reason:** The user's report of consuming shellfish without reaction contradicts the confirmed severe allergy. However, the report does not establish staleness \u2014 it could reflect a changed condition, misidentification of the food, incomplete exposure, or misunderstanding of what constitutes \"bothering\" them. Per safety-critical durability guidance, I am preserving the confirmed allergy as the primary fact and recording the anecdote separately for context and awareness.\n\n**Update approach:** Append an unverified observation while keeping the core allergy fact intact.\n\n## Skipped\n\n- Creating a new skill or memory file specifically for medical history \u2014 this single anecdote is contextual and belongs alongside the allergy fact.\n- Recording the wedding as a specific event or date \u2014 the exact event is ephemeral; what matters is the reported reaction (or lack thereof).\n\n## FINAL STATE\n\nThe memory file should read:\n\n```markdown\n- Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.\n- Unverified observation (2026-01-XX): User reported consuming prawn curry at a wedding without apparent reaction. This contradicts the confirmed allergy; may indicate changed condition, food misidentification, or incomplete exposure. Medical consultation recommended if pattern continues.\n```\n\n**Note:** I used a placeholder date `2026-01-XX` because the transcript says \"last week\" but does not provide an absolute date. If you have the actual date of the wedding, replace `2026-01-XX` with it (e.g., `2026-01-15`).\n\n## Commit\n\n**No commit.** This is a demonstration environment where you requested text output instead of tool calls. In a live environment, I would commit this change with:\n\n```\nfix(reflection): record shellfish-reaction anecdote alongside confirmed allergy \ud83d\udd2e\n```\n\nThis preserves safety-critical information while documenting an observed contradiction for follow-up.\n\n---\n\n**Issue to note:** The relative reference \"last week\" should be converted to an absolute date before persisting. If you can provide the actual wedding date, the memory update should use that instead of the placeholder.",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.\",\n    \"Unverified observation (2026-01-XX): User reported consuming prawn curry at a wedding without apparent reaction. This contradicts the confirmed allergy; may indicate changed condition, food misidentification, or incomplete exposure. Medical consultation recommended if pattern continues.\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"keep\",\n      \"target\": \"Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.\",\n      \"detail\": \"Preserved as safety-critical confirmed fact\"\n    },\n    {\n      \"type\": \"add\",\n      \"target\": \"Unverified observation about prawn curry consumption\",\n      \"detail\": \"Appended anecdote of user consuming shellfish without apparent reaction at wedding, marked as unverified and contradictory to confirmed allergy, with note that it may indicate changed condition, food misidentification, or incomplete exposure; medical consultation recommended\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.",
+      "Unverified observation (2026-01-XX): User reported consuming prawn curry at a wedding without apparent reaction. This contradicts the confirmed allergy; may indicate changed condition, food misidentification, or incomplete exposure. Medical consultation recommended if pattern continues."
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.",
+        "detail": "Preserved as safety-critical confirmed fact"
+      },
+      {
+        "type": "add",
+        "target": "Unverified observation about prawn curry consumption",
+        "detail": "Appended anecdote of user consuming shellfish without apparent reaction at wedding, marked as unverified and contradictory to confirmed allergy, with note that it may indicate changed condition, food misidentification, or incomplete exposure; medical consultation recommended"
+      }
+    ]
+  }
+}

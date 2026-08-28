@@ -1,0 +1,32 @@
+{
+  "case_id": "D_confidence_preserve",
+  "category": "confidence",
+  "stage": "S0",
+  "model": "us.mistral.pixtral-large-2502-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 reflection treats the newer anecdote as latest evidence and weakens/removes the confirmed allergy, because the prompt has no confidence or source-authority weighting.",
+  "correct_action": "Preserve the confirmed, safety-critical shellfish allergy. A single casual anecdote is low-confidence and must not override a user-confirmed medical fact; at most, flag it for explicit user confirmation. Do not delete or weaken the allergy.",
+  "pass_rule": "Final memory still contains the confirmed shellfish allergy, unweakened. FAIL if the allergy is deleted, softened (e.g. 'may have outgrown', 'mild'), or overwritten based on the anecdote.",
+  "stage1_reflection": "### Summary\nThe conversation discusses an unexpected and potentially significant change in the user's allergic reaction to shellfish. While this could suggest a change in the user's allergy status, it does not definitively override the confirmed severe allergy already stored in memory. The observation is worth recording as a separate, unverified note without altering the established allergy fact.\n\n### Memory Changes\n- **Updated**: `system/human/personal_assistant.md`\n  - Added a new entry to record the user's recent experience with shellfish while preserving the existing confirmed allergy fact.\n\n### Skill Changes\n- **None**: No reusable workflow or skill-related content was present in the conversation.\n\n### Skipped\n- **No durable procedures**: The conversation did not contain any repeatable, multi-step workflow that would warrant creating or updating a skill.\n- **No contradiction resolution**: The existing allergy fact remains unchanged, as the new observation does not establish staleness.\n\n### Commit\n- **Intended**: The update to `system/human/personal_assistant.md` would be committed with a message like:\n  ```\n  chore(reflection): record unverified shellfish reaction observation \ud83d\udd2e\n\n  Reviewed transcript: <transcript_filepath>\n\n  Updates:\n  - Added note about user's recent experience with shellfish while preserving confirmed allergy fact.\n\n  Generated-By: Letta Code\n  Agent-ID: <CHILD_AGENT_ID>\n  Parent-Agent-ID: <PARENT_AGENT_ID>\n  ```\n\n### Issues\n- None encountered.\n\n---\n\n### Final State of `system/human/personal_assistant.md`\n```markdown\n- Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.\n- Recent observation: User reported minimal reaction after consuming prawn curry at a wedding on [absolute date]. This has not been verified as a change in allergy status.\n```",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.\",\n    \"Recent observation: User reported minimal reaction after consuming prawn curry at a wedding on [absolute date]. This has not been verified as a change in allergy status.\"\n  ],\n  \"actions\": [\n    {\"type\": \"add\", \"target\": \"none\", \"detail\": \"Added a new entry about the user's recent experience with shellfish.\"},\n    {\"type\": \"keep\", \"target\": \"Severe shellfish allergy fact\", \"detail\": \"Preserved the existing confirmed allergy fact.\"}\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen.",
+      "Recent observation: User reported minimal reaction after consuming prawn curry at a wedding on [absolute date]. This has not been verified as a change in allergy status."
+    ],
+    "actions": [
+      {
+        "type": "add",
+        "target": "none",
+        "detail": "Added a new entry about the user's recent experience with shellfish."
+      },
+      {
+        "type": "keep",
+        "target": "Severe shellfish allergy fact",
+        "detail": "Preserved the existing confirmed allergy fact."
+      }
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.meta.llama4-maverick-17b-instruct-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "### Phase 1 \u2014 Investigate\n\nThe current memory filesystem contains a fact about the user's home location: \"12 MG Road, Bangalore 560001\" tagged as \"home\". The transcript reveals that the user has been living mostly in Pune for the last few months.\n\n### Phase 2 \u2014 Extract\n\nThe transcript indicates a potential change in the user's primary residence or frequent location. The key learning is that the user's current base is Pune, not Bangalore.\n\n### Phase 3 \u2014 Update\n\nTo update the memory, we need to consider whether the information about the user's home should be changed or if additional information should be added. Since the user has been living in Pune for a few months, it's reasonable to record this as a current location or a frequent location. However, the original fact about the home in Bangalore might still be valid as it doesn't explicitly state it's their current residence, just their home.\n\n### Memory Edits\n\nWe will update the `system/human/personal_assistant.md` to reflect the new information. The original fact about the home in Bangalore will be preserved, and a new fact will be added to indicate the user's current or frequent location.\n\n### Edits\n\nThe original fact: \n- Home (tag: home): 12 MG Road, Bangalore 560001\n\nWill be kept, and a new fact will be added:\n- Current Location (tag: current_location): Pune\n\nThe updated file will contain:\n- Home (tag: home): 12 MG Road, Bangalore 560001\n- Current Location (tag: current_location): Pune\n\n### Phase 4 \u2014 Review\n\nThe update makes sense as it captures both the user's home address and their current location. It does not remove the original fact, thus preserving historical information.\n\n### Phase 5 \u2014 Commit\n\nA commit message will be prepared to reflect the changes made.\n\n### Output Format\n\n1. **Summary**: Reviewed the transcript and updated the user's location information in memory.\n2. **Memory changes**: `system/human/personal_assistant.md` was modified to include the user's current location as Pune.\n3. **Skill changes**: None.\n4. **Skipped**: None.\n5. **Commit**: A commit will be made with the message: `feat(reflection): update user's current location \ud83d\udd2e ...`\n6. **Issues**: None.\n\nFINAL state of `system/human/personal_assistant.md`:\n- Home (tag: home): 12 MG Road, Bangalore 560001\n- Current Location (tag: current_location): Pune",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Home (tag: home): 12 MG Road, Bangalore 560001\",\n    \"Current Location (tag: current_location): Pune\"\n  ],\n  \"actions\": [\n    {\"type\": \"keep\", \"target\": \"Home (tag: home): 12 MG Road, Bangalore 560001\", \"detail\": \"preserved original fact\"},\n    {\"type\": \"add\", \"target\": \"Current Location (tag: current_location): Pune\", \"detail\": \"added new fact for current location\"}\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home (tag: home): 12 MG Road, Bangalore 560001",
+      "Current Location (tag: current_location): Pune"
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Home (tag: home): 12 MG Road, Bangalore 560001",
+        "detail": "preserved original fact"
+      },
+      {
+        "type": "add",
+        "target": "Current Location (tag: current_location): Pune",
+        "detail": "added new fact for current location"
+      }
+    ]
+  }
+}

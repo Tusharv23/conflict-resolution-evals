@@ -1,0 +1,27 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.amazon.nova-pro-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "**Summary:** Reviewed the conversation where the user revealed they have been living in Pune for the last few months, rarely returning to Bangalore. This information contradicts the stored home address in the memory file.\n\n**Memory changes:**\n- Modified `system/human/personal_assistant.md` to reflect the user's current residence in Pune.\n\n**Skill changes:** \n- None. The conversation did not reveal a reusable, multi-step workflow.\n\n**Skipped:**\n- Nothing was skipped. The conversation contained a durable change in the user's living situation that needed to be captured.\n\n**Commit:**\n- Intended commit with type `fix` to correct the home address in memory.\n\n**Issues:**\n- None.\n\n**FINAL state of the memory file:**\n\n```\nsystem/human/personal_assistant.md:\n- Home (tag: home): Pune\n```",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"system/human/personal_assistant.md:\",\n    \"- Home (tag: home): Pune\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Home (tag: home): [previous address]\",\n      \"detail\": \"Updated home address to Pune\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "system/human/personal_assistant.md:",
+      "- Home (tag: home): Pune"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Home (tag: home): [previous address]",
+        "detail": "Updated home address to Pune"
+      }
+    ]
+  }
+}

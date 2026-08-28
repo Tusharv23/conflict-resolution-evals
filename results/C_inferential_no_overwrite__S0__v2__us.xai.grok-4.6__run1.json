@@ -1,0 +1,32 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S0",
+  "model": "us.xai.grok-4.6",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "## Summary\nReviewed the short conversation against `system/human/personal_assistant.md`. The Bangalore home address remains valid; the user did not say they moved or sold it. The durable new fact is that they have been primarily staying in Pune at their girlfriend\u2019s place and rarely return to Bangalore.\n\n## Memory changes\n- **Update** `system/human/personal_assistant.md`: keep the tagged Bangalore home; add a current-residence note for Pune (since ~June 2026), without treating Bangalore as stale.\n\n## Skill changes\n- **none** \u2014 living-situation fact only; no reusable workflow.\n\n## Skipped\n- Girlfriend\u2019s exact Pune address (not given).\n- Ephemeral phrasing (\u201clast few months,\u201d \u201cthese days\u201d).\n\n## Commit\n- no commit (this environment: report intended file state only)\n\n## Issues\n- None.\n\nFINAL state of `system/human/personal_assistant.md` fact lines:\n- Home (tag: home): 12 MG Road, Bangalore 560001\n- Current living situation: primarily staying at girlfriend\u2019s place in Pune since approximately June 2026; rarely returns to Bangalore",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Home (tag: home): 12 MG Road, Bangalore 560001\",\n    \"Current living situation: primarily staying at girlfriend\u2019s place in Pune since approximately June 2026; rarely returns to Bangalore\"\n  ],\n  \"actions\": [\n    {\"type\": \"keep\", \"target\": \"Home (tag: home): 12 MG Road, Bangalore 560001\", \"detail\": \"kept the tagged Bangalore home as still valid\"},\n    {\"type\": \"add\", \"target\": \"Current living situation\", \"detail\": \"added note that user is primarily staying at girlfriend\u2019s place in Pune since ~June 2026 and rarely returns to Bangalore\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home (tag: home): 12 MG Road, Bangalore 560001",
+      "Current living situation: primarily staying at girlfriend\u2019s place in Pune since approximately June 2026; rarely returns to Bangalore"
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Home (tag: home): 12 MG Road, Bangalore 560001",
+        "detail": "kept the tagged Bangalore home as still valid"
+      },
+      {
+        "type": "add",
+        "target": "Current living situation",
+        "detail": "added note that user is primarily staying at girlfriend\u2019s place in Pune since ~June 2026 and rarely returns to Bangalore"
+      }
+    ]
+  }
+}
