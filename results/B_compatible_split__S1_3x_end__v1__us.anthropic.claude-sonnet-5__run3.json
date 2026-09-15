@@ -1,0 +1,41 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S1",
+  "scale": 3,
+  "position": "end",
+  "memory_tokens": 1832,
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "## Summary\n\nReviewed the transcript where the user shared that his parents have separated \u2014 his father remains at the Delhi house, while his mother has moved to her own place in Gurgaon (Sector 45). This is a durable personal fact affecting the existing \"Recipients & personal facts\" entry (previously a single combined \"Parents\" address), so I updated that section to reflect the two separate addresses and the changed family situation. No skill-worthy workflow was present in this transcript.\n\n## Memory changes\n\n- **`system/human/personal_assistant.md`** \u2014 Modified the \"Recipients & personal facts (current)\" section:\n  - Split the single `Parents (tag: parents)` entry into two separate entries: `Dad (tag: dad)` at the existing Delhi address, and `Mom (tag: mom)` at the new Gurgaon (Sector 45) address.\n  - Added a short note that the parents are separated/living apart, since this affects how gifts, mail, or contact routing should be handled going forward.\n  - Reason: the old single-address \"Parents\" entry is now stale/incorrect (it implied both parents share one address); this is a direct contradiction requiring a fix at the source, not an appended addition.\n\n## Skill changes\n\nNone. This was a single personal-life update with no multi-step reusable procedure involved.\n\n## Skipped\n\n- The general mention of \"therapy helping process the separation\" was not stored as a separate emotional/therapy log entry \u2014 it's contextual color around the fact, not a durable actionable preference, and risks being sensitive personal content beyond what's needed (just the address/living-situation fact is durable and useful).\n\n## Commit\n\nCommitted to the memory repo with message type `fix(reflection)` since this corrects a stale/incorrect fact (parents no longer share one address).\n\n## Issues\n\nNone. Only `system/human/personal_assistant.md` was provided/visible in the memory filesystem for this task, so all edits were scoped to it.\n\n---\n\n### FINAL state of `system/human/personal_assistant.md` \u2014 \"Recipients & personal facts\" section\n\n```\n# Recipients & personal facts (current)\n- Dad (tag: dad): 45 Nehru Street, Delhi 110001\n- Mom (tag: mom): Sector 45, Gurgaon, Haryana\n- Parents are separated and living apart (noted via therapy discussions, 2026 update).\n```\n\n(All other sections of `system/human/personal_assistant.md` remain unchanged from the version shown above.)",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Dad (tag: dad): 45 Nehru Street, Delhi 110001\",\n    \"Mom (tag: mom): Sector 45, Gurgaon, Haryana\",\n    \"Parents are separated and living apart (noted via therapy discussions, 2026 update).\"\n  ],\n  \"actions\": [\n    {\"type\": \"split\", \"target\": \"Parents (tag: parents) entry\", \"detail\": \"Split single combined 'Parents' address entry into two separate entries: Dad (tag: dad) at existing Delhi address, and Mom (tag: mom) at new Gurgaon (Sector 45) address.\"},\n    {\"type\": \"add\", \"target\": \"Recipients & personal facts section\", \"detail\": \"Added a short note that parents are separated/living apart, affecting gift/mail/contact routing.\"},\n    {\"type\": \"flag\", \"target\": \"therapy mention re: processing separation\", \"detail\": \"Not stored as separate emotional/therapy log entry; treated as contextual color, not durable actionable fact.\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Dad (tag: dad): 45 Nehru Street, Delhi 110001",
+      "Mom (tag: mom): Sector 45, Gurgaon, Haryana",
+      "Parents are separated and living apart (noted via therapy discussions, 2026 update)."
+    ],
+    "actions": [
+      {
+        "type": "split",
+        "target": "Parents (tag: parents) entry",
+        "detail": "Split single combined 'Parents' address entry into two separate entries: Dad (tag: dad) at existing Delhi address, and Mom (tag: mom) at new Gurgaon (Sector 45) address."
+      },
+      {
+        "type": "add",
+        "target": "Recipients & personal facts section",
+        "detail": "Added a short note that parents are separated/living apart, affecting gift/mail/contact routing."
+      },
+      {
+        "type": "flag",
+        "target": "therapy mention re: processing separation",
+        "detail": "Not stored as separate emotional/therapy log entry; treated as contextual color, not durable actionable fact."
+      }
+    ]
+  }
+}

@@ -23,7 +23,13 @@ from pathlib import Path
 
 import boto3
 
-from context_loader import build_s1_memory
+from context_loader import Position, build_s1_memory
+
+
+def _count_tokens(text: str) -> int:
+    """Vendored token count (cl100k_base) so we measure load, never eyeball it."""
+    import tiktoken
+    return len(tiktoken.get_encoding("cl100k_base").encode(text))
 
 ROOT = Path(__file__).parent
 REFLECTION_PROMPT = ROOT / "reflection_prompt.md"
@@ -62,11 +68,18 @@ def strip_frontmatter(text: str) -> str:
     return text.split("---", 2)[-1].lstrip() if text.startswith("---") else text
 
 
-def build_reflection_user_message(case: dict, stage: str = "S0") -> str:
+def build_reflection_user_message(
+    case: dict,
+    stage: str = "S0",
+    scale: int = 1,
+    position: Position = Position.mid,
+) -> str:
     if stage == "S1":
-        # Large realistic memory; transcript unchanged. Conflict fact planted mid-file.
-        memory_block = "\n".join(build_s1_memory(case["existing_memory_lines"]))
-    else:  # S0 baseline
+        # Large realistic memory; transcript unchanged. Conflict fact planted per `position`.
+        memory_block = "\n".join(
+            build_s1_memory(case["existing_memory_lines"], position, scale)
+        )
+    else:  # S0 baseline — scale/position do not apply
         memory_block = "\n".join(f"- {line}" for line in case["existing_memory_lines"])
     transcript = "\n".join(f'{m["role"]}: {m["content"]}' for m in case["new_transcript"])
     return (
@@ -123,7 +136,16 @@ def main():
     ap.add_argument("--stage", default="S0", choices=["S0", "S1"],
                     help="S0=tiny baseline, S1=large realistic memory (transcript unchanged)")
     ap.add_argument("--prompt", help="Help choose among different prompt templates", choices=["v1", "v2", "pr"], default="v1")
+    ap.add_argument("--scale", type=int, default=1,
+                    help="S1 only: filler multiplier (load level). Default 1 = current S1.")
+    ap.add_argument("--position", type=Position, choices=list(Position), default=Position.mid,
+                    help="S1 only: where the conflict fact sits (mid/end/start). Default mid = current S1.")
     args = ap.parse_args()
+
+    # Guard: scale/position are meaningless at S0 — fail loudly rather than
+    # silently ignore (Day-33 use_cache lesson: never let a control knob no-op).
+    if args.stage == "S0" and (args.scale != 1 or args.position != Position.mid):
+        ap.error("--scale/--position only apply to --stage S1")
 
     prompt_files = {"v1": REFLECTION_PROMPT, "v2": REFLECTION_PROMPT_V2, "pr": REFLECTION_PROMPT_PR}
     reflection = strip_frontmatter(prompt_files[args.prompt].read_text(encoding="utf-8"))
@@ -140,11 +162,25 @@ def main():
         for case in cases:
             for run_i in range(1, args.repeats + 1):
                 safe_model = model_id.replace("/", "_").replace(":", "_")
-                tag = f"{case['id']}__{args.stage}__{args.prompt}__{safe_model}__run{run_i}"
+                # Load tag included so S1 runs at different scale/position never
+                # overwrite each other (cf. the __v2__ overwrite trap).
+                load_tag = f"{args.stage}" if args.stage == "S0" else f"{args.stage}_{args.scale}x_{args.position.value}"
+                tag = f"{case['id']}__{load_tag}__{args.prompt}__{safe_model}__run{run_i}"
+                # Resume guard: skip runs already completed with status=ok so a
+                # crash/Ctrl-C mid-matrix never re-pays for finished cells. Delete
+                # the .json (or a failed one) to force a re-run.
+                out_path = RESULTS_DIR / f"{tag}.json"
+                if out_path.exists():
+                    try:
+                        if json.loads(out_path.read_text(encoding="utf-8")).get("status") == "ok":
+                            print(f"[skip] {tag} (already ok)")
+                            continue
+                    except (json.JSONDecodeError, OSError):
+                        pass  # unreadable/corrupt -> re-run
                 print(f"[running] {tag}")
+                user_msg = build_reflection_user_message(case, args.stage, args.scale, args.position)
                 try:
-                    s1 = call_model(client, model_id, reflection,
-                                    build_reflection_user_message(case, args.stage), 3000)
+                    s1 = call_model(client, model_id, reflection, user_msg, 3000)
                     # Large budget: reasoning models (e.g. DeepSeek R1) emit a big
                     # chain-of-thought before the JSON, so the extractor needs room.
                     s2 = call_model(client, model_id, extractor, s1, 4000)
@@ -158,6 +194,9 @@ def main():
                         "case_id": case["id"],
                         "category": case["category"],
                         "stage": args.stage,
+                        "scale": args.scale,
+                        "position": args.position.value,
+                        "memory_tokens": _count_tokens(user_msg),  # measured load, not intended
                         "model": model_id,
                         "run": run_i,
                         "status": status,

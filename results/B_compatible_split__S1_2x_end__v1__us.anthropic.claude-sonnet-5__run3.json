@@ -1,0 +1,62 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S1",
+  "scale": 2,
+  "position": "end",
+  "memory_tokens": 1291,
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "## Summary\nReviewed the transcript (a therapy-related disclosure about the user's parents' separation and updated living situations) against the current `system/human/personal_assistant.md`. The stored single-address fact for \"Parents\" is now stale/incorrect since the parents live separately; this needed correcting at the source. I also added a light-touch sensitivity note so future conversations handle the topic appropriately. No reusable multi-step workflow was present, so no skill changes.\n\n## Memory changes\n- **`system/human/personal_assistant.md`** (edited in place):\n  - Updated the \"Recipients & personal facts (current)\" entry to reflect the parents' separation and two current addresses (Dad remains at the Delhi house; Mom has moved to her own place in Sector 45, Gurgaon), replacing the now-stale single combined address.\n  - Added a new bullet under \"Communication preferences\" noting the parents' separation and ongoing therapy context, as a durable behavioral cue for handling the topic sensitively going forward.\n\n## Skill changes\nNone. The conversation contains a single personal disclosure, not a repeatable procedure \u2014 no skill was created, updated, extended, deprecated, or split.\n\n## Skipped\n- Did not record therapy session details, frequency, or emotional specifics \u2014 those are ephemeral/sensitive clinical content with no durable reference value beyond \"be sensitive about this topic,\" which is already captured.\n- Did not fabricate a date for the separation/move since none was given in the transcript (per no-relative-dates / no-fabrication rule).\n\n## Commit\nWould commit as a `fix(reflection)` \u2014 correcting stale contact/address memory \u2014 with message describing the parents'-address correction and the added sensitivity note, referencing the transcript path and standard trailers.\n\n## Issues\nNone encountered. Exact move-in date for the Gurgaon address was not stated, so it was omitted rather than guessed.\n\n---\n\n### FINAL state of `system/human/personal_assistant.md`\n\n```markdown\n# Communication preferences\n- Prefers concise, direct answers; dislikes filler and over-explanation.\n- Wants to be asked before large multi-file changes; small fixes can proceed.\n- Timezone: IST (UTC+5:30). Working hours roughly 10:00\u201319:00.\n- Prefers metric units and DD-MM-YYYY dates.\n- Parents are separated (Dad remains at the Delhi house, Mom has moved to her own place in Gurgaon); user is in therapy processing this \u2014 handle related topics with sensitivity.\n\n# Work context\n- Backend engineer; primary stack Python (FastAPI) and some TypeScript.\n- Uses `uv` for Python envs \u2014 never bare pip. Corrected on this repeatedly.\n- Conventional commits; feature branches, never commits to main directly.\n- Runs lint before tests; prefers pytest with table-driven cases.\n- Current project: migrating an API gateway from Kong to Envoy (replicate as-is).\n\n# Calendar & routines\n- Standup daily at 10:15. No meetings on Wednesday afternoons (focus block).\n- Gym Mon/Wed/Fri mornings; prefers no early meetings those days.\n- Reviews PRs end of day, not first thing.\n\n# Food & ordering habits (general)\n- Usual lunch order via Swiggy; likes South Indian and Thai.\n- Coffee: filter coffee, no sugar. Orders beans monthly from Blue Tokai.\n- Weekend cooking; buys groceries from the local market on Saturdays.\n\n# Contacts (non-conflicting)\n- Manager: Priya (priya@work.example) \u2014 prefers async updates on Slack.\n- Best friend: Rohan \u2014 lives in Hyderabad, visits every couple of months.\n- Landlord: Mr.\n\n[[TRUNCATED: hit max_tokens]]",
+  "stage2_extraction": "{\"complete\": false, \"final_memory_lines\": [\"# Communication preferences\", \"- Prefers concise, direct answers; dislikes filler and over-explanation.\", \"- Wants to be asked before large multi-file changes; small fixes can proceed.\", \"- Timezone: IST (UTC+5:30). Working hours roughly 10:00\u201319:00.\", \"- Prefers metric units and DD-MM-YYYY dates.\", \"- Parents are separated (Dad remains at the Delhi house, Mom has moved to her own place in Gurgaon); user is in therapy processing this \u2014 handle related topics with sensitivity.\", \"# Work context\", \"- Backend engineer; primary stack Python (FastAPI) and some TypeScript.\", \"- Uses `uv` for Python envs \u2014 never bare pip. Corrected on this repeatedly.\", \"- Conventional commits; feature branches, never commits to main directly.\", \"- Runs lint before tests; prefers pytest with table-driven cases.\", \"- Current project: migrating an API gateway from Kong to Envoy (replicate as-is).\", \"# Calendar & routines\", \"- Standup daily at 10:15. No meetings on Wednesday afternoons (focus block).\", \"- Gym Mon/Wed/Fri mornings; prefers no early meetings those days.\", \"- Reviews PRs end of day, not first thing.\", \"# Food & ordering habits (general)\", \"- Usual lunch order via Swiggy; likes South Indian and Thai.\", \"- Coffee: filter coffee, no sugar. Orders beans monthly from Blue Tokai.\", \"- Weekend cooking; buys groceries from the local market on Saturdays.\", \"# Contacts (non-conflicting)\", \"- Manager: Priya (priya@work.example) \u2014 prefers async updates on Slack.\", \"- Best friend: Rohan \u2014 lives in Hyderabad, visits every couple of months.\", \"- Landlord: Mr. [TRUNCATED]\"], \"actions\": [{\"type\": \"replace\", \"target\": \"Recipients & personal facts (current) - Parents address\", \"detail\": \"Updated stale single-address fact for parents to reflect separation: Dad remains at Delhi house, Mom moved to her own place in Sector 45, Gurgaon\"}, {\"type\": \"add\", \"target\": \"Communication preferences\", \"detail\": \"Added bullet noting parents' separation and ongoing therapy context as a durable sensitivity cue\"}, {\"type\": \"keep\", \"target\": \"Skills\", \"detail\": \"No skill changes made; no reusable multi-step workflow present\"}]}",
+  "parsed": {
+    "complete": false,
+    "final_memory_lines": [
+      "# Communication preferences",
+      "- Prefers concise, direct answers; dislikes filler and over-explanation.",
+      "- Wants to be asked before large multi-file changes; small fixes can proceed.",
+      "- Timezone: IST (UTC+5:30). Working hours roughly 10:00\u201319:00.",
+      "- Prefers metric units and DD-MM-YYYY dates.",
+      "- Parents are separated (Dad remains at the Delhi house, Mom has moved to her own place in Gurgaon); user is in therapy processing this \u2014 handle related topics with sensitivity.",
+      "# Work context",
+      "- Backend engineer; primary stack Python (FastAPI) and some TypeScript.",
+      "- Uses `uv` for Python envs \u2014 never bare pip. Corrected on this repeatedly.",
+      "- Conventional commits; feature branches, never commits to main directly.",
+      "- Runs lint before tests; prefers pytest with table-driven cases.",
+      "- Current project: migrating an API gateway from Kong to Envoy (replicate as-is).",
+      "# Calendar & routines",
+      "- Standup daily at 10:15. No meetings on Wednesday afternoons (focus block).",
+      "- Gym Mon/Wed/Fri mornings; prefers no early meetings those days.",
+      "- Reviews PRs end of day, not first thing.",
+      "# Food & ordering habits (general)",
+      "- Usual lunch order via Swiggy; likes South Indian and Thai.",
+      "- Coffee: filter coffee, no sugar. Orders beans monthly from Blue Tokai.",
+      "- Weekend cooking; buys groceries from the local market on Saturdays.",
+      "# Contacts (non-conflicting)",
+      "- Manager: Priya (priya@work.example) \u2014 prefers async updates on Slack.",
+      "- Best friend: Rohan \u2014 lives in Hyderabad, visits every couple of months.",
+      "- Landlord: Mr. [TRUNCATED]"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Recipients & personal facts (current) - Parents address",
+        "detail": "Updated stale single-address fact for parents to reflect separation: Dad remains at Delhi house, Mom moved to her own place in Sector 45, Gurgaon"
+      },
+      {
+        "type": "add",
+        "target": "Communication preferences",
+        "detail": "Added bullet noting parents' separation and ongoing therapy context as a durable sensitivity cue"
+      },
+      {
+        "type": "keep",
+        "target": "Skills",
+        "detail": "No skill changes made; no reusable multi-step workflow present"
+      }
+    ]
+  }
+}

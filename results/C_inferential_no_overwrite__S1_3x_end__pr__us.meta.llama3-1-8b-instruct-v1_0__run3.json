@@ -1,0 +1,29 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S1",
+  "scale": 3,
+  "position": "end",
+  "memory_tokens": 1814,
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "\n\n### Phase 1 \u2014 Investigate\n\nThe provided memory filesystem contains a detailed and organized set of facts about the user's preferences, habits, and context. The user's current location has changed, and this new information is worth incorporating into their memory.\n\n### Phase 2 \u2014 Extract\n\nAfter reviewing the conversation, I identified the following learnings worth persisting:\n\n* The user has been living at their girlfriend's place in Pune for the last few months and is mostly based there now.\n\n### Phase 3 \u2014 Update\n\nI will update the memory filesystem to reflect this new information.\n\n**Memory edits**\n\nI will add a new fact to the \"Personal\" section in the `system/personal_assistant.md` file.\n\n### Phase 4 \u2014 Review\n\nI will review the changes to ensure they are accurate and complete.\n\n### Phase 5 \u2014 Commit\n\nI will commit the changes to the memory filesystem.\n\n**Memory changes**\n\n* Added a new fact to the \"Personal\" section: \"Lives with girlfriend in Pune.\"\n\n**Summary**\n\nI updated the user's memory to reflect their current location, adding a new fact to the \"Personal\" section.\n\n**Memory changes**\n\n* system/personal_assistant.md: added a new fact to the \"Personal\" section\n\n**Skipped**\n\nNone\n\n**Commit**\n\nCommit message: `feat(reflection): update personal location to Pune`\n\n**Issues**\n\nNone\n\n**FINAL state of the memory file**\n\n```markdown\n# Communication preferences\n- Prefers concise, direct answers; dislikes filler and over-explanation.\n- Wants to be asked before large multi-file changes; small fixes can proceed.\n- Timezone: IST (UTC+5:30). Working hours roughly 10:00\u201319:00.\n- Prefers metric units and DD-MM-YYYY dates.\n\n# Work context\n- Backend engineer; primary stack Python (FastAPI) and some TypeScript.\n- Uses `uv` for Python envs \u2014 never bare pip. Corrected on this repeatedly.\n- Conventional commits; feature branches, never commits to main directly.\n- Runs lint before tests; prefers pytest with table-driven cases.\n- Current project: migrating an API gateway from Kong to Envoy (replicate as-is).\n\n# Personal\n- Lives with girlfriend in Pune.\n\n# Calendar & routines\n- Standup daily at 10:15. No meetings on Wednesday afternoons (focus block).\n- Gym Mon/Wed/Fri mornings; prefers no early meetings those days.\n- Reviews PRs end of day, not first thing.\n\n# ... (rest of the file remains the same)\n```\n\nThe final answer is:\n\n`feat(reflection): update personal location to Pune`",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"# Communication preferences\\n- Prefers concise, direct answers; dislikes filler and over-explanation.\\n- Wants to be asked before large multi-file changes; small fixes can proceed.\\n- Timezone: IST (UTC+5:30). Working hours roughly 10:00\u201319:00.\\n- Prefers metric units and DD-MM-YYYY dates.\\n\\n# Work context\\n- Backend engineer; primary stack Python (FastAPI) and some TypeScript.\\n- Uses `uv` for Python envs \u2014 never bare pip. Corrected on this repeatedly.\\n- Conventional commits; feature branches, never commits to main directly.\\n- Runs lint before tests; prefers pytest with table-driven cases.\\n- Current project: migrating an API gateway from Kong to Envoy (replicate as-is).\\n\\n# Personal\\n- Lives with girlfriend in Pune.\\n\\n# Calendar & routines\\n- Standup daily at 10:15. No meetings on Wednesday afternoons (focus block).\\n- Gym Mon/Wed/Fri mornings; prefers no early meetings those days.\\n- Reviews PRs end of day, not first thing.\\n\\n# ... (rest of the file remains the same)\"\n  ],\n  \"actions\": [\n    {\"type\": \"add\", \"target\": \"Personal section\", \"detail\": \"new fact: Lives with girlfriend in Pune\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "# Communication preferences\n- Prefers concise, direct answers; dislikes filler and over-explanation.\n- Wants to be asked before large multi-file changes; small fixes can proceed.\n- Timezone: IST (UTC+5:30). Working hours roughly 10:00\u201319:00.\n- Prefers metric units and DD-MM-YYYY dates.\n\n# Work context\n- Backend engineer; primary stack Python (FastAPI) and some TypeScript.\n- Uses `uv` for Python envs \u2014 never bare pip. Corrected on this repeatedly.\n- Conventional commits; feature branches, never commits to main directly.\n- Runs lint before tests; prefers pytest with table-driven cases.\n- Current project: migrating an API gateway from Kong to Envoy (replicate as-is).\n\n# Personal\n- Lives with girlfriend in Pune.\n\n# Calendar & routines\n- Standup daily at 10:15. No meetings on Wednesday afternoons (focus block).\n- Gym Mon/Wed/Fri mornings; prefers no early meetings those days.\n- Reviews PRs end of day, not first thing.\n\n# ... (rest of the file remains the same)"
+    ],
+    "actions": [
+      {
+        "type": "add",
+        "target": "Personal section",
+        "detail": "new fact: Lives with girlfriend in Pune"
+      }
+    ]
+  }
+}

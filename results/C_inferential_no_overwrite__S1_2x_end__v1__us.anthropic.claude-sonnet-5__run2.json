@@ -1,0 +1,78 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S1",
+  "scale": 2,
+  "position": "end",
+  "memory_tokens": 1273,
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "**Summary:** The transcript reveals a durable fact: the user is now primarily based in Pune (living at their girlfriend's place) and rarely returns to Bangalore. This contradicts the existing memory's assumption that Bangalore is the user's home base (address, commute, gym schedule, parking, clinic, weekend market routine all tied to Bangalore). No skill-worthy workflow appeared \u2014 this is a pure memory update.\n\n**Memory changes:**\n- `system/human/personal_assistant.md`: Added a new \"Location note\" flagging that the user is now primarily based in Pune, and appended a caveat to the Bangalore home address noting it may no longer reflect day-to-day location. Did not fabricate details about a new Pune address (none given) or rewrite Bangalore-specific routines (gym/commute/parking/clinic) since no explicit update to those was provided \u2014 instead flagged them for confirmation rather than silently keeping them as if still accurate.\n\n**Skill changes:** None \u2014 no reusable multi-step workflow present in this exchange.\n\n**Skipped:**\n- Rewriting gym/commute/parking/clinic sections outright \u2014 no specifics were given about the user's new Pune-based routine, so fabricating replacements would be speculative. Flagged instead of overwritten.\n- Exact date of relocation \u2014 not stated in transcript, so no absolute date was invented.\n\n**Commit:** Committed to `$MEMORY_DIR` (`fix(reflection): update primary location from Bangalore to Pune \ud83d\udd2e`).\n\n**Issues:** None blocking. Recommend a follow-up confirmation from the user on which Bangalore-tied routines (gym schedule, commute, parking, clinic) still apply, since the memory currently only flags them rather than resolving them.\n\n---\n\n**FINAL state of `system/human/personal_assistant.md`:**\n\n```markdown\n# Communication preferences\n- Prefers concise, direct answers; dislikes filler and over-explanation.\n- Wants to be asked before large multi-file changes; small fixes can proceed.\n- Timezone: IST (UTC+5:30). Working hours roughly 10:00\u201319:00.\n- Prefers metric units and DD-MM-YYYY dates.\n\n# Location note (current)\n- Currently based primarily in Pune, living at girlfriend's place; rarely visits Bangalore now.\n- Bangalore-tied routines below (commute, gym schedule, office parking, clinic) were set when Bangalore was the primary base \u2014 confirm before relying on them, as they may be outdated.\n\n# Work context\n- Backend engineer; primary stack Python (FastAPI) and some TypeScript.\n- Uses `uv` for Python envs \u2014 never bare pip. Corrected on this repeatedly.\n- Conventional commits; feature branches, never commits to main directly.\n- Runs lint before tests; prefers pytest with table-driven cases.\n- Current project: migrating an API gateway from Kong to Envoy (replicate as-is).\n\n# Calendar & routines\n- Standup daily at 10:15. No meetings on Wednesday afternoons (focus block).\n- Gym Mon/Wed/Fri mornings; prefers no early meetings those days.\n- Reviews PRs end of day, not first thing.\n\n# Food & ordering habits (general)\n- Usual lunch order via Swiggy; likes South Indian and Thai.\n- Coffee: filter coffee, no sugar. Orders beans monthly from Blue Tokai.\n- Weekend cooking; buys groceries from the local market on Saturdays.\n\n# Contacts (non-conflicting)\n- Manager: Priya (priya@work.example) \u2014 prefers async updates on Slack.\n- Best friend: Rohan \u2014 lives in Hyderabad, visits every couple of months.\n- Landlord: Mr. Rao \u2014 contact only for maintenance, prefers WhatsApp.\n- Doctor: Dr. Mehta clinic, Indiranagar \u2014 annual checkup in November.\n\n# Shopping & subscriptions\n- Amazon Prime member; frequent Amazon vendor for electronics.\n- Netflix + Spotify; shares Spotify family plan with siblings.\n- Prefers cash-on-delivery avoided; default card ending 4412.\n\n# Vehicle & commute\n- Rides a 2019 \n\n[[TRUNCATED: hit max_tokens]]",
+  "stage2_extraction": "```json\n{\n  \"complete\": false,\n  \"final_memory_lines\": [\n    \"# Communication preferences\",\n    \"- Prefers concise, direct answers; dislikes filler and over-explanation.\",\n    \"- Wants to be asked before large multi-file changes; small fixes can proceed.\",\n    \"- Timezone: IST (UTC+5:30). Working hours roughly 10:00\u201319:00.\",\n    \"- Prefers metric units and DD-MM-YYYY dates.\",\n    \"\",\n    \"# Location note (current)\",\n    \"- Currently based primarily in Pune, living at girlfriend's place; rarely visits Bangalore now.\",\n    \"- Bangalore-tied routines below (commute, gym schedule, office parking, clinic) were set when Bangalore was the primary base \u2014 confirm before relying on them, as they may be outdated.\",\n    \"\",\n    \"# Work context\",\n    \"- Backend engineer; primary stack Python (FastAPI) and some TypeScript.\",\n    \"- Uses `uv` for Python envs \u2014 never bare pip. Corrected on this repeatedly.\",\n    \"- Conventional commits; feature branches, never commits to main directly.\",\n    \"- Runs lint before tests; prefers pytest with table-driven cases.\",\n    \"- Current project: migrating an API gateway from Kong to Envoy (replicate as-is).\",\n    \"\",\n    \"# Calendar & routines\",\n    \"- Standup daily at 10:15. No meetings on Wednesday afternoons (focus block).\",\n    \"- Gym Mon/Wed/Fri mornings; prefers no early meetings those days.\",\n    \"- Reviews PRs end of day, not first thing.\",\n    \"\",\n    \"# Food & ordering habits (general)\",\n    \"- Usual lunch order via Swiggy; likes South Indian and Thai.\",\n    \"- Coffee: filter coffee, no sugar. Orders beans monthly from Blue Tokai.\",\n    \"- Weekend cooking; buys groceries from the local market on Saturdays.\",\n    \"\",\n    \"# Contacts (non-conflicting)\",\n    \"- Manager: Priya (priya@work.example) \u2014 prefers async updates on Slack.\",\n    \"- Best friend: Rohan \u2014 lives in Hyderabad, visits every couple of months.\",\n    \"- Landlord: Mr. Rao \u2014 contact only for maintenance, prefers WhatsApp.\",\n    \"- Doctor: Dr. Mehta clinic, Indiranagar \u2014 annual checkup in November.\",\n    \"\",\n    \"# Shopping & subscriptions\",\n    \"- Amazon Prime member; frequent Amazon vendor for electronics.\",\n    \"- Netflix + Spotify; shares Spotify family plan with siblings.\",\n    \"- Prefers cash-on-delivery avoided; default card ending 4412.\",\n    \"\",\n    \"# Vehicle & commute\",\n    \"- Rides a 2019 [TRUNCATED - content cut off]\"\n  ],\n  \"actions\": [\n    {\"type\": \"add\", \"target\": \"system/human/personal_assistant.md\", \"detail\": \"Added new 'Location note (current)' section stating user is now primarily based in Pune at girlfriend's place and rarely visits Bangalore.\"},\n    {\"type\": \"flag\", \"target\": \"Bangalore-tied routines (gym, commute, parking, clinic)\", \"detail\": \"Did not rewrite these sections; instead flagged them in the new Location note as possibly outdated, pending user confirmation, since no specifics about new Pune routine were given.\"},\n    {\"type\": \"keep\", \"target\": \"system/human/personal_assistant.md other sections (Work context, Calendar & routines, Food & ordering, Contacts, Shopping & subscriptions, Vehicle & commute)\", \"detail\": \"Left unchanged aside from the added location caveat; content appears kept as-is but transcript output was truncated before showing the full Vehicle & commute section and beyond.\"}\n  ]\n}\n```",
+  "parsed": {
+    "complete": false,
+    "final_memory_lines": [
+      "# Communication preferences",
+      "- Prefers concise, direct answers; dislikes filler and over-explanation.",
+      "- Wants to be asked before large multi-file changes; small fixes can proceed.",
+      "- Timezone: IST (UTC+5:30). Working hours roughly 10:00\u201319:00.",
+      "- Prefers metric units and DD-MM-YYYY dates.",
+      "",
+      "# Location note (current)",
+      "- Currently based primarily in Pune, living at girlfriend's place; rarely visits Bangalore now.",
+      "- Bangalore-tied routines below (commute, gym schedule, office parking, clinic) were set when Bangalore was the primary base \u2014 confirm before relying on them, as they may be outdated.",
+      "",
+      "# Work context",
+      "- Backend engineer; primary stack Python (FastAPI) and some TypeScript.",
+      "- Uses `uv` for Python envs \u2014 never bare pip. Corrected on this repeatedly.",
+      "- Conventional commits; feature branches, never commits to main directly.",
+      "- Runs lint before tests; prefers pytest with table-driven cases.",
+      "- Current project: migrating an API gateway from Kong to Envoy (replicate as-is).",
+      "",
+      "# Calendar & routines",
+      "- Standup daily at 10:15. No meetings on Wednesday afternoons (focus block).",
+      "- Gym Mon/Wed/Fri mornings; prefers no early meetings those days.",
+      "- Reviews PRs end of day, not first thing.",
+      "",
+      "# Food & ordering habits (general)",
+      "- Usual lunch order via Swiggy; likes South Indian and Thai.",
+      "- Coffee: filter coffee, no sugar. Orders beans monthly from Blue Tokai.",
+      "- Weekend cooking; buys groceries from the local market on Saturdays.",
+      "",
+      "# Contacts (non-conflicting)",
+      "- Manager: Priya (priya@work.example) \u2014 prefers async updates on Slack.",
+      "- Best friend: Rohan \u2014 lives in Hyderabad, visits every couple of months.",
+      "- Landlord: Mr. Rao \u2014 contact only for maintenance, prefers WhatsApp.",
+      "- Doctor: Dr. Mehta clinic, Indiranagar \u2014 annual checkup in November.",
+      "",
+      "# Shopping & subscriptions",
+      "- Amazon Prime member; frequent Amazon vendor for electronics.",
+      "- Netflix + Spotify; shares Spotify family plan with siblings.",
+      "- Prefers cash-on-delivery avoided; default card ending 4412.",
+      "",
+      "# Vehicle & commute",
+      "- Rides a 2019 [TRUNCATED - content cut off]"
+    ],
+    "actions": [
+      {
+        "type": "add",
+        "target": "system/human/personal_assistant.md",
+        "detail": "Added new 'Location note (current)' section stating user is now primarily based in Pune at girlfriend's place and rarely visits Bangalore."
+      },
+      {
+        "type": "flag",
+        "target": "Bangalore-tied routines (gym, commute, parking, clinic)",
+        "detail": "Did not rewrite these sections; instead flagged them in the new Location note as possibly outdated, pending user confirmation, since no specifics about new Pune routine were given."
+      },
+      {
+        "type": "keep",
+        "target": "system/human/personal_assistant.md other sections (Work context, Calendar & routines, Food & ordering, Contacts, Shopping & subscriptions, Vehicle & commute)",
+        "detail": "Left unchanged aside from the added location caveat; content appears kept as-is but transcript output was truncated before showing the full Vehicle & commute section and beyond."
+      }
+    ]
+  }
+}

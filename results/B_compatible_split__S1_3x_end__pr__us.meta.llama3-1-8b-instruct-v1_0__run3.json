@@ -1,0 +1,31 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S1",
+  "scale": 3,
+  "position": "end",
+  "memory_tokens": 1832,
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "\n\n### Phase 1 \u2014 Investigate\n\nThe memory filesystem has 24 files under the `system/` directory and 11 external files. I will review the `system/personal_assistant.md` file to understand the current stored facts about the user.\n\n### Phase 2 \u2014 Extract\n\nAfter reviewing the transcript and the memory filesystem, I found the following candidate learnings worth persisting:\n\n1. **Mistakes and corrections**: None\n2. **Preferences and patterns**: None\n3. **New facts worth retaining**: None\n4. **Contradictions**: None\n5. **Reusable procedures**: None\n\nHowever, I noticed that the user mentioned their parents' separation and their current living arrangements. This is a new fact worth retaining.\n\n### Phase 3 \u2014 Update\n\nI will update the `system/personal_assistant.md` file to reflect the new fact.\n\n**Memory edits**\n\nI will add the following fact to the `system/personal_assistant.md` file:\n\n- Parents: Mom lives in Gurgaon, Sector 45.\n\nTo do this, I will use the `Edit` tool to update the file. I will append the new fact to the \"Recipients & personal facts\" section.\n\n### Phase 4 \u2014 Review\n\nI reviewed the changes and ensured that:\n\n* No secrets or junk were persisted.\n* The new fact is correctly added to the `system/personal_assistant.md` file.\n* The file is in the correct tier (`system/`).\n\n### Phase 5 \u2014 Commit\n\nI will commit the changes to the memory filesystem.\n\nHere is the intended FINAL state of the `system/personal_assistant.md` file:\n\n```markdown\n# Recipients & personal facts (current)\n- Parents (tag: parents): Dad lives in Delhi, 45 Nehru Street, Delhi 110001\n- Parents (tag: parents): Mom lives in Gurgaon, Sector 45\n```\n\n**Commit**\n\n`feat(reflection): update personal_assistant.md with parents' living arrangements \ud83d\udd2e\n\nReviewed transcript: <transcript>\n\nUpdates:\n- Added fact about parents' living arrangements\n\nGenerated-By: Letta Code\nAgent-ID: agent-abc123\nParent-Agent-ID: agent-def456\n```",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"# Recipients & personal facts (current)\",\n    \"- Parents (tag: parents): Dad lives in Delhi, 45 Nehru Street, Delhi 110001\",\n    \"- Parents (tag: parents): Mom lives in Gurgaon, Sector 45\"\n  ],\n  \"actions\": [\n    {\"type\": \"add\", \"target\": \"system/personal_assistant.md\", \"detail\": \"parents' living arrangements\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "# Recipients & personal facts (current)",
+      "- Parents (tag: parents): Dad lives in Delhi, 45 Nehru Street, Delhi 110001",
+      "- Parents (tag: parents): Mom lives in Gurgaon, Sector 45"
+    ],
+    "actions": [
+      {
+        "type": "add",
+        "target": "system/personal_assistant.md",
+        "detail": "parents' living arrangements"
+      }
+    ]
+  }
+}

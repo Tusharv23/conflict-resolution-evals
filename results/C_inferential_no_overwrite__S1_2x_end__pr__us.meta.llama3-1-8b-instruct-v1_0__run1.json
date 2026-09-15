@@ -1,0 +1,30 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S1",
+  "scale": 2,
+  "position": "end",
+  "memory_tokens": 1273,
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "\n\n**Summary**: The conversation revealed the user has been living in Pune for the last few months and is mostly based there, which updates their address. This change affects their home location and requires updating their memory.\n\n**Memory changes**:\n\n* Updated `system/human/personal_assistant.md` with the following changes:\n\n```\n# Recipients & personal facts (current)\n- Home (tag: home): [12 MG Road, Bangalore 560001] -> [Pune address]\n```\n\n**Skill changes**: No changes made to skills.\n\n**Skipped**: No information was considered but not persisted.\n\n**Commit**: Confirmed commit with the following message:\n\n`fix(reflection): update personal address to Pune`\n\n**Issues**: None.\n\n**Final state of memory file**:\n\n```\n# Recipients & personal facts (current)\n- Home (tag: home): Pune address\n```\n\nNote: I assumed the user's new address is not provided in the transcript, so I left it as `[Pune address]`. If the user's new address is known, it should be filled in accordingly.",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"# Recipients & personal facts (current)\",\n    \"- Home (tag: home): Pune address\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"Home (tag: home): [12 MG Road, Bangalore 560001]\", \"detail\": \"with Pune address\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "# Recipients & personal facts (current)",
+      "- Home (tag: home): Pune address"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Home (tag: home): [12 MG Road, Bangalore 560001]",
+        "detail": "with Pune address"
+      }
+    ]
+  }
+}

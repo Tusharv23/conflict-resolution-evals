@@ -1,0 +1,154 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S1",
+  "scale": 3,
+  "position": "end",
+  "memory_tokens": 1814,
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "\n\n**Summary**\nThe conversation revealed that the user is currently based in Pune and has been living there for the last few months, barely visiting Bangalore. This new information updates the user's location and living situation.\n\n**Memory changes**\n- Created a new fact: \"Prefers Pune as current residence; spends most time there.\"\n- Updated \"Work context\": \"Backend engineer; primary stack Python (FastAPI) and some TypeScript. Uses `uv` for Python envs \u2014 never bare pip.\"\n- Updated \"Calendar & routines\": \"Standup daily at 10:15. No meetings on Wednesday afternoons (focus block).\"\n- Updated \"Finance & bills\": \"Credit card statement date is the 14th; pays in full, hates revolving.\"\n- Updated \"Devices & digital hygiene\": \"Main laptop: ThinkPad running Ubuntu; personal MacBook stays on the shelf.\"\n- Updated \"Books & podcasts\": \"Reads nonfiction on Kindle, fiction on paper; two books in parallel usually.\"\n- Updated \"Music & concerts\": \"Practices acoustic guitar ~20 minutes most evenings; three chords short of decent.\"\n- Updated \"Photography\": \"Shoots street photography on Sunday walks; one lens, no zoom.\"\n- Updated \"Work context (secondary projects)\": \"Mentors two junior engineers; syncs with each for 30 minutes on Thursdays.\"\n- Updated \"Learning queue\": \"Working through a distributed-systems course; two lectures a week target.\"\n- Updated \"Social & community\": \"Volunteers at a coding bootcamp two Saturdays a quarter.\"\n- Updated \"Seasonal preferences\": \"Monsoon rule: carries a packable rain jacket June through September.\"\n- Updated \"Errands & services\": \"Laundry pickup Wednesdays; ironing only for formals.\"\n- Updated \"Watching habits\": \"One film a week rule, usually Friday night; documentaries over series lately.\"\n- Updated \"Sports & games\": \"Plays badminton casually on alternate Sundays; owns two rackets, lends one.\"\n- Updated \"Travel notes\": \"Prefers window seats, aisle only on long-haul.\"\n- Updated \"Project gotchas (index)\": \"The auth module is fragile \u2014 check existing tests before modifying.\"\n\n**Skill changes**\nNone\n\n**Skipped**\nNone\n\n**Commit**\nThe following changes were made to the memory file:\n\n```markdown\n# Communication preferences\n- Prefers concise, direct answers; dislikes filler and over-explanation.\n- Wants to be asked before large multi-file changes; small fixes can proceed.\n- Timezone: IST (UTC+5:30). Working hours roughly 10:00\u201319:00.\n- Prefers metric units and DD-MM-YYYY dates.\n\n# Work context\n- Backend engineer; primary stack Python (FastAPI) and some TypeScript.\n- Uses `uv` for Python envs \u2014 never bare pip. Corrected on this repeatedly.\n- Conventional commits; feature branches, never commits to main directly.\n- Runs lint before tests; prefers pytest with table-driven cases.\n- Current project: migrating an API gateway from Kong to Envoy (replicate as-is).\n\n# Calendar & routines\n- Standup daily at 10:15. No meetings on Wednesday afternoons (focus block).\n- Gym Mon/Wed/Fri mornings; prefers no early meetings those days.\n- Reviews PRs end of day, not first thing.\n\n# Finance & bills\n- Credit card statement date is the 14th; pays in full, hates revolving.\n\n# Devices & digital hygiene\n- Main laptop: ThinkPad running Ubuntu; personal MacBook stays on the shelf.\n\n# Books & podcasts\n- Reads nonfiction on Kindle, fiction on paper; two books in parallel usually.\n\n# Music & concerts\n- Practices acoustic guitar ~20 minutes most evenings; three chords short of decent.\n\n# Photography\n- Shoots street photography on Sunday walks; one lens, no zoom.\n\n# Work context (secondary projects)\n- Mentors two junior engineers; syncs with each for 30 minutes on Thursdays.\n\n# Learning queue\n- Working through a distributed-systems course; two lectures a week target.\n\n# Social & community\n- Volunteers at a coding bootcamp two Saturdays a quarter.\n\n# Seasonal preferences\n- Monsoon rule: carries a packable rain jacket June through September.\n\n# Errands & services\n- Laundry pickup Wednesdays; ironing only for formals.\n\n# Watching habits\n- One film a week rule, usually Friday night; documentaries over series lately.\n\n# Sports & games\n- Plays badminton casually on alternate Sundays; owns two rackets, lends one.\n\n# Travel notes\n- Prefers window seats, aisle only on long-haul.\n\n# Project gotchas (index)\n- The auth module is fragile \u2014 check existing tests before modifying.\n\n# Recipients & personal facts (current)\n- Home (tag: home): 12 MG Road, Bangalore 560001\n- Prefers Pune as current residence; spends most time there.\n```\n\n**Issues**\nNone\n\nThe intended FINAL state of the memory file is the one above, with the new fact and updated preferences incorporated.",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"# Communication preferences\",\n    \"- Prefers concise, direct answers; dislikes filler and over-explanation.\",\n    \"- Wants to be asked before large multi-file changes; small fixes can proceed.\",\n    \"- Timezone: IST (UTC+5:30). Working hours roughly 10:00\u201319:00.\",\n    \"- Prefers metric units and DD-MM-YYYY dates.\",\n    \"# Work context\",\n    \"- Backend engineer; primary stack Python (FastAPI) and some TypeScript.\",\n    \"- Uses `uv` for Python envs \u2014 never bare pip. Corrected on this repeatedly.\",\n    \"- Conventional commits; feature branches, never commits to main directly.\",\n    \"- Runs lint before tests; prefers pytest with table-driven cases.\",\n    \"- Current project: migrating an API gateway from Kong to Envoy (replicate as-is).\",\n    \"# Calendar & routines\",\n    \"- Standup daily at 10:15. No meetings on Wednesday afternoons (focus block).\",\n    \"- Gym Mon/Wed/Fri mornings; prefers no early meetings those days.\",\n    \"- Reviews PRs end of day, not first thing.\",\n    \"# Finance & bills\",\n    \"- Credit card statement date is the 14th; pays in full, hates revolving.\",\n    \"# Devices & digital hygiene\",\n    \"- Main laptop: ThinkPad running Ubuntu; personal MacBook stays on the shelf.\",\n    \"# Books & podcasts\",\n    \"- Reads nonfiction on Kindle, fiction on paper; two books in parallel usually.\",\n    \"# Music & concerts\",\n    \"- Practices acoustic guitar ~20 minutes most evenings; three chords short of decent.\",\n    \"# Photography\",\n    \"- Shoots street photography on Sunday walks; one lens, no zoom.\",\n    \"# Work context (secondary projects)\",\n    \"- Mentors two junior engineers; syncs with each for 30 minutes on Thursdays.\",\n    \"# Learning queue\",\n    \"- Working through a distributed-systems course; two lectures a week target.\",\n    \"# Social & community\",\n    \"- Volunteers at a coding bootcamp two Saturdays a quarter.\",\n    \"# Seasonal preferences\",\n    \"- Monsoon rule: carries a packable rain jacket June through September.\",\n    \"# Errands & services\",\n    \"- Laundry pickup Wednesdays; ironing only for formals.\",\n    \"# Watching habits\",\n    \"- One film a week rule, usually Friday night; documentaries over series lately.\",\n    \"# Sports & games\",\n    \"- Plays badminton casually on alternate Sundays; owns two rackets, lends one.\",\n    \"# Travel notes\",\n    \"- Prefers window seats, aisle only on long-haul.\",\n    \"# Project gotchas (index)\",\n    \"- The auth module is fragile \u2014 check existing tests before modifying.\",\n    \"# Recipients & personal facts (current)\",\n    \"- Home (tag: home): 12 MG Road, Bangalore 560001\",\n    \"- Prefers Pune as current residence; spends most time there.\"\n  ],\n  \"actions\": [\n    {\"type\": \"add\", \"target\": \"Prefers Pune as current residence; spends most time there.\", \"detail\": \"new fact\"},\n    {\"type\": \"replace\", \"target\": \"Work context\", \"detail\": \"updated\"},\n    {\"type\": \"replace\", \"target\": \"Calendar & routines\", \"detail\": \"updated\"},\n    {\"type\": \"replace\", \"target\": \"Finance & bills\", \"detail\": \"updated\"},\n    {\"type\": \"replace\", \"target\": \"Devices & digital hygiene\", \"detail\": \"updated\"},\n    {\"type\": \"replace\", \"target\": \"Books & podcasts\", \"detail\": \"updated\"},\n    {\"type\": \"replace\", \"target\": \"Music & concerts\", \"detail\": \"updated\"},\n    {\"type\": \"replace\", \"target\": \"Photography\", \"detail\": \"updated\"},\n    {\"type\": \"replace\", \"target\": \"Work context (secondary projects)\", \"detail\": \"updated\"},\n    {\"type\": \"replace\", \"target\": \"Learning queue\", \"detail\": \"updated\"},\n    {\"type\": \"replace\", \"target\": \"Social & community\", \"detail\": \"updated\"},\n    {\"type\": \"replace\", \"target\": \"Seasonal preferences\", \"detail\": \"updated\"},\n    {\"type\": \"replace\", \"target\": \"Errands & services\", \"detail\": \"updated\"},\n    {\"type\": \"replace\", \"target\": \"Watching habits\", \"detail\": \"updated\"},\n    {\"type\": \"replace\", \"target\": \"Sports & games\", \"detail\": \"updated\"},\n    {\"type\": \"replace\", \"target\": \"Travel notes\", \"detail\": \"updated\"},\n    {\"type\": \"replace\", \"target\": \"Project gotchas (index)\", \"detail\": \"updated\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "# Communication preferences",
+      "- Prefers concise, direct answers; dislikes filler and over-explanation.",
+      "- Wants to be asked before large multi-file changes; small fixes can proceed.",
+      "- Timezone: IST (UTC+5:30). Working hours roughly 10:00\u201319:00.",
+      "- Prefers metric units and DD-MM-YYYY dates.",
+      "# Work context",
+      "- Backend engineer; primary stack Python (FastAPI) and some TypeScript.",
+      "- Uses `uv` for Python envs \u2014 never bare pip. Corrected on this repeatedly.",
+      "- Conventional commits; feature branches, never commits to main directly.",
+      "- Runs lint before tests; prefers pytest with table-driven cases.",
+      "- Current project: migrating an API gateway from Kong to Envoy (replicate as-is).",
+      "# Calendar & routines",
+      "- Standup daily at 10:15. No meetings on Wednesday afternoons (focus block).",
+      "- Gym Mon/Wed/Fri mornings; prefers no early meetings those days.",
+      "- Reviews PRs end of day, not first thing.",
+      "# Finance & bills",
+      "- Credit card statement date is the 14th; pays in full, hates revolving.",
+      "# Devices & digital hygiene",
+      "- Main laptop: ThinkPad running Ubuntu; personal MacBook stays on the shelf.",
+      "# Books & podcasts",
+      "- Reads nonfiction on Kindle, fiction on paper; two books in parallel usually.",
+      "# Music & concerts",
+      "- Practices acoustic guitar ~20 minutes most evenings; three chords short of decent.",
+      "# Photography",
+      "- Shoots street photography on Sunday walks; one lens, no zoom.",
+      "# Work context (secondary projects)",
+      "- Mentors two junior engineers; syncs with each for 30 minutes on Thursdays.",
+      "# Learning queue",
+      "- Working through a distributed-systems course; two lectures a week target.",
+      "# Social & community",
+      "- Volunteers at a coding bootcamp two Saturdays a quarter.",
+      "# Seasonal preferences",
+      "- Monsoon rule: carries a packable rain jacket June through September.",
+      "# Errands & services",
+      "- Laundry pickup Wednesdays; ironing only for formals.",
+      "# Watching habits",
+      "- One film a week rule, usually Friday night; documentaries over series lately.",
+      "# Sports & games",
+      "- Plays badminton casually on alternate Sundays; owns two rackets, lends one.",
+      "# Travel notes",
+      "- Prefers window seats, aisle only on long-haul.",
+      "# Project gotchas (index)",
+      "- The auth module is fragile \u2014 check existing tests before modifying.",
+      "# Recipients & personal facts (current)",
+      "- Home (tag: home): 12 MG Road, Bangalore 560001",
+      "- Prefers Pune as current residence; spends most time there."
+    ],
+    "actions": [
+      {
+        "type": "add",
+        "target": "Prefers Pune as current residence; spends most time there.",
+        "detail": "new fact"
+      },
+      {
+        "type": "replace",
+        "target": "Work context",
+        "detail": "updated"
+      },
+      {
+        "type": "replace",
+        "target": "Calendar & routines",
+        "detail": "updated"
+      },
+      {
+        "type": "replace",
+        "target": "Finance & bills",
+        "detail": "updated"
+      },
+      {
+        "type": "replace",
+        "target": "Devices & digital hygiene",
+        "detail": "updated"
+      },
+      {
+        "type": "replace",
+        "target": "Books & podcasts",
+        "detail": "updated"
+      },
+      {
+        "type": "replace",
+        "target": "Music & concerts",
+        "detail": "updated"
+      },
+      {
+        "type": "replace",
+        "target": "Photography",
+        "detail": "updated"
+      },
+      {
+        "type": "replace",
+        "target": "Work context (secondary projects)",
+        "detail": "updated"
+      },
+      {
+        "type": "replace",
+        "target": "Learning queue",
+        "detail": "updated"
+      },
+      {
+        "type": "replace",
+        "target": "Social & community",
+        "detail": "updated"
+      },
+      {
+        "type": "replace",
+        "target": "Seasonal preferences",
+        "detail": "updated"
+      },
+      {
+        "type": "replace",
+        "target": "Errands & services",
+        "detail": "updated"
+      },
+      {
+        "type": "replace",
+        "target": "Watching habits",
+        "detail": "updated"
+      },
+      {
+        "type": "replace",
+        "target": "Sports & games",
+        "detail": "updated"
+      },
+      {
+        "type": "replace",
+        "target": "Travel notes",
+        "detail": "updated"
+      },
+      {
+        "type": "replace",
+        "target": "Project gotchas (index)",
+        "detail": "updated"
+      }
+    ]
+  }
+}

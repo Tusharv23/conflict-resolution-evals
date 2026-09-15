@@ -1,0 +1,44 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S1",
+  "scale": 3,
+  "position": "end",
+  "memory_tokens": 1832,
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "\n\n**Summary**\nThe conversation reveals a correction to the user's living situation, specifically that their mother has moved to a new place in Gurgaon. This update affects the user's address book and calendar, as well as their general knowledge about their family.\n\n**Memory changes**\n\n* Updated `system/human/address_book.md`:\n  - Added a new entry for the user's mother:\n    - Name: Mom\n    - Address: Sector 45, Gurgaon\n  - Updated the user's parents' address to reflect their separation:\n    - Parents (tag: parents): 45 Nehru Street, Delhi 110001 (Dad's address) and Sector 45, Gurgaon (Mom's address)\n\n**Skill changes**\nNo skill changes were made.\n\n**Skipped**\nNo information was considered but not persisted.\n\n**Commit**\nCommit message: `feat(reflection): update user's address book and calendar`\n\n**Issues**\nNone.\n\n**Final memory file:**\n\n# Communication preferences\n- Prefers concise, direct answers; dislikes filler and over-explanation.\n- Wants to be asked before large multi-file changes; small fixes can proceed.\n- Timezone: IST (UTC+5:30). Working hours roughly 10:00\u201319:00.\n- Prefers metric units and DD-MM-YYYY dates.\n\n# Work context\n- Backend engineer; primary stack Python (FastAPI) and some TypeScript.\n- Uses `uv` for Python envs \u2014 never bare pip. Corrected on this repeatedly.\n- Conventional commits; feature branches, never commits to main directly.\n- Runs lint before tests; prefers pytest with table-driven cases.\n- Current project: migrating an API gateway from Kong to Envoy (replicate as-is).\n\n# Calendar & routines\n- Standup daily at 10:15. No meetings on Wednesday afternoons (focus block).\n- Gym Mon/Wed/Fri mornings; prefers no early meetings those days.\n- Reviews PRs end of day, not first thing.\n\n# Address book\n- Parents (tag: parents): 45 Nehru Street, Delhi 110001 (Dad's address) and Sector 45, Gurgaon (Mom's address)\n\n# ... (rest of the file remains unchanged)",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Communication preferences\",\n    \"Work context\",\n    \"Calendar & routines\",\n    \"Address book\",\n    \"- Parents (tag: parents): 45 Nehru Street, Delhi 110001 (Dad's address) and Sector 45, Gurgaon (Mom's address)\",\n    \"# ... (rest of the file remains unchanged)\"\n  ],\n  \"actions\": [\n    {\"type\": \"add\", \"target\": \"Address book\", \"detail\": \"new entry for user's mother\"},\n    {\"type\": \"update\", \"target\": \"Address book\", \"detail\": \"user's parents' address to reflect their separation\"},\n    {\"type\": \"replace\", \"target\": \"Address book\", \"detail\": \"user's mother's address to Sector 45, Gurgaon\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Communication preferences",
+      "Work context",
+      "Calendar & routines",
+      "Address book",
+      "- Parents (tag: parents): 45 Nehru Street, Delhi 110001 (Dad's address) and Sector 45, Gurgaon (Mom's address)",
+      "# ... (rest of the file remains unchanged)"
+    ],
+    "actions": [
+      {
+        "type": "add",
+        "target": "Address book",
+        "detail": "new entry for user's mother"
+      },
+      {
+        "type": "update",
+        "target": "Address book",
+        "detail": "user's parents' address to reflect their separation"
+      },
+      {
+        "type": "replace",
+        "target": "Address book",
+        "detail": "user's mother's address to Sector 45, Gurgaon"
+      }
+    ]
+  }
+}

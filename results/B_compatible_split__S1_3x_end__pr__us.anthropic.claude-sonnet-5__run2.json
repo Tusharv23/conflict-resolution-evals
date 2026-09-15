@@ -1,0 +1,21 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S1",
+  "scale": 3,
+  "position": "end",
+  "memory_tokens": 1832,
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "\n\n[[TRUNCATED: hit max_tokens]]",
+  "stage2_extraction": "{\n  \"complete\": false,\n  \"final_memory_lines\": [],\n  \"actions\": []\n}",
+  "parsed": {
+    "complete": false,
+    "final_memory_lines": [],
+    "actions": []
+  }
+}

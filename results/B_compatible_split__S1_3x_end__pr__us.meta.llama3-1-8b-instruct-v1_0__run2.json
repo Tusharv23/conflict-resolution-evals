@@ -1,0 +1,30 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S1",
+  "scale": 3,
+  "position": "end",
+  "memory_tokens": 1832,
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "\n\n### Phase 1 \u2014 Investigate\n\nThe current memory landscape is well-structured, with various categories and subtopics. The user's preferences, habits, and facts are organized in a clear and concise manner. The conversation transcript is a short exchange about the user's parents' separation.\n\n### Phase 2 \u2014 Extract\n\nAfter reviewing the conversation, I found one candidate learning worth persisting:\n\n1. **New fact worth retaining**: The user's parents are now in separate homes, with Dad in the Delhi house and Mom in her own place in Gurgaon, Sector 45.\n\n### Phase 3 \u2014 Update\n\nI will update the memory file to reflect this new fact.\n\n**Memory edits**\n\nI will add a new fact to the \"Recipients & personal facts\" section:\n\n- Parents (tag: parents): 45 Nehru Street, Delhi 110001 (Dad's residence) and Sector 45, Gurgaon (Mom's residence)\n\nI will use Edit to append this new fact to the existing file.\n\n### Phase 4 \u2014 Review\n\nI have reviewed the changes and ensured that:\n\n* The new fact is correctly added to the \"Recipients & personal facts\" section.\n* The existing content remains unchanged.\n* The memory file is still well-structured and easy to navigate.\n\n### Phase 5 \u2014 Commit\n\nI will commit the changes with the following message:\n\n```bash\ncd $MEMORY_DIR\ngit add -A\ngit commit --author=\"Reflection Subagent agent-abc123@letta.com\" -m \"feat(reflection): update user's parents' residences \ud83d\udd2e\n\nReviewed transcript: <transcript_filepath>\n\nUpdates:\n- Added new fact about user's parents' residences\n\nGenerated-By: Letta Code\nAgent-ID: agent-abc123\nParent-Agent-ID: agent-def456\"\n```\n\nThe intended FINAL state of the memory file is:\n\n```\n# Recipients & personal facts (current)\n- Parents (tag: parents): 45 Nehru Street, Delhi 110001 (Dad's residence) and Sector 45, Gurgaon (Mom's residence)\n```\n\nNo skill changes were made, and no issues were encountered during the reflection process.",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"# Recipients & personal facts (current)\",\n    \"- Parents (tag: parents): 45 Nehru Street, Delhi 110001 (Dad's residence) and Sector 45, Gurgaon (Mom's residence)\"\n  ],\n  \"actions\": [\n    {\"type\": \"add\", \"target\": \"Parents (tag: parents): 45 Nehru Street, Delhi 110001 (Dad's residence) and Sector 45, Gurgaon (Mom's residence)\", \"detail\": \"added to Recipients & personal facts\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "# Recipients & personal facts (current)",
+      "- Parents (tag: parents): 45 Nehru Street, Delhi 110001 (Dad's residence) and Sector 45, Gurgaon (Mom's residence)"
+    ],
+    "actions": [
+      {
+        "type": "add",
+        "target": "Parents (tag: parents): 45 Nehru Street, Delhi 110001 (Dad's residence) and Sector 45, Gurgaon (Mom's residence)",
+        "detail": "added to Recipients & personal facts"
+      }
+    ]
+  }
+}

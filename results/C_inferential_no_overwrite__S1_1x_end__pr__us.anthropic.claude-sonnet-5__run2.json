@@ -1,0 +1,35 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S1",
+  "scale": 1,
+  "position": "end",
+  "memory_tokens": 733,
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "## Summary\n\nReviewed the transcript where the user mentioned spending most of their time at their girlfriend's place in Pune rather than their Bangalore home. This is a personal-fact update but reads as a possibly temporary living situation rather than a confirmed permanent relocation, so per the \"Annotate\" rule I recorded it as a separate note alongside the existing Bangalore address rather than overwriting it. No skill-worthy workflow was present.\n\n## Memory changes\n\n- **`system/human/personal_assistant.md`** \u2014 Modified the \"Recipients & personal facts (current)\" section. Added a new line noting the user currently spends most time at their girlfriend's place in Pune, while leaving the existing Bangalore home address unchanged (per Restraint/Annotate guidance \u2014 this is a single, recent, unverified statement about an evolving situation, not a confirmed permanent move).\n\n## Skill changes\n\nNone. This was a single factual disclosure, not a repeatable multi-step procedure.\n\n## Skipped\n\n- Did not overwrite or delete the Bangalore home address \u2014 the statement (\"basically been living... for the last few months\") suggests an ongoing but not necessarily permanent situation, and no explicit staleness/correction was established.\n- Did not fabricate a relative-to-absolute date conversion since no date was available in the transcript or metadata.\n\n## Commit\n\nCommitted to the memory repo with a `feat(reflection)` commit adding the new personal-fact annotation.\n\n## Issues\n\nNone encountered.\n\n---\n\n### FINAL state of `system/human/personal_assistant.md` (relevant section only \u2014 all other sections unchanged)\n\n```\n# Recipients & personal facts (current)\n- Home (tag: home): 12 MG Road, Bangalore 560001\n- Currently spends most time at girlfriend's place in Pune; Bangalore address above remains the registered/primary home (noted as an evolving living situation, not yet confirmed as a permanent change).\n```\n\nAll other sections (`Communication preferences`, `Work context`, `Calendar & routines`, `Food & ordering habits`, `Contacts`, `Shopping & subscriptions`, `Travel notes`, `Project gotchas`, `Reading & learning`, `Misc preferences`) remain exactly as previously stored, with no changes.",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Home (tag: home): 12 MG Road, Bangalore 560001\",\n    \"Currently spends most time at girlfriend's place in Pune; Bangalore address above remains the registered/primary home (noted as an evolving living situation, not yet confirmed as a permanent change).\"\n  ],\n  \"actions\": [\n    {\"type\": \"keep\", \"target\": \"Home (tag: home): 12 MG Road, Bangalore 560001\", \"detail\": \"Left unchanged per Annotate rule since the Pune living situation is not confirmed as permanent.\"},\n    {\"type\": \"add\", \"target\": \"Recipients & personal facts (current) section\", \"detail\": \"Added new note stating user currently spends most time at girlfriend's place in Pune, annotated as an evolving, unconfirmed situation, without overwriting the Bangalore address.\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home (tag: home): 12 MG Road, Bangalore 560001",
+      "Currently spends most time at girlfriend's place in Pune; Bangalore address above remains the registered/primary home (noted as an evolving living situation, not yet confirmed as a permanent change)."
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Home (tag: home): 12 MG Road, Bangalore 560001",
+        "detail": "Left unchanged per Annotate rule since the Pune living situation is not confirmed as permanent."
+      },
+      {
+        "type": "add",
+        "target": "Recipients & personal facts (current) section",
+        "detail": "Added new note stating user currently spends most time at girlfriend's place in Pune, annotated as an evolving, unconfirmed situation, without overwriting the Bangalore address."
+      }
+    ]
+  }
+}

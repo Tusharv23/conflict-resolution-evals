@@ -1,0 +1,40 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S1",
+  "scale": 2,
+  "position": "end",
+  "memory_tokens": 1273,
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "## Summary\n\nReviewed the personal assistant memory file against a short transcript revealing the user is now primarily based in Pune (living with their girlfriend for several months), rarely returning to Bangalore. This directly updates a stored fact (\"Home (tag: home): 12 MG Road, Bangalore 560001\") that is now stale/misleading as a \"current residence\" signal, so I corrected it at the source rather than appending a duplicate entry.\n\n## Memory changes\n\n**Modified:** `system/human/personal_assistant.md` \u2014 section \"Recipients & personal facts (current)\"\n- Reason: The Bangalore address was presented as the current home, but the user now states they're mostly living in Pune. Updated to reflect actual current living situation while preserving the Bangalore address as a permanent/registered address (since no explicit request to delete it, and it may still be useful for mail/deliveries/records).\n- I did not touch other Bangalore-anchored facts (gym schedule, parking spot, doctor, commute) since the user gave no information about work location, gym membership, or office status changing \u2014 only that they personally aren't going back to Bangalore much. Overriding those would be speculative; flagged as a gap below rather than edited.\n\n## Skill changes\n\nNone \u2014 this is a simple factual update, not a reusable multi-step workflow.\n\n## Skipped\n\n- Did not infer changes to commute/gym/office-related facts (e.g., \"Rides a 2019 Honda City,\" \"Parking spot B2-114,\" \"Gym Mon/Wed/Fri mornings\") since the transcript only mentions personal living arrangements, not confirmed changes to work location or routine. Flagging as uncertain rather than editing speculatively.\n- Did not add relationship/girlfriend details as a new \"Contacts\" entry \u2014 no name, contact info, or durable relationship fact was given beyond the living situation itself, so nothing further to record.\n\n## Commit\n\nCommitted: `fix(reflection): update current residence to Pune \ud83d\udd2e`\n\n## Issues\n\nThe user's routine facts (gym days, parking spot, driving days, office standup) are all Bangalore-centric and may now be stale given the move to Pune, but the transcript doesn't confirm this explicitly \u2014 worth confirming with the user directly in a future turn rather than assuming.\n\n---\n\n### FINAL state of `system/human/personal_assistant.md` (relevant section only \u2014 all other sections unchanged)\n\n```\n# Recipients & personal facts (current)\n- Currently based in Pune, living with girlfriend for the past several months; rarely returns to Bangalore these days.\n- Home (tag: home): 12 MG Road, Bangalore 560001 (permanent/registered address; not the current primary residence)\n```\n\nAll other sections of the file remain exactly as previously stored.",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Currently based in Pune, living with girlfriend for the past several months; rarely returns to Bangalore these days.\",\n    \"Home (tag: home): 12 MG Road, Bangalore 560001 (permanent/registered address; not the current primary residence)\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Home (tag: home): 12 MG Road, Bangalore 560001\",\n      \"detail\": \"Annotated the Bangalore address as permanent/registered but not current primary residence, and added a new fact stating the user is currently based in Pune living with girlfriend, rarely returning to Bangalore.\"\n    },\n    {\n      \"type\": \"keep\",\n      \"target\": \"Gym schedule, parking spot, doctor, commute, 2019 Honda City, office standup facts\",\n      \"detail\": \"Left unchanged; flagged as potentially stale but not edited since transcript did not confirm changes to work location or routine.\"\n    },\n    {\n      \"type\": \"keep\",\n      \"target\": \"Contacts section\",\n      \"detail\": \"No new relationship/girlfriend contact entry added since no name or contact info was given.\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Currently based in Pune, living with girlfriend for the past several months; rarely returns to Bangalore these days.",
+      "Home (tag: home): 12 MG Road, Bangalore 560001 (permanent/registered address; not the current primary residence)"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Home (tag: home): 12 MG Road, Bangalore 560001",
+        "detail": "Annotated the Bangalore address as permanent/registered but not current primary residence, and added a new fact stating the user is currently based in Pune living with girlfriend, rarely returning to Bangalore."
+      },
+      {
+        "type": "keep",
+        "target": "Gym schedule, parking spot, doctor, commute, 2019 Honda City, office standup facts",
+        "detail": "Left unchanged; flagged as potentially stale but not edited since transcript did not confirm changes to work location or routine."
+      },
+      {
+        "type": "keep",
+        "target": "Contacts section",
+        "detail": "No new relationship/girlfriend contact entry added since no name or contact info was given."
+      }
+    ]
+  }
+}

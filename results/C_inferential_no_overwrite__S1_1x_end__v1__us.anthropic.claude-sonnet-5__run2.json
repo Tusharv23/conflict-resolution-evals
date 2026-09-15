@@ -1,0 +1,45 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S1",
+  "scale": 1,
+  "position": "end",
+  "memory_tokens": 733,
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "**Summary:** Reviewed the transcript revealing a durable personal fact \u2014 the user has been living primarily at their girlfriend's place in Pune for the past few months and rarely visits their registered Bangalore home. This updates the existing \"Recipients & personal facts\" entry rather than replacing the Bangalore address outright (since it may still be a valid mailing/registered address), but flags the current living situation for context-aware assistance (deliveries, travel, scheduling).\n\n**Memory changes:**\n- Modified `system/human/personal_assistant.md`: Updated the \"Recipients & personal facts (current)\" section to add a note about the user currently being based mostly in Pune (girlfriend's place), with the Bangalore address retained as the registered home but flagged as infrequently used currently.\n\n**Skill changes:** None \u2014 this is a simple personal fact update, not a reusable workflow.\n\n**Skipped:**\n- Did not add a \"girlfriend\" contact entry since no name was given \u2014 insufficient detail to be actionable.\n- Did not overwrite/remove the Bangalore home address, since it may still be valid for mail/deliveries/records; instead annotated current living pattern alongside it.\n- No exact date given for \"last few months,\" so avoided fabricating a precise date; noted as a current/recent situation instead.\n\n**Commit:** Committed to `$MEMORY_DIR` with message `fix(reflection): update current living situation \ud83d\udd2e`.\n\n**Issues:** None.\n\n---\n\n**FINAL state of `system/human/personal_assistant.md` (relevant section only, rest unchanged):**\n\n```\n# Recipients & personal facts (current)\n- Home (tag: home, registered): 12 MG Road, Bangalore 560001 \u2014 currently used infrequently.\n- Currently based mostly in Pune, staying at girlfriend's place, for the past few months; rarely back in Bangalore these days.\n```\n\nAll other sections of `system/human/personal_assistant.md` remain unchanged as previously stored.",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Home (tag: home, registered): 12 MG Road, Bangalore 560001 \u2014 currently used infrequently.\",\n    \"Currently based mostly in Pune, staying at girlfriend's place, for the past few months; rarely back in Bangalore these days.\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Recipients & personal facts (current) - Home entry\",\n      \"detail\": \"Retained Bangalore home address (12 MG Road, Bangalore 560001) as registered home, but flagged as currently used infrequently.\"\n    },\n    {\n      \"type\": \"add\",\n      \"target\": \"Recipients & personal facts (current)\",\n      \"detail\": \"Added note that user is currently based mostly in Pune, staying at girlfriend's place, for the past few months, rarely back in Bangalore.\"\n    },\n    {\n      \"type\": \"keep\",\n      \"target\": \"Other sections of system/human/personal_assistant.md\",\n      \"detail\": \"Left unchanged.\"\n    },\n    {\n      \"type\": \"flag\",\n      \"target\": \"Girlfriend contact entry\",\n      \"detail\": \"Did not add a contact entry for girlfriend since no name was given.\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home (tag: home, registered): 12 MG Road, Bangalore 560001 \u2014 currently used infrequently.",
+      "Currently based mostly in Pune, staying at girlfriend's place, for the past few months; rarely back in Bangalore these days."
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Recipients & personal facts (current) - Home entry",
+        "detail": "Retained Bangalore home address (12 MG Road, Bangalore 560001) as registered home, but flagged as currently used infrequently."
+      },
+      {
+        "type": "add",
+        "target": "Recipients & personal facts (current)",
+        "detail": "Added note that user is currently based mostly in Pune, staying at girlfriend's place, for the past few months, rarely back in Bangalore."
+      },
+      {
+        "type": "keep",
+        "target": "Other sections of system/human/personal_assistant.md",
+        "detail": "Left unchanged."
+      },
+      {
+        "type": "flag",
+        "target": "Girlfriend contact entry",
+        "detail": "Did not add a contact entry for girlfriend since no name was given."
+      }
+    ]
+  }
+}

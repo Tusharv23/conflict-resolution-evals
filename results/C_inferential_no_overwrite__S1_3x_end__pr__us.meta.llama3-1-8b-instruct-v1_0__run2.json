@@ -1,0 +1,47 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S1",
+  "scale": 3,
+  "position": "end",
+  "memory_tokens": 1814,
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "\n\n**Summary**: The conversation revealed that the user has been living in Pune for the last few months and is mostly based there now. I updated the memory to reflect this change.\n\n**Memory changes**:\n\n- Added a new fact to `system/human/personal_assistant.md`:\n  - Lives in Pune for the last few months; mostly based there now.\n\n**Skill changes**: None\n\n**Skipped**: No information was considered but not persisted.\n\n**Commit**: Yes, I committed the changes.\n\n**Issues**: None encountered.\n\nThe updated `system/human/personal_assistant.md` file should contain the following fact lines:\n\n# Communication preferences\n- Prefers concise, direct answers; dislikes filler and over-explanation.\n- Wants to be asked before large multi-file changes; small fixes can proceed.\n- Timezone: IST (UTC+5:30). Working hours roughly 10:00\u201319:00.\n- Prefers metric units and DD-MM-YYYY dates.\n\n# Work context\n- Backend engineer; primary stack Python (FastAPI) and some TypeScript.\n- Uses `uv` for Python envs \u2014 never bare pip. Corrected on this repeatedly.\n- Conventional commits; feature branches, never commits to main directly.\n- Runs lint before tests; prefers pytest with table-driven cases.\n- Current project: migrating an API gateway from Kong to Envoy (replicate as-is).\n\n# Calendar & routines\n- Standup daily at 10:15. No meetings on Wednesday afternoons (focus block).\n- Gym Mon/Wed/Fri mornings; prefers no early meetings those days.\n- Reviews PRs end of day, not first thing.\n- Lives in Pune for the last few months; mostly based there now.\n\n# ... (rest of the file remains the same)",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"# Communication preferences\",\n    \"- Prefers concise, direct answers; dislikes filler and over-explanation.\",\n    \"- Wants to be asked before large multi-file changes; small fixes can proceed.\",\n    \"- Timezone: IST (UTC+5:30). Working hours roughly 10:00\u201319:00.\",\n    \"- Prefers metric units and DD-MM-YYYY dates.\",\n    \"\",\n    \"# Work context\",\n    \"- Backend engineer; primary stack Python (FastAPI) and some TypeScript.\",\n    \"- Uses `uv` for Python envs \u2014 never bare pip. Corrected on this repeatedly.\",\n    \"- Conventional commits; feature branches, never commits to main directly.\",\n    \"- Runs lint before tests; prefers pytest with table-driven cases.\",\n    \"- Current project: migrating an API gateway from Kong to Envoy (replicate as-is).\",\n    \"\",\n    \"# Calendar & routines\",\n    \"- Standup daily at 10:15. No meetings on Wednesday afternoons (focus block).\",\n    \"- Gym Mon/Wed/Fri mornings; prefers no early meetings those days.\",\n    \"- Reviews PRs end of day, not first thing.\",\n    \"- Lives in Pune for the last few months; mostly based there now.\",\n    \"# ... (rest of the file remains the same)\"\n  ],\n  \"actions\": [\n    {\"type\": \"add\", \"target\": \"Lives in Pune for the last few months; mostly based there now.\", \"detail\": \"added to system/human/personal_assistant.md\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "# Communication preferences",
+      "- Prefers concise, direct answers; dislikes filler and over-explanation.",
+      "- Wants to be asked before large multi-file changes; small fixes can proceed.",
+      "- Timezone: IST (UTC+5:30). Working hours roughly 10:00\u201319:00.",
+      "- Prefers metric units and DD-MM-YYYY dates.",
+      "",
+      "# Work context",
+      "- Backend engineer; primary stack Python (FastAPI) and some TypeScript.",
+      "- Uses `uv` for Python envs \u2014 never bare pip. Corrected on this repeatedly.",
+      "- Conventional commits; feature branches, never commits to main directly.",
+      "- Runs lint before tests; prefers pytest with table-driven cases.",
+      "- Current project: migrating an API gateway from Kong to Envoy (replicate as-is).",
+      "",
+      "# Calendar & routines",
+      "- Standup daily at 10:15. No meetings on Wednesday afternoons (focus block).",
+      "- Gym Mon/Wed/Fri mornings; prefers no early meetings those days.",
+      "- Reviews PRs end of day, not first thing.",
+      "- Lives in Pune for the last few months; mostly based there now.",
+      "# ... (rest of the file remains the same)"
+    ],
+    "actions": [
+      {
+        "type": "add",
+        "target": "Lives in Pune for the last few months; mostly based there now.",
+        "detail": "added to system/human/personal_assistant.md"
+      }
+    ]
+  }
+}

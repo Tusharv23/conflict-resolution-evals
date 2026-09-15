@@ -1,0 +1,27 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S1",
+  "scale": 3,
+  "position": "end",
+  "memory_tokens": 1814,
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "## Phase 1 \u2014 Investigate\n\nReviewed `system/human/personal_assistant.md`. It contains an extensive, well-organized set of facts under thematic headers, including a \"Recipients & personal facts (current)\" section with a single home address entry (Bangalore). No other file references location/address, so this is the sole place to update.\n\n## Phase 2 \u2014 Extract\n\nThe user disclosed a durable fact: they now live primarily in Pune (girlfriend's place) and are rarely in Bangalore. This directly contradicts the stored \"Home (tag: home): 12 MG Road, Bangalore 560001\" entry, which currently implies Bangalore is the active home base. This is:\n- **Durable** (a living-situation change, not a one-off event)\n- **Not previously captured** (memory has no mention of Pune or girlfriend)\n- **A contradiction** requiring correction at the source, not an appended duplicate\n\nI do not have an exact Pune address, so I cannot replace the address wholesale \u2014 only the \"current base\" status. I'm also *not* editing the many Bangalore-tied routine facts (gym, haircut, doctor, parking spot, badminton, board-game hosting) since the user didn't explicitly say those routines stopped, and over-editing speculative details risks inaccuracy. I'm flagging this as an assumption in the commit rather than silently deleting those entries.\n\nNo reusable mult\n\n[[TRUNCATED: hit max_tokens]]",
+  "stage2_extraction": "{\n  \"complete\": false,\n  \"final_memory_lines\": [],\n  \"actions\": [\n    {\"type\": \"flag\", \"target\": \"Home (tag: home): 12 MG Road, Bangalore 560001\", \"detail\": \"Reflection agent identified contradiction: user now lives primarily in Pune (girlfriend's place), rarely in Bangalore. Agent stated it cannot replace address wholesale due to lack of exact Pune address, and intended to update only the 'current base' status while flagging this as an assumption. Did not edit Bangalore-tied routine facts (gym, haircut, doctor, parking spot, badminton, board-game hosting). Output truncated before final committed memory state was given.\"}\n  ]\n}",
+  "parsed": {
+    "complete": false,
+    "final_memory_lines": [],
+    "actions": [
+      {
+        "type": "flag",
+        "target": "Home (tag: home): 12 MG Road, Bangalore 560001",
+        "detail": "Reflection agent identified contradiction: user now lives primarily in Pune (girlfriend's place), rarely in Bangalore. Agent stated it cannot replace address wholesale due to lack of exact Pune address, and intended to update only the 'current base' status while flagging this as an assumption. Did not edit Bangalore-tied routine facts (gym, haircut, doctor, parking spot, badminton, board-game hosting). Output truncated before final committed memory state was given."
+      }
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S1",
+  "scale": 1,
+  "position": "end",
+  "memory_tokens": 751,
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "## Summary\n\nI reviewed the transcript where the user shared that their parents have separated \u2014 the father remains at the existing Delhi address, while the mother has moved into her own home in Gurgaon (Sector 45). This directly updates a stored fact in `system/human/personal_assistant.md` under \"Recipients & personal facts,\" which previously listed a single combined \"Parents\" address. No skill-worthy workflow was present \u2014 this is a personal-fact update, not a procedure.\n\n## Memory changes\n\n- **Modified** `system/human/personal_assistant.md`: Replaced the stale combined \"Parents (tag: parents)\" entry with separate entries for Father and Mother reflecting their current separate residences, and added a note that they are living separately (relevant for future tasks like gifts, cards, or scheduling that assumed a shared household). Did not retain therapy/emotional details, as those are ephemeral context rather than a durable, actionable fact \u2014 only the address/living-situation change was persisted. Mother's full street address is unknown, so only what was stated (Sector 45, Gurgaon) was recorded.\n\n## Skill changes\n\nNone \u2014 no reusable multi-step workflow was demonstrated in this transcript.\n\n## Skipped\n\n- The therapy context itself (that the user is in therapy processing this) \u2014 sensitive, ephemeral emotional detail not needed for future assistant tasks; not stored.\n- No other sections of memory were affected.\n\n## Commit\n\nCommitted to `$MEMORY_DIR` with message:\n`fix(reflection): update parents' address info after separation \ud83d\udd2e`\n(Author: Reflection Subagent; trailers include Agent-ID/Parent-Agent-ID if env vars were set.)\n\n## Issues\n\nNone. Mother's exact street address wasn't provided, so the entry notes only the known locality (Sector 45, Gurgaon) \u2014 flagged as such in the final state so it can be filled in later if the user provides it.\n\n---\n\n## FINAL STATE of `system/human/personal_assistant.md` (relevant section only; all other sections unchanged)\n\n```\n# Recipients & personal facts (current)\n- Parents are separated and now live at different addresses.\n- Father (tag: dad): 45 Nehru Street, Delhi 110001\n- Mother (tag: mom): Sector 45, Gurgaon (exact street address not yet known)\n```\n\nAll other sections of the file (Communication preferences, Work context, Calendar & routines, Food & ordering habits, Contacts, Shopping & subscriptions, Travel notes, Project gotchas, Reading & learning, Misc preferences) remain exactly as they were, unchanged.",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"# Recipients & personal facts (current)\",\n    \"- Parents are separated and now live at different addresses.\",\n    \"- Father (tag: dad): 45 Nehru Street, Delhi 110001\",\n    \"- Mother (tag: mom): Sector 45, Gurgaon (exact street address not yet known)\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Parents (tag: parents) combined address entry in system/human/personal_assistant.md\",\n      \"detail\": \"Replaced the single combined 'Parents' entry with separate Father and Mother entries reflecting their current separate residences, and added a note that they are living separately.\"\n    },\n    {\n      \"type\": \"delete\",\n      \"target\": \"Therapy/emotional context detail\",\n      \"detail\": \"Not stored; considered ephemeral and not durable/actionable.\"\n    },\n    {\n      \"type\": \"flag\",\n      \"target\": \"Mother's exact street address\",\n      \"detail\": \"Only locality (Sector 45, Gurgaon) recorded; exact street address unknown and flagged for future update if provided.\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "# Recipients & personal facts (current)",
+      "- Parents are separated and now live at different addresses.",
+      "- Father (tag: dad): 45 Nehru Street, Delhi 110001",
+      "- Mother (tag: mom): Sector 45, Gurgaon (exact street address not yet known)"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Parents (tag: parents) combined address entry in system/human/personal_assistant.md",
+        "detail": "Replaced the single combined 'Parents' entry with separate Father and Mother entries reflecting their current separate residences, and added a note that they are living separately."
+      },
+      {
+        "type": "delete",
+        "target": "Therapy/emotional context detail",
+        "detail": "Not stored; considered ephemeral and not durable/actionable."
+      },
+      {
+        "type": "flag",
+        "target": "Mother's exact street address",
+        "detail": "Only locality (Sector 45, Gurgaon) recorded; exact street address unknown and flagged for future update if provided."
+      }
+    ]
+  }
+}

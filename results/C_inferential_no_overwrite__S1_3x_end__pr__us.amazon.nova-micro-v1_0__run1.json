@@ -1,0 +1,31 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S1",
+  "scale": 3,
+  "position": "end",
+  "memory_tokens": 1814,
+  "model": "us.amazon.nova-micro-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "**Summary:**\nThe user mentioned a significant change in their location, indicating they have been mostly based in Pune for the last few months, which is a new piece of context worth persisting. The assistant acknowledged this update. The changes will be reflected in the memory file by updating the recipient and personal facts section to include the new base location in Pune.\n\n**Memory changes:**\n1. Updated the recipient and personal facts section to include the new base location in Pune.\n\n**Skipped:**\nNo other information was deemed worth persisting based on the provided transcript.\n\n**Commit:**\n```\ncd $MEMORY_DIR\ngit add -A\ngit commit --author=\"Reflection Subagent <<CHILD_AGENT_ID>@letta.com>\" -m \"feat(location): update recipient and personal facts \ud83d\udd2e\n\nReviewed transcript: <transcript_filepath>\n\nUpdates:\n- Added new base location in Pune\n\nGenerated-By: Letta Code\nAgent-ID: <CHILD_AGENT_ID>\nParent-Agent-ID: <PARENT_AGENT_ID>\"\n```\n\n**Intended FINAL state of the memory file:**\n\n```markdown\n# Recipients & personal facts\n- Home (tag: home): 12 MG Road, Bangalore 560001\n- Alternate residence (tag: alternate): [Girlfriend's place], Pune\n```\n\n**Issues:**\nNone encountered.",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Recipients & personal facts\",\n    \"- Home (tag: home): 12 MG Road, Bangalore 560001\",\n    \"- Alternate residence (tag: alternate): [Girlfriend's place], Pune\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"update\",\n      \"target\": \"recipient and personal facts section\",\n      \"detail\": \"Included new base location in Pune\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Recipients & personal facts",
+      "- Home (tag: home): 12 MG Road, Bangalore 560001",
+      "- Alternate residence (tag: alternate): [Girlfriend's place], Pune"
+    ],
+    "actions": [
+      {
+        "type": "update",
+        "target": "recipient and personal facts section",
+        "detail": "Included new base location in Pune"
+      }
+    ]
+  }
+}

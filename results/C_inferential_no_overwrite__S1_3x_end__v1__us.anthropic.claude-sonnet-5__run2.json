@@ -1,0 +1,56 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S1",
+  "scale": 3,
+  "position": "end",
+  "memory_tokens": 1814,
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "## Summary\nReviewed the single stored system file `system/human/personal_assistant.md` against a short transcript revealing a durable personal-context shift: the user now lives primarily in Pune (at his girlfriend's place) and rarely returns to Bangalore. This contradicts the implicit assumption that Bangalore is his current base of operations, so the \"Home\" fact needed a surgical update rather than a wholesale rewrite.\n\n## Memory changes\n- **Modified** `system/human/personal_assistant.md`, section \"Recipients & personal facts (current)\": annotated the existing Bangalore home entry as the registered/infrequently-used address, and added a new bullet capturing that he is now primarily based in Pune (girlfriend's place). Did not delete or rewrite the Bangalore-specific routines (gym, commute, parking, plant watering, haircut, etc.) since the transcript doesn't give enough detail to confirm which are still active \u2014 flagged only the core location fact, which is the durable, clearly-stated learning.\n- No other sections needed changes; no contact was added for the girlfriend since no name/details were given (would be speculative).\n\n## Skill changes\nNone \u2014 this is a single factual update, not a reusable multi-step workflow. Operation: `none`.\n\n## Skipped\n- Adding girlfriend as a contact: skipped, no name or other identifying detail provided (avoiding fabrication).\n- Auditing/adjusting all Bangalore-local routines (gym schedule, plant watering, parking, laundry, haircut) for staleness: skipped \u2014 the transcript only supports a location-base change, not explicit cancellation of those routines; flagging the core fact is sufficient without over-inferring downstream changes.\n\n## Commit\nWould commit as:\n```\nfix(reflection): update current base location to Pune \ud83d\udd2e\n\nReviewed transcript: (single-exchange transcript, no file path given)\n\nUpdates:\n- Corrected/annotated the \"Home\" fact in system/human/personal_assistant.md: user is now primarily based in Pune (girlfriend's place), Bangalore address used infrequently. Source: user's direct statement in conversation.\n\nGenerated-By: Letta Code\nAgent-ID: <unresolved in this environment>\nParent-Agent-ID: <unresolved in this environment>\n```\n(Note: per environment instructions, no actual tool calls were made \u2014 this reflects the intended commit and file state below.)\n\n## Issues\nNone \u2014 the fact was unambiguous and\n\n[[TRUNCATED: hit max_tokens]]",
+  "stage2_extraction": "```json\n{\n  \"complete\": false,\n  \"final_memory_lines\": [\n    \"Home (Bangalore): registered/permanent address, but now used infrequently\",\n    \"Currently primarily based in Pune, staying at girlfriend's place\",\n    \"Bangalore-local routines (gym schedule, commute, parking, plant watering, haircut, etc.) retained unchanged \u2014 not confirmed stale, so left as-is\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"keep\",\n      \"target\": \"Bangalore home address bullet\",\n      \"detail\": \"Retained but annotated as registered/infrequently-used address rather than deleted or rewritten\"\n    },\n    {\n      \"type\": \"add\",\n      \"target\": \"Home/location fact\",\n      \"detail\": \"Added new bullet stating user is now primarily based in Pune (girlfriend's place)\"\n    },\n    {\n      \"type\": \"keep\",\n      \"target\": \"Bangalore-specific routines (gym, commute, parking, plant watering, haircut, etc.)\",\n      \"detail\": \"Left unchanged since transcript doesn't confirm which routines are still active; only the core location fact was flagged/updated\"\n    },\n    {\n      \"type\": \"flag\",\n      \"target\": \"Core location fact\",\n      \"detail\": \"Flagged as the durable, clearly-stated learning warranting update, distinct from unconfirmed downstream routine details\"\n    },\n    {\n      \"type\": \"keep\",\n      \"target\": \"Girlfriend as contact\",\n      \"detail\": \"Skipped adding as a contact; no name or identifying detail provided, avoiding fabrication\"\n    },\n    {\n      \"type\": \"keep\",\n      \"target\": \"Skill/workflow entries\",\n      \"detail\": \"No skill changes made; operation classified as 'none' since this is a single factual update, not a reusable workflow\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": false,
+    "final_memory_lines": [
+      "Home (Bangalore): registered/permanent address, but now used infrequently",
+      "Currently primarily based in Pune, staying at girlfriend's place",
+      "Bangalore-local routines (gym schedule, commute, parking, plant watering, haircut, etc.) retained unchanged \u2014 not confirmed stale, so left as-is"
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Bangalore home address bullet",
+        "detail": "Retained but annotated as registered/infrequently-used address rather than deleted or rewritten"
+      },
+      {
+        "type": "add",
+        "target": "Home/location fact",
+        "detail": "Added new bullet stating user is now primarily based in Pune (girlfriend's place)"
+      },
+      {
+        "type": "keep",
+        "target": "Bangalore-specific routines (gym, commute, parking, plant watering, haircut, etc.)",
+        "detail": "Left unchanged since transcript doesn't confirm which routines are still active; only the core location fact was flagged/updated"
+      },
+      {
+        "type": "flag",
+        "target": "Core location fact",
+        "detail": "Flagged as the durable, clearly-stated learning warranting update, distinct from unconfirmed downstream routine details"
+      },
+      {
+        "type": "keep",
+        "target": "Girlfriend as contact",
+        "detail": "Skipped adding as a contact; no name or identifying detail provided, avoiding fabrication"
+      },
+      {
+        "type": "keep",
+        "target": "Skill/workflow entries",
+        "detail": "No skill changes made; operation classified as 'none' since this is a single factual update, not a reusable workflow"
+      }
+    ]
+  }
+}

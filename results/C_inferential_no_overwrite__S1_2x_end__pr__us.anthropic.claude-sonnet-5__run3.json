@@ -1,0 +1,62 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S1",
+  "scale": 2,
+  "position": "end",
+  "memory_tokens": 1273,
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "# Reflection Report\n\n## 1. Summary\nReviewed a short transcript where the user mentioned they've \"basically been living at [their] girlfriend's place in Pune for the last few months\" and rarely return to Bangalore. This is a personal-life update that touches an existing stored fact (home address tag). No reusable workflow was present, so no skill changes were made.\n\n## 2. Memory changes\n- **File modified**: `system/human/personal_assistant.md`\n- **Reasoning**: The user's statement is a single, informally-phrased, non-explicit claim about relocating (\"basically... for the last few months\" \u2014 vague duration, no confirmation this is permanent, no request to update any address/delivery records). Per the **Annotate** rule, this doesn't establish that the existing Bangalore home-address fact is stale \u2014 it's a temporary/unverified situation. So I left the confirmed home address (`12 MG Road, Bangalore 560001`) unchanged and added a separate annotated note capturing the new information, rather than overwriting the original fact. This avoids weakening a concrete address record (used for deliveries/logistics) based on one casual anecdote, while still preserving the useful new context for future reference.\n- No absolute date could be determined from the transcript/payload, so the note is recorded without a fabricated date, flagged as unverified/time-imprecise per the restraint principle rather than guessing a specific date.\n\n## 3. Skill changes\n- **Operation**: `none` \u2014 no multi-step reusable workflow appeared in this transcript; it's a single personal-fact disclosure.\n\n## 4. Skipped\n- Did not update or remove the \"Home (tag: home)\" fact \u2014 insufficient evidence of a permanent, confirmed change (per Restraint/Annotate rules).\n- Did not add a \"girlfriend\" contact entry with more detail (e.g., name, exact address) since none was provided \u2014 nothing further to store beyond the Pune-residency observation.\n\n## 5. Commit\nNo tool-based commit was performed in this environment per instructions (\"report edits as text rather than calling tools\"). The intended change is described above and reflected in the final file state below. (If this were a live environment, this would be committed as a `chore(reflection): annotate temporary Pune residency note \ud83d\udd2e` change.)\n\n## 6. Issues\n- Could not determine an absolute date for \"the last few months\" since no timestamp was available in the transcript or payload \u2014 recorded the observation without a fabricated date, flagged as unverified/temporary instead.\n\n---\n\n## FINAL STATE \u2014 `system/human/personal_assistant.md`\n\n```markdown\n# Communication preferences\n- Prefers concise, direct answers; dislikes filler and over-explanation.\n- Wants to be asked before large multi-file changes; small fixes can proceed.\n- Timezone: IST (UTC+5:30). Working hours roughly 10:00\u201319:00.\n- Prefers metric units and DD-MM-YYYY dates.\n\n# Work context\n- Backend engineer; primary stack Python (FastAPI) and some TypeScript.\n- Uses `uv` for Python envs \u2014 never bare pip. Corrected on this repeatedly.\n- Conventional commits; feature branches, never commits to main directly.\n- Runs lint before tests; prefers pytest with table-driven cases.\n- Current project: migrating an API gateway from Kong to Envoy (replicate as-is).\n\n# Calendar & routines\n- Standup daily at 10:15. No meetings on Wednesday afternoons (focus block).\n- Gym Mon/Wed/Fri mornings; prefers no early meetings those days.\n- Reviews PRs end of day, not first thing.\n\n# Food & ordering habits (general)\n- Usual lunch order via Swiggy; likes South Indian and Thai.\n- Coffee: filter coffee, no sugar. Orders beans monthly from Blue Tokai.\n- Weekend cooking; buys groceries from the local market on Saturdays.\n\n# Contacts (non-conflicting)\n- Manager: Priya (priya@work.example) \u2014 prefers async updates on Slack.\n- Best friend: Rohan \u2014 lives in Hyderabad, visits every couple of months.\n- Landlord: Mr. Rao \u2014 contact only for maintenance, prefers WhatsApp.\n- Doctor:\n\n[[TRUNCATED: hit max_tokens]]",
+  "stage2_extraction": "{\"complete\": false, \"final_memory_lines\": [\"# Communication preferences\", \"- Prefers concise, direct answers; dislikes filler and over-explanation.\", \"- Wants to be asked before large multi-file changes; small fixes can proceed.\", \"- Timezone: IST (UTC+5:30). Working hours roughly 10:00\u201319:00.\", \"- Prefers metric units and DD-MM-YYYY dates.\", \"# Work context\", \"- Backend engineer; primary stack Python (FastAPI) and some TypeScript.\", \"- Uses `uv` for Python envs \u2014 never bare pip. Corrected on this repeatedly.\", \"- Conventional commits; feature branches, never commits to main directly.\", \"- Runs lint before tests; prefers pytest with table-driven cases.\", \"- Current project: migrating an API gateway from Kong to Envoy (replicate as-is).\", \"# Calendar & routines\", \"- Standup daily at 10:15. No meetings on Wednesday afternoons (focus block).\", \"- Gym Mon/Wed/Fri mornings; prefers no early meetings those days.\", \"- Reviews PRs end of day, not first thing.\", \"# Food & ordering habits (general)\", \"- Usual lunch order via Swiggy; likes South Indian and Thai.\", \"- Coffee: filter coffee, no sugar. Orders beans monthly from Blue Tokai.\", \"- Weekend cooking; buys groceries from the local market on Saturdays.\", \"# Contacts (non-conflicting)\", \"- Manager: Priya (priya@work.example) \u2014 prefers async updates on Slack.\", \"- Best friend: Rohan \u2014 lives in Hyderabad, visits every couple of months.\", \"- Landlord: Mr. Rao \u2014 contact only for maintenance, prefers WhatsApp.\", \"- Doctor: [TRUNCATED - content cut off before Home address fact and new Pune annotation note could be captured]\"], \"actions\": [{\"type\": \"keep\", \"target\": \"Home (tag: home) - 12 MG Road, Bangalore 560001\", \"detail\": \"Left unchanged; insufficient evidence of permanent/confirmed relocation per Restraint/Annotate rules.\"}, {\"type\": \"add\", \"target\": \"Pune residency note\", \"detail\": \"Added a separate annotated, unverified/time-imprecise note about user living at girlfriend's place in Pune for 'the last few months', without fabricating a date; exact wording/placement in file not shown before truncation.\"}, {\"type\": \"keep\", \"target\": \"Skills\", \"detail\": \"No skill changes made; operation 'none' as no reusable multi-step workflow was present.\"}]}",
+  "parsed": {
+    "complete": false,
+    "final_memory_lines": [
+      "# Communication preferences",
+      "- Prefers concise, direct answers; dislikes filler and over-explanation.",
+      "- Wants to be asked before large multi-file changes; small fixes can proceed.",
+      "- Timezone: IST (UTC+5:30). Working hours roughly 10:00\u201319:00.",
+      "- Prefers metric units and DD-MM-YYYY dates.",
+      "# Work context",
+      "- Backend engineer; primary stack Python (FastAPI) and some TypeScript.",
+      "- Uses `uv` for Python envs \u2014 never bare pip. Corrected on this repeatedly.",
+      "- Conventional commits; feature branches, never commits to main directly.",
+      "- Runs lint before tests; prefers pytest with table-driven cases.",
+      "- Current project: migrating an API gateway from Kong to Envoy (replicate as-is).",
+      "# Calendar & routines",
+      "- Standup daily at 10:15. No meetings on Wednesday afternoons (focus block).",
+      "- Gym Mon/Wed/Fri mornings; prefers no early meetings those days.",
+      "- Reviews PRs end of day, not first thing.",
+      "# Food & ordering habits (general)",
+      "- Usual lunch order via Swiggy; likes South Indian and Thai.",
+      "- Coffee: filter coffee, no sugar. Orders beans monthly from Blue Tokai.",
+      "- Weekend cooking; buys groceries from the local market on Saturdays.",
+      "# Contacts (non-conflicting)",
+      "- Manager: Priya (priya@work.example) \u2014 prefers async updates on Slack.",
+      "- Best friend: Rohan \u2014 lives in Hyderabad, visits every couple of months.",
+      "- Landlord: Mr. Rao \u2014 contact only for maintenance, prefers WhatsApp.",
+      "- Doctor: [TRUNCATED - content cut off before Home address fact and new Pune annotation note could be captured]"
+    ],
+    "actions": [
+      {
+        "type": "keep",
+        "target": "Home (tag: home) - 12 MG Road, Bangalore 560001",
+        "detail": "Left unchanged; insufficient evidence of permanent/confirmed relocation per Restraint/Annotate rules."
+      },
+      {
+        "type": "add",
+        "target": "Pune residency note",
+        "detail": "Added a separate annotated, unverified/time-imprecise note about user living at girlfriend's place in Pune for 'the last few months', without fabricating a date; exact wording/placement in file not shown before truncation."
+      },
+      {
+        "type": "keep",
+        "target": "Skills",
+        "detail": "No skill changes made; operation 'none' as no reusable multi-step workflow was present."
+      }
+    ]
+  }
+}

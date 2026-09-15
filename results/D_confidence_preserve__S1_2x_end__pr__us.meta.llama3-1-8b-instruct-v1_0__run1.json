@@ -1,0 +1,37 @@
+{
+  "case_id": "D_confidence_preserve",
+  "category": "confidence",
+  "stage": "S1",
+  "scale": 2,
+  "position": "end",
+  "memory_tokens": 1273,
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 reflection treats the newer anecdote as latest evidence and weakens/removes the confirmed allergy, because the prompt has no confidence or source-authority weighting.",
+  "correct_action": "Preserve the confirmed, safety-critical shellfish allergy. A single casual anecdote is low-confidence and must not override a user-confirmed medical fact; at most, flag it for explicit user confirmation. Do not delete or weaken the allergy.",
+  "pass_rule": "Final memory still contains the confirmed shellfish allergy, unweakened. FAIL if the allergy is deleted, softened (e.g. 'may have outgrown', 'mild'), or overwritten based on the anecdote.",
+  "stage1_reflection": "\n\n**Summary**\nThe conversation revealed a contradiction in the user's shellfish allergy status. The user reported a mild reaction to prawn curry, which contradicts the previously stored severe allergy. I will update the memory to reflect this change.\n\n**Memory changes**\n\n* `system/human/personal_assistant.md` (update)\n\n**Fact lines after edits:**\n\n* # Allergy & medical\n- Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen (Note: This line is being updated to reflect the user's actual allergy status)\n- Has had a mild reaction to prawn curry (new fact)\n- Carries an EpiPen (kept, as it's still relevant)\n\n**Skill changes**\nNo skill changes were needed.\n\n**Skipped**\nNo information was considered but not persisted.\n\n**Commit**\nCommit: `fix(reflection): update shellfish allergy status`\n\n**Issues**\nNone.\n\nThe updated memory file will reflect the user's actual shellfish allergy status, which is now considered mild, and includes a new fact about their mild reaction to prawn curry.",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"# Allergy & medical\",\n    \"- Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen\",\n    \"- Has had a mild reaction to prawn curry\",\n    \"- Carries an EpiPen\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"Severe shellfish allergy\", \"detail\": \"with mild shellfish allergy\"},\n    {\"type\": \"add\", \"target\": \"Has had a mild reaction to prawn curry\", \"detail\": \"new fact\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "# Allergy & medical",
+      "- Severe shellfish allergy \u2014 confirmed by the user, carries an EpiPen",
+      "- Has had a mild reaction to prawn curry",
+      "- Carries an EpiPen"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Severe shellfish allergy",
+        "detail": "with mild shellfish allergy"
+      },
+      {
+        "type": "add",
+        "target": "Has had a mild reaction to prawn curry",
+        "detail": "new fact"
+      }
+    ]
+  }
+}

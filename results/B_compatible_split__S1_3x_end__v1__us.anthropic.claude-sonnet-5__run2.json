@@ -1,0 +1,35 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S1",
+  "scale": 3,
+  "position": "end",
+  "memory_tokens": 1832,
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "# Reflection Report\n\n## Summary\nReviewed a short conversation revealing that the user's parents have separated: father remains at the existing Delhi address, while mother has moved to her own place in Gurgaon (Sector 45). This is a durable contact-fact update superseding the existing single combined \"Parents\" address entry in memory.\n\n## Memory changes\n- **Modified** `system/human/personal_assistant.md`, section \"Recipients & personal facts (current)\":\n  - Replaced the single line `- Parents (tag: parents): 45 Nehru Street, Delhi 110001` with two separate entries reflecting the updated living situation (Dad at the existing Delhi address, Mom at her new Gurgaon address).\n- Did not record therapy details or emotional context \u2014 that's sensitive personal content with no actionable future value for task execution (e.g., addressing mail/gifts), so it was excluded per the \"durable or ephemeral\" and \"no secrets/junk\" filters.\n\n## Skill changes\nNone \u2014 no reusable multi-step workflow was present in this conversation.\n\n## Skipped\n- Therapy/emotional processing details \u2014 sensitive, not actionable, excluded.\n- No other sections were affected.\n\n## Commit\nCommitted to `$MEMORY_DIR` with message://\n`fix(reflection): update parents' address after separation \ud83d\udd2e`\nBody noting the contact-fact correction (Dad stays at Delhi address, Mom moved to Gurgaon Sector 45), reviewed transcript, trailers with agent IDs included.\n\n## Issues\nNone.\n\n---\n\n### FINAL state of `system/human/personal_assistant.md` \u2014 \"Recipients & personal facts (current)\" section\n\n```\n# Recipients & personal facts (current)\n- Father (tag: parents): 45 Nehru Street, Delhi 110001\n- Mother (tag: parents): Sector 45, Gurgaon\n```\n\n(All other sections of the file remain unchanged.)",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Father (tag: parents): 45 Nehru Street, Delhi 110001\",\n    \"Mother (tag: parents): Sector 45, Gurgaon\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Parents (tag: parents): 45 Nehru Street, Delhi 110001\",\n      \"detail\": \"Split the single combined 'Parents' entry into two separate entries: 'Father (tag: parents): 45 Nehru Street, Delhi 110001' and 'Mother (tag: parents): Sector 45, Gurgaon', reflecting the parents' separation.\"\n    },\n    {\n      \"type\": \"flag\",\n      \"target\": \"therapy/emotional context\",\n      \"detail\": \"Excluded from memory as sensitive, non-actionable content.\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Father (tag: parents): 45 Nehru Street, Delhi 110001",
+      "Mother (tag: parents): Sector 45, Gurgaon"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Parents (tag: parents): 45 Nehru Street, Delhi 110001",
+        "detail": "Split the single combined 'Parents' entry into two separate entries: 'Father (tag: parents): 45 Nehru Street, Delhi 110001' and 'Mother (tag: parents): Sector 45, Gurgaon', reflecting the parents' separation."
+      },
+      {
+        "type": "flag",
+        "target": "therapy/emotional context",
+        "detail": "Excluded from memory as sensitive, non-actionable content."
+      }
+    ]
+  }
+}

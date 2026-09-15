@@ -1,0 +1,41 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S1",
+  "scale": 2,
+  "position": "end",
+  "memory_tokens": 1273,
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "## Summary\n\nReviewed the transcript where the user mentions they've been mostly living at their girlfriend's place in Pune recently and rarely return to Bangalore. This is a casual, informal remark \u2014 not an explicit address-change request \u2014 so per the annotate/restraint guidance I recorded it as an unverified observation alongside the existing Bangalore home address rather than overwriting it. No skill-worthy workflow was present in this exchange.\n\n## Memory changes\n\n- **Modified**: `system/human/personal_assistant.md` \u2014 Added a new annotation line under \"Recipients & personal facts (current)\" noting the reported Pune living situation, while leaving the stored Bangalore home address unchanged (per restraint: single informal remark, no exact new address given, doesn't establish staleness of the confirmed fact).\n\n## Skill changes\n\n- **None** \u2014 no reusable multi-step workflow was demonstrated in this exchange.\n\n## Skipped\n\n- Did not update location-dependent facts (gym Mon/Wed/Fri mornings, Saturday market visits, Sunday photography walks, Sunday NAS backups, office parking spot B2-114) since they all hinge on the same single unverified remark \u2014 changing all of these on one casual comment would over-weight an anecdote. Left them unchanged pending confirmation.\n- Did not overwrite the Bangalore home address, since no explicit new address was given and the remark reads as a temporary/informal situation rather than a confirmed move.\n\n## Commit\n\nCommitted to `$MEMORY_DIR` with message type `chore(reflection)` \u2014 routine fact annotation, no contradiction resolution or identity-file rewrite involved.\n\n## Issues\n\n- No timestamp/date was available in the transcript, so I could not convert \"the last few months\" into an absolute date; the annotation is recorded without a specific date to avoid fabricating one.\n\n---\n\n### FINAL state of `system/human/personal_assistant.md` (relevant section only \u2014 all other sections unchanged)\n\n```\n# Recipients & personal facts (current)\n- Home (tag: home): 12 MG Road, Bangalore 560001\n- Note (unverified): recently reported spending most time at girlfriend's place in Pune, rarely returning to Bangalore; no specific Pune address given. Bangalore address retained as primary/confirmed home until this is corroborated.\n```\n\nAll other sections of `system/human/personal_assistant.md` remain exactly as previously stored.",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"# Recipients & personal facts (current)\",\n    \"- Home (tag: home): 12 MG Road, Bangalore 560001\",\n    \"- Note (unverified): recently reported spending most time at girlfriend's place in Pune, rarely returning to Bangalore; no specific Pune address given. Bangalore address retained as primary/confirmed home until this is corroborated.\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"add\",\n      \"target\": \"system/human/personal_assistant.md \u2014 Recipients & personal facts (current)\",\n      \"detail\": \"Added an unverified annotation noting the user reported mostly living at girlfriend's place in Pune and rarely returning to Bangalore; no specific Pune address given.\"\n    },\n    {\n      \"type\": \"keep\",\n      \"target\": \"Home (tag: home): 12 MG Road, Bangalore 560001\",\n      \"detail\": \"Left unchanged; not overwritten since no explicit new address was given and remark was informal/unverified.\"\n    },\n    {\n      \"type\": \"keep\",\n      \"target\": \"location-dependent facts (gym schedule, Saturday market, Sunday photography walks, Sunday NAS backups, office parking spot B2-114)\",\n      \"detail\": \"Left unchanged pending confirmation; not updated based on the single casual remark.\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "# Recipients & personal facts (current)",
+      "- Home (tag: home): 12 MG Road, Bangalore 560001",
+      "- Note (unverified): recently reported spending most time at girlfriend's place in Pune, rarely returning to Bangalore; no specific Pune address given. Bangalore address retained as primary/confirmed home until this is corroborated."
+    ],
+    "actions": [
+      {
+        "type": "add",
+        "target": "system/human/personal_assistant.md \u2014 Recipients & personal facts (current)",
+        "detail": "Added an unverified annotation noting the user reported mostly living at girlfriend's place in Pune and rarely returning to Bangalore; no specific Pune address given."
+      },
+      {
+        "type": "keep",
+        "target": "Home (tag: home): 12 MG Road, Bangalore 560001",
+        "detail": "Left unchanged; not overwritten since no explicit new address was given and remark was informal/unverified."
+      },
+      {
+        "type": "keep",
+        "target": "location-dependent facts (gym schedule, Saturday market, Sunday photography walks, Sunday NAS backups, office parking spot B2-114)",
+        "detail": "Left unchanged pending confirmation; not updated based on the single casual remark."
+      }
+    ]
+  }
+}

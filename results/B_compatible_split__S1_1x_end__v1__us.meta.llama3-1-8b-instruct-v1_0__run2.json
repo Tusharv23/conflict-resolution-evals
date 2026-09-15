@@ -1,0 +1,31 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S1",
+  "scale": 1,
+  "position": "end",
+  "memory_tokens": 751,
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 2,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "\n\n**Phase 1 \u2014 Investigate**\n\nI reviewed the current memory landscape by inspecting the provided `memory_filesystem` and `transcript`. The `memory_filesystem` contains a comprehensive set of facts about the user's personal preferences, work context, calendar and routines, food and ordering habits, contacts, shopping and subscriptions, travel notes, project gotchas, reading and learning interests, and miscellaneous preferences. The `transcript` reveals a conversation about the user's parents' separation, with the user mentioning their parents' current living arrangements.\n\n**Phase 2 \u2014 Extract**\n\nFrom the transcript, I identified a potential learning that survived filtering:\n\n1. **Mistakes and corrections**: The user corrected the assistant on their parents' living arrangements, specifying that their mom is now in Gurgaon, Sector 45.\n\nThe user's correction is a durable fact that can be added to the memory file.\n\n**Phase 3 \u2014 Update**\n\nI will update the memory file with the new fact.\n\n**Memory edits**\n\nI will add the new fact to the \"Recipients & personal facts\" section.\n\n**Placement**: The new fact belongs in the \"Recipients & personal facts\" section, which is under the \"Personal\" category.\n\n**Integration**: I will update the existing file `system/human/personal_assistant.md` with the new fact.\n\n**Identity preservation**: I will append the new fact to the existing list of recipients and personal facts.\n\n**Contradiction resolution**: There are no existing contradictions in the memory file that need to be resolved.\n\n**Archiving retired context**: No context needs to be archived.\n\n**Discovery paths**: I will update the `[[path]]` cross-reference in the \"Recipients & personal facts\" section to point to the new fact.\n\n**Phase 4 \u2014 Review**\n\nI reviewed the changes I made to ensure that they are accurate and complete.\n\n* **No secrets or junk**: The new fact is a legitimate piece of information about the user's personal life.\n* **Stale content**: There are no stale content that need to be removed or updated.\n* **Cross-reference integrity**: I updated the `[[path]]` cross-reference in the \"Recipients & personal facts\" section.\n* **Tier check**: The new fact belongs in the \"Recipients & personal facts\" section, which is under the \"Personal\" category.\n\n**Phase 5 \u2014 Commit**\n\nI will commit the changes to the memory file.\n\n**Commit message**: `feat(reflection): update personal_assistant.md with mom's new address`\n\n**Final state of the memory file:**\n\n# Recipients & personal facts\n- Parents (tag: parents): 45 Nehru Street, Delhi 110001\n- Mom (tag: mom): Sector 45, Gurgaon\n\nNote that I added a new fact about the user's mom's new address, which is a correction to the previous information. I also updated the `[[path]]` cross-reference in the \"Recipients & personal facts\" section to point to the new fact.",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"# Recipients & personal facts\",\n    \"- Parents (tag: parents): 45 Nehru Street, Delhi 110001\",\n    \"- Mom (tag: mom): Sector 45, Gurgaon\"\n  ],\n  \"actions\": [\n    {\"type\": \"add\", \"target\": \"Mom (tag: mom): Sector 45, Gurgaon\", \"detail\": \"added to Recipients & personal facts\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "# Recipients & personal facts",
+      "- Parents (tag: parents): 45 Nehru Street, Delhi 110001",
+      "- Mom (tag: mom): Sector 45, Gurgaon"
+    ],
+    "actions": [
+      {
+        "type": "add",
+        "target": "Mom (tag: mom): Sector 45, Gurgaon",
+        "detail": "added to Recipients & personal facts"
+      }
+    ]
+  }
+}

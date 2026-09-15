@@ -1,0 +1,29 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S1",
+  "scale": 3,
+  "position": "end",
+  "memory_tokens": 1832,
+  "model": "us.amazon.nova-micro-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "**Summary:**\nThe conversation discusses the user's parents' separation and new living arrangements. Based on this discussion, I've updated the memory file to reflect the new locations of the user's parents.\n\n**Memory changes:**\n- Updated the parent's addresses to reflect the new living arrangements.\n\n**Skipped:**\n- No skills were introduced or modified in this conversation.\n\n**Commit:**\n- A `chore` commit is needed to reflect the updated memory about the user's parents' new addresses.\n\n**Intended FINAL state of the memory file:**\n\n```markdown\n# Recipients & personal facts (current)\n- Parents (tag: parents): 45 Nehru Street, Delhi 110001; Mom's settled into her own place in Gurgaon, Sector 45.\n```\n\n",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Parents (tag: parents): 45 Nehru Street, Delhi 110001; Mom's settled into her own place in Gurgaon, Sector 45.\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Parents' addresses\",\n      \"detail\": \"Updated parent's addresses to reflect new living arrangements\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Parents (tag: parents): 45 Nehru Street, Delhi 110001; Mom's settled into her own place in Gurgaon, Sector 45."
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Parents' addresses",
+        "detail": "Updated parent's addresses to reflect new living arrangements"
+      }
+    ]
+  }
+}

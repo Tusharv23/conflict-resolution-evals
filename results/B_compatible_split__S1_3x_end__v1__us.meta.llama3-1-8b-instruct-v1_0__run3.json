@@ -1,0 +1,42 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S1",
+  "scale": 3,
+  "position": "end",
+  "memory_tokens": 1832,
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "\n\n**Summary**: Reviewed the conversation transcript and updated the memory files to reflect the user's parents are now in separate homes, with Dad in the Delhi house and Mom in her own place in Gurgaon, Sector 45.\n\n**Memory changes**:\n\n* Added a new fact to `system/human/personal_assistant.md` under the \"Recipients & personal facts\" section:\n\t+ Parents (tag: parents): 45 Nehru Street, Delhi 110001 \u2192 Mom is in her own place in Gurgaon, Sector 45; Dad is still at the Delhi house.\n* Updated the \"Recipients & personal facts\" section to reflect the change:\n\t+ Parents (tag: parents): 45 Nehru Street, Delhi 110001 \u2192 Mom (tag: mom): Gurgaon, Sector 45; Dad (tag: dad): 45 Nehru Street, Delhi 110001\n\n**Skill changes**: None\n\n**Skipped**: No changes were considered but not persisted.\n\n**Commit**: Yes, with the following commit message:\n`fix(reflection): update personal facts with parents' current living arrangements`\n\n**Issues**: None\n\n**Final memory state**:\n\n`system/human/personal_assistant.md`:\n\n# Recipients & personal facts\n- Mom (tag: mom): Gurgaon, Sector 45\n- Dad (tag: dad): 45 Nehru Street, Delhi 110001\n- Parents (tag: parents): Mom (tag: mom): Gurgaon, Sector 45; Dad (tag: dad): 45 Nehru Street, Delhi 110001",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"# Recipients & personal facts\",\n    \"- Mom (tag: mom): Gurgaon, Sector 45\",\n    \"- Dad (tag: dad): 45 Nehru Street, Delhi 110001\",\n    \"- Parents (tag: parents): Mom (tag: mom): Gurgaon, Sector 45; Dad (tag: dad): 45 Nehru Street, Delhi 110001\"\n  ],\n  \"actions\": [\n    {\"type\": \"replace\", \"target\": \"system/human/personal_assistant.md\", \"detail\": \"update the 'Recipients & personal facts' section\"},\n    {\"type\": \"add\", \"target\": \"system/human/personal_assistant.md\", \"detail\": \"new fact under 'Recipients & personal facts' section\"},\n    {\"type\": \"delete\", \"target\": \"45 Nehru Street, Delhi 110001\", \"detail\": \"from 'Parents (tag: parents)'\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "# Recipients & personal facts",
+      "- Mom (tag: mom): Gurgaon, Sector 45",
+      "- Dad (tag: dad): 45 Nehru Street, Delhi 110001",
+      "- Parents (tag: parents): Mom (tag: mom): Gurgaon, Sector 45; Dad (tag: dad): 45 Nehru Street, Delhi 110001"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "system/human/personal_assistant.md",
+        "detail": "update the 'Recipients & personal facts' section"
+      },
+      {
+        "type": "add",
+        "target": "system/human/personal_assistant.md",
+        "detail": "new fact under 'Recipients & personal facts' section"
+      },
+      {
+        "type": "delete",
+        "target": "45 Nehru Street, Delhi 110001",
+        "detail": "from 'Parents (tag: parents)'"
+      }
+    ]
+  }
+}

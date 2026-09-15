@@ -1,0 +1,30 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S1",
+  "scale": 1,
+  "position": "end",
+  "memory_tokens": 751,
+  "model": "us.meta.llama3-1-8b-instruct-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "\n\n**Summary**\nAfter reviewing the transcript, I concluded that the user's parents' separation and their current living arrangements are worth adding to their personal facts. I updated the memory accordingly, making a minor edit to the \"Recipients & personal facts\" section.\n\n**Memory changes**\n- Added a new fact to the \"Recipients & personal facts\" section:\n  - Parents (tag: parents): Dad's current residence is 45 Nehru Street, Delhi 110001, and Mom's current residence is Sector 45, Gurgaon.\n\n**Skill changes**\nNone\n\n**Skipped**\nNo information was considered but not persisted.\n\n**Commit**\nYes, I committed the changes.\n\n**Issues**\nNo issues were encountered.\n\n**Final memory file:**\n```markdown\n# Recipients & personal facts\n- Parents (tag: parents): 45 Nehru Street, Delhi 110001 (Dad's current residence) and Sector 45, Gurgaon (Mom's current residence)\n```",
+  "stage2_extraction": "\n\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"# Recipients & personal facts\",\n    \"- Parents (tag: parents): 45 Nehru Street, Delhi 110001 (Dad's current residence) and Sector 45, Gurgaon (Mom's current residence)\"\n  ],\n  \"actions\": [\n    {\"type\": \"add\", \"target\": \"Recipients & personal facts\", \"detail\": \"new fact about parents' residences\"}\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "# Recipients & personal facts",
+      "- Parents (tag: parents): 45 Nehru Street, Delhi 110001 (Dad's current residence) and Sector 45, Gurgaon (Mom's current residence)"
+    ],
+    "actions": [
+      {
+        "type": "add",
+        "target": "Recipients & personal facts",
+        "detail": "new fact about parents' residences"
+      }
+    ]
+  }
+}

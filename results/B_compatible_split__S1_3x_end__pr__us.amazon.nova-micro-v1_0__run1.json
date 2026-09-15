@@ -1,0 +1,30 @@
+{
+  "case_id": "B_compatible_split",
+  "category": "compatible",
+  "stage": "S1",
+  "scale": 3,
+  "position": "end",
+  "memory_tokens": 1832,
+  "model": "us.amazon.nova-micro-v1:0",
+  "run": 1,
+  "status": "ok",
+  "prediction": "FAIL \u2014 the prompt's single 'resolve in favor of latest evidence' heuristic will treat the new Gurgaon mention as an update to the one parents address, overwriting Delhi, instead of recognizing separation created two distinct recipients.",
+  "correct_action": "Split the single 'parents' fact into two distinct recipients: father (tag: father) at 45 Nehru Street, Delhi 110001, and mother (tag: mother) in Sector 45, Gurgaon. Both are true simultaneously.",
+  "pass_rule": "Final memory contains BOTH a Delhi address (father) AND a Gurgaon address (mother) as separate recipients. FAIL if the Delhi address is overwritten/removed or the two are merged into one.",
+  "stage1_reflection": "**Summary:**\nThe transcript reveals a significant update regarding the user's parents' living situation. The user mentions that therapy has helped them process their parents' separation, with Dad remaining in Delhi and Mom now settled in a separate place in Gurgaon, Sector 45. The assistant acknowledges the change, confirming that the parents are in separate homes. This update should be reflected in the user's memory file to accurately capture the current situation.\n\n**Memory changes:**\nUpdated the user's parents' living situation in the memory file.\n\n**Intended FINAL state of the memory file:**\n\n```markdown\n# Recipients & personal facts (current)\n- Parents (tag: parents): 45 Nehru Street, Delhi 110001\n- Mom: settled in her own place in Gurgaon, Sector 45\n```\n\n**Skill changes:**\nNone\n\n**Skipped:**\nNothing was considered for a new skill as there was no indication of a reusable workflow that emerged from this conversation.\n\n**Commit:**\nConfirmed\n\n**Issues:**\nNone encountered",
+  "stage2_extraction": "{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Parents (tag: parents): 45 Nehru Street, Delhi 110001\",\n    \"Mom: settled in her own place in Gurgaon, Sector 45\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"user's parents' living situation\",\n      \"detail\": \"Updated to reflect Mom settled in Gurgaon, Sector 45 and Dad remaining in Delhi.\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Parents (tag: parents): 45 Nehru Street, Delhi 110001",
+      "Mom: settled in her own place in Gurgaon, Sector 45"
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "user's parents' living situation",
+        "detail": "Updated to reflect Mom settled in Gurgaon, Sector 45 and Dad remaining in Delhi."
+      }
+    ]
+  }
+}

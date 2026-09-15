@@ -1,0 +1,46 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S1",
+  "scale": 3,
+  "position": "end",
+  "memory_tokens": 1814,
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "## Summary\n\nReviewed the single-exchange transcript where the user states he's been living at his girlfriend's place in Pune for months and rarely returns to Bangalore. This is a durable fact update that contradicts two existing memory entries: (1) the stored home address (Bangalore) as current residence, and (2) a reference to \"his wife\" in the Watching habits section, which now appears to be \"girlfriend\" per the latest, more specific statement. No skill-worthy workflow was present \u2014 this is a one-off factual correction, not a procedure.\n\n## Memory changes\n\n**File modified:** `system/human/personal_assistant.md`\n\n1. **Recipients & personal facts (current)** \u2014 Updated the \"home\" tag to reflect that the user is now primarily based in Pune (at his girlfriend's place), with the Bangalore address demoted to a prior/registered address rather than current residence. Did not fabricate a Pune street address since none was given.\n2. **Watching habits** \u2014 Corrected \"his wife\" \u2192 \"his girlfriend\" to resolve the contradiction with the newly stated relationship status, per latest evidence.\n\nNo other sections (gym, haircut, parking spot, plant watering, commute) were touched, since the transcript didn't explicitly state those routines moved \u2014 only living location changed, and I avoided over-inferring downstream lifestyle changes not directly stated.\n\n## Skill changes\n\nNone. No reusable multi-step workflow was demonstrated in this transcript.\n\n## Skipped\n\n- Did not update commute/parking/gym/haircut/plant-watering entries \u2014 plausible they're now stale given the Pune relocation, but the transcript gives no explicit confirmation, so leaving them as-is to avoid unwarranted inference.\n- Did not invent a Pune address \u2014 no specific address was given by the user.\n\n## Commit\n\n(Environment note: edits reported as text per instructions, not applied via tools.) Intended commit type: `fix(reflection): correct living location and relationship status \ud83d\udd2e` \u2014 resolving stale Bangalore-residence assumption and wife/girlfriend\n\n[[TRUNCATED: hit max_tokens]]",
+  "stage2_extraction": "```json\n{\n  \"complete\": true,\n  \"final_memory_lines\": [\n    \"Home: User is now primarily based in Pune, staying at his girlfriend's place (current residence, no specific street address given).\",\n    \"Bangalore address: Demoted to prior/registered address, no longer current residence.\",\n    \"Watching habits: References to 'his wife' corrected to 'his girlfriend'.\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"replace\",\n      \"target\": \"Recipients & personal facts (current) - home tag / Bangalore address\",\n      \"detail\": \"Updated 'home' tag to reflect current residence as Pune (at girlfriend's place); Bangalore address demoted to prior/registered address rather than current residence. No Pune street address fabricated since none was given.\"\n    },\n    {\n      \"type\": \"replace\",\n      \"target\": \"Watching habits - 'his wife' reference\",\n      \"detail\": \"Corrected 'his wife' to 'his girlfriend' to resolve contradiction with newly stated relationship status.\"\n    },\n    {\n      \"type\": \"keep\",\n      \"target\": \"Gym, haircut, parking spot, plant watering, commute entries\",\n      \"detail\": \"Left unchanged; transcript did not explicitly state these routines moved, so agent avoided over-inferring downstream lifestyle changes.\"\n    },\n    {\n      \"type\": \"flag\",\n      \"target\": \"Skill changes\",\n      \"detail\": \"No skill-worthy workflow present; no skill changes made.\"\n    }\n  ]\n}\n```",
+  "parsed": {
+    "complete": true,
+    "final_memory_lines": [
+      "Home: User is now primarily based in Pune, staying at his girlfriend's place (current residence, no specific street address given).",
+      "Bangalore address: Demoted to prior/registered address, no longer current residence.",
+      "Watching habits: References to 'his wife' corrected to 'his girlfriend'."
+    ],
+    "actions": [
+      {
+        "type": "replace",
+        "target": "Recipients & personal facts (current) - home tag / Bangalore address",
+        "detail": "Updated 'home' tag to reflect current residence as Pune (at girlfriend's place); Bangalore address demoted to prior/registered address rather than current residence. No Pune street address fabricated since none was given."
+      },
+      {
+        "type": "replace",
+        "target": "Watching habits - 'his wife' reference",
+        "detail": "Corrected 'his wife' to 'his girlfriend' to resolve contradiction with newly stated relationship status."
+      },
+      {
+        "type": "keep",
+        "target": "Gym, haircut, parking spot, plant watering, commute entries",
+        "detail": "Left unchanged; transcript did not explicitly state these routines moved, so agent avoided over-inferring downstream lifestyle changes."
+      },
+      {
+        "type": "flag",
+        "target": "Skill changes",
+        "detail": "No skill-worthy workflow present; no skill changes made."
+      }
+    ]
+  }
+}

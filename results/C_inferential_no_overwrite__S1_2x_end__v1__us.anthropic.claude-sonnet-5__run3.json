@@ -1,0 +1,35 @@
+{
+  "case_id": "C_inferential_no_overwrite",
+  "category": "inferential",
+  "stage": "S1",
+  "scale": 2,
+  "position": "end",
+  "memory_tokens": 1273,
+  "model": "us.anthropic.claude-sonnet-5",
+  "run": 3,
+  "status": "ok",
+  "prediction": "FAIL \u2014 I expect it to overwrite Home with the girlfriend's Pune address, treating the recent 'living at' statement as the latest evidence, rather than distinguishing a temporary stay from a permanent home.",
+  "correct_action": "Recognize that a current temporary stay does not erase the permanent home. Keep Home = Bangalore, and add a distinct fact for the temporary stay (e.g. tag: temporary-home / current-stay = Pune).",
+  "pass_rule": "Final memory still contains the Bangalore home AND represents the Pune stay as a SEPARATE fact. FAIL if the Bangalore home is overwritten/replaced by the Pune address.",
+  "stage1_reflection": "## Reflection Report\n\n**1. Summary**\nReviewed a short transcript where the user disclosed a durable life-context change: they've been living at their girlfriend's place in Pune for the last several months and rarely return to Bangalore. This directly bears on the stored home address and several Bangalore-anchored routine facts (commute, gym schedule, parking, doctor, weekend market), so I updated `system/human/personal_assistant.md` to reflect the new location and flag the now-uncertain Bangalore-specific routines rather than deleting or rewriting details I don't have confirmed replacements for. No skill-worthy workflow was present.\n\n**2. Memory changes**\n- **Modified** `system/human/personal_assistant.md`:\n  - Added a new `# Current location` section noting the user is now based in Pune (living at girlfriend's place) and rarely visits Bangalore, flagging Bangalore-specific routines (commute, gym days, parking spot, doctor, weekend market) as potentially outdated until reconfirmed \u2014 avoids silently deleting still-possibly-valid details while surfacing the contradiction.\n  - Updated the `Home (tag: home)` line under \"Recipients & personal facts (current)\" to mark it as the registered/permanent Bangalore address rather than current residence, pointing to the new location note.\n\n**3.\n\n[[TRUNCATED: hit max_tokens]]",
+  "stage2_extraction": "{\n  \"complete\": false,\n  \"final_memory_lines\": [\n    \"# Current location: User is now based in Pune (living at girlfriend's place) and rarely visits Bangalore. Bangalore-specific routines (commute, gym days, parking spot, doctor, weekend market) are flagged as potentially outdated until reconfirmed.\",\n    \"Home (tag: home): [Bangalore address] \u2014 noted as registered/permanent Bangalore address rather than current residence; see Current location note.\"\n  ],\n  \"actions\": [\n    {\n      \"type\": \"add\",\n      \"target\": \"system/human/personal_assistant.md - # Current location section\",\n      \"detail\": \"Added new section noting user now based in Pune (girlfriend's place), rarely visits Bangalore, flagging Bangalore-specific routines (commute, gym days, parking spot, doctor, weekend market) as potentially outdated until reconfirmed.\"\n    },\n    {\n      \"type\": \"replace\",\n      \"target\": \"Home (tag: home) line under 'Recipients & personal facts (current)'\",\n      \"detail\": \"Updated to mark the Bangalore address as the registered/permanent address rather than current residence, pointing to the new location note.\"\n    }\n  ]\n}",
+  "parsed": {
+    "complete": false,
+    "final_memory_lines": [
+      "# Current location: User is now based in Pune (living at girlfriend's place) and rarely visits Bangalore. Bangalore-specific routines (commute, gym days, parking spot, doctor, weekend market) are flagged as potentially outdated until reconfirmed.",
+      "Home (tag: home): [Bangalore address] \u2014 noted as registered/permanent Bangalore address rather than current residence; see Current location note."
+    ],
+    "actions": [
+      {
+        "type": "add",
+        "target": "system/human/personal_assistant.md - # Current location section",
+        "detail": "Added new section noting user now based in Pune (girlfriend's place), rarely visits Bangalore, flagging Bangalore-specific routines (commute, gym days, parking spot, doctor, weekend market) as potentially outdated until reconfirmed."
+      },
+      {
+        "type": "replace",
+        "target": "Home (tag: home) line under 'Recipients & personal facts (current)'",
+        "detail": "Updated to mark the Bangalore address as the registered/permanent address rather than current residence, pointing to the new location note."
+      }
+    ]
+  }
+}

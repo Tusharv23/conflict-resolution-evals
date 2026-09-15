@@ -1,1 +1,2 @@
 boto3>=1.34
+tiktoken>=0.13  # token counting for S1 load ladder (cl100k_base; stable across 0.13/0.14)
