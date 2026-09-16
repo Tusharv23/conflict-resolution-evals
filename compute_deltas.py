@@ -112,37 +112,39 @@ def counts_for(case, model, scale=None):
 def pass_rate(p, f):
     n = p + f
     return f"{100*p/n:.0f}%" if n else "—"
+def main():
+    print("=" * 74)
+    print("MODEL-WISE PASS/FAIL PER CASE (all scales pooled, INVALID excluded)")
+    print("=" * 74)
+    print(f"{'case':5} {'model':8} {'PASS':5} {'FAIL':5} {'INVALID':8} {'pass-rate (valid n)'}")
+    for case in CASES:
+        for model in MODELS:
+            p, f, i = counts_for(case, model)
+            print(f"{case:5} {model:8} {p:<5} {f:<5} {i:<8} {pass_rate(p,f)} (n={p+f})")
+        print("-" * 74)
 
+    print("\n" + "=" * 74)
+    print("LOAD GRADIENT — FAIL count per scale (1x -> 2x -> 3x), per model per case")
+    print("=" * 74)
+    print(f"{'case':5} {'model':8} {'1x':>8} {'2x':>8} {'3x':>8}   trend")
+    for case in CASES:
+        for model in MODELS:
+            cells = []
+            for sc in SCALES:
+                p, f, i = counts_for(case, model, sc)
+                cells.append((f, p, i))
+            fs = [c[0] for c in cells]
+            trend = "flat" if len(set(fs)) == 1 else ("↑load-worse" if fs[-1] > fs[0] else ("↓load-better" if fs[-1] < fs[0] else "mixed"))
+            cellstr = "  ".join(f"{f}F/{p}P{('/'+str(i)+'I') if i else ''}" for f, p, i in cells)
+            print(f"{case:5} {model:8} {cellstr}   {trend}")
+        print("-" * 74)
 
-print("=" * 74)
-print("MODEL-WISE PASS/FAIL PER CASE (all scales pooled, INVALID excluded)")
-print("=" * 74)
-print(f"{'case':5} {'model':8} {'PASS':5} {'FAIL':5} {'INVALID':8} {'pass-rate (valid n)'}")
-for case in CASES:
+    print("\n" + "=" * 74)
+    print("SAFETY HEADLINE — Case D (allergy) FAIL rate by model")
+    print("=" * 74)
     for model in MODELS:
-        p, f, i = counts_for(case, model)
-        print(f"{case:5} {model:8} {p:<5} {f:<5} {i:<8} {pass_rate(p,f)} (n={p+f})")
-    print("-" * 74)
+        p, f, i = counts_for("D", model)
+        print(f"  {model:8} {f}/{p+f} weakened/deleted the confirmed allergy  ({pass_rate(p,f)} preserved)")
 
-print("\n" + "=" * 74)
-print("LOAD GRADIENT — FAIL count per scale (1x -> 2x -> 3x), per model per case")
-print("=" * 74)
-print(f"{'case':5} {'model':8} {'1x':>8} {'2x':>8} {'3x':>8}   trend")
-for case in CASES:
-    for model in MODELS:
-        cells = []
-        for sc in SCALES:
-            p, f, i = counts_for(case, model, sc)
-            cells.append((f, p, i))
-        fs = [c[0] for c in cells]
-        trend = "flat" if len(set(fs)) == 1 else ("↑load-worse" if fs[-1] > fs[0] else ("↓load-better" if fs[-1] < fs[0] else "mixed"))
-        cellstr = "  ".join(f"{f}F/{p}P{('/'+str(i)+'I') if i else ''}" for f, p, i in cells)
-        print(f"{case:5} {model:8} {cellstr}   {trend}")
-    print("-" * 74)
-
-print("\n" + "=" * 74)
-print("SAFETY HEADLINE — Case D (allergy) FAIL rate by model")
-print("=" * 74)
-for model in MODELS:
-    p, f, i = counts_for("D", model)
-    print(f"  {model:8} {f}/{p+f} weakened/deleted the confirmed allergy  ({pass_rate(p,f)} preserved)")
+if __name__ == "__main__":
+    main()
